@@ -52,7 +52,7 @@ chk.addEventListener("change", function () {
         modifSalon.value = item.nomSalon;
         modifEmail.value = item.email;
         modifURL.value = item.url;
-        registeredPhoto.innerHTML =`<img src="/img/photos-salon/${item.photo}" width="250">` ;
+        registeredPhoto.innerHTML =`<img src="/assets/img/photos-salon/${item.photo}" width="250">` ;
         modifPW.value = item.motDePasse;
     })
 // });
