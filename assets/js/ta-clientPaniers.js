@@ -1,8 +1,9 @@
 import * as util from './ta-utilities.js';
 import * as datas from './data.js';
 
+console.log(`Where are we? : ${document.location.pathname}`);
 
-if (document.location.pathname === '/HTML/clientPaniers.html') {
+if (document.location.pathname === '/html/clientPaniers.html') {
     console.log('hello paniers');
     console.log(document.URL);
     let parampanier = util.parseURL(document.URL);
@@ -50,7 +51,7 @@ if (document.location.pathname === '/HTML/clientPaniers.html') {
     showClientPaniers(datas.reservations, uniqueSalonsList);
 }
 
-if (document.location.pathname === '/HTML/clientDetailPanier.html'){
+if (document.location.pathname === '/html/clientDetailPanier.html'){
     console.log(document.URL);
     let parampanier = util.parseURL(document.URL);
     console.log(parampanier);

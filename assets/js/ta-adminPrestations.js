@@ -4,13 +4,13 @@ import * as datas from './data.js';
 
 console.log(`Where are we? : ${document.location.pathname}`);
 
-if (document.location.pathname ==='/HTML/adminListePrestations.html'){
+if (document.location.pathname ==='/html/adminListePrestations.html'){
     showPrestationsList(datas.prestations);
     //document.getElementById('nav1').addEventListener('click', goToAdminListePresta);
     console.log(document.URL);
 }
 
-if (document.location.pathname ==='/HTML/adminPrestation.html'){
+if (document.location.pathname ==='/html/adminPrestation.html'){
     console.log(document.URL);
     let paramPrestation = util.parseURL(document.URL);
     let comeFromPrestaList;
