@@ -393,7 +393,7 @@ function dateSelect(event) {
     console.log('Selecting Dates');
     event.preventDefault();
     console.log(event);
-    salons = new Array();
+    let salons = new Array();
     let resaList = new Array();
     let dateAfter = event.srcElement.parentElement.form.panierDateAfter.value;
     let dateBefore = event.srcElement.parentElement.form.panierDateBefore.value;
