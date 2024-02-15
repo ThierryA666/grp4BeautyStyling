@@ -50,21 +50,25 @@
         <form method="post" class="row g-3 s-2 m-n" enctype="multipart/form-data" style="background-color: #A0ECBA;">
           <div class="col-md-3">
             <label for="inputName" class="form-label">Nom*</label>
+            <p id="errNom" class="text-warning d-none">error message</p>
             <input type="text" class="form-control" id="inputName" name="nom" placeholder="">
           </div>
 
           <div class="col-md-3">
             <label for="inputFirstName" class="form-label">Prénom*</label>
+            <p id="errPrenom" class="text-warning d-none">error message</p>
             <input type="text" class="form-control" id="inputFirstName" name="prenom" placeholder="">
           </div>
 
           <div class="col-md-6">
             <label for="inputAddress" class="form-label">Aderesse*</label>
+            <p id="errAd" class="text-warning d-none">error message</p>
             <input type="text" class="form-control" id="inputAddress" placeholder="Numéro, Voie" name="ad1">
           </div>
 
           <div class="col-md-6">
             <label for="inputEmail" class="form-label">E-mail*</label>
+            <p id="errEmail" class="text-warning d-none">error message</p>
             <input type="email" class="form-control" id="inputEmail" placeholder="name@mail.com" name="email">
           </div>
 
@@ -80,16 +84,19 @@
 
           <div class="col-md-4">
             <label for="inpuTel" class="form-label">Téléphone*</label>
+            <p id="errTel" class="text-warning d-none">error message</p>
             <input type="tel" class="form-control" id="inputTel" minlength="10" maxlength="12" name="tel" placeholder="ex: 0123456789">
           </div>
          
           <div class="col-md-2">
             <label for="inputZip" class="form-label">Code postal*</label>
+            <p id="errZip" class="text-warning d-none">error message</p>
             <input type="number" class="form-control" id="inputZip" minlength="5"  maxlength="5" name="zip" placeholder="00000">
           </div>
 
           <div class="col-md-3">
             <label for="inputCity" class="form-label">Ville*</label>
+            <p id="errVille" class="text-warning d-none">error message</p>
             <select class="form-select" id="inputCity" aria-label="Floating label select example" name="ville">
               <!-- <option value="1">One</option>
               <option value="2">Two</option>
@@ -99,6 +106,7 @@
 
           <div class="col-md-6">
             <label for="salonName" class="form-label">Nom de salon*</label>
+            <p id="errNomSalon" class="text-warning d-none">error message</p>
             <input type="text" class="form-control" id="inputSalon" name="salonName" placeholder="">
           </div>
 
@@ -114,13 +122,16 @@
 
           <div class="col-md-4">
             <label for="inputPW" class="form-label">Mot de passe minimum 8 carctères*</label>
+            <p id="errPW1" class="text-warning d-none">error message</p>
             <input type="password" class="form-control" id="inputPW1"  minlength="8"  maxlength="15" name="pw" placeholder="">
             <label for="checkbox" class="form-label">Afficher le mot de passe </label>
+            
             <input type="checkbox" id="chk1">
           </div>
 
           <div class="col-md-4">
             <label for="inputPW" class="form-label"> Mot de passe (pour confirmer)</label>
+            <p id="errPW2" class="text-warning d-none">error message</p>
             <input type="password" class="form-control" id="inputPW2" minlength="8" maxlength="15" name="pw2" >
             <label for="checkbox" class="form-label">Afficher le mot de passe </label>
             <input type="checkbox" id="chk2">
