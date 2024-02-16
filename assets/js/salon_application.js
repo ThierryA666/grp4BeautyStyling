@@ -44,11 +44,11 @@ inputZip.addEventListener("change",(event)=>{
     .then(communes =>getOption(communes))
     .catch(error => affMsg(error.message));
 }) 
-   
+const errZip = document.getElementById("errZip");  
 function affMsg(message){
   console.log("affiche message" + message);
-  const errZip = document.getElementById("errZip");
   errZip.innerHTML = message;
+  errZip.className ="text-danger border-danger"
 }
 
 function getOption (datas){
@@ -66,7 +66,7 @@ function getOption (datas){
 //   event.preventDefault();
 //   if(!inputPW1.value.match(/^([a-zA-Z0-9]{8,})$/)){
 //     errPW1.innerHTML = "Veuillez saisir un mot de passe d'au moins 8 caractères.";
-//     errPW1.className = "text-warning border-warning";
+//     errPW1.className = "text-danger border-danger";
 //   } else {
 //       errPW1.innerHTML ="";
 //       errPW1.className = "d-none";
@@ -77,7 +77,7 @@ function getOption (datas){
 //   event.preventDefault();
 //   if(!inputEmail.value.match(/.+@.+\..+/)) {
 //     errEmail.innerHTML = "Veuillez saisir votre mail dans le bon format";
-//    errEmail.className = "text-warning border-warning";
+//    errEmail.className = "text-danger border-danger";
 //    return;
 //   } else {
 //       errEmail.innerHTML ="";
@@ -93,7 +93,7 @@ function getOption (datas){
 //   if(inputPW1.value!==inputPW2.value) {
 //     const errPW2 = document.getElementById("errPW2");
 //     errPW2.innerHTML = "Le mot de passe saisi ne correspond pas au mot de passe de confirmation.";
-//     errPW2.className= "text-warning border-warning";
+//     errPW2.className= "text-danger border-danger";
 //     return;
 //     } else{
 //       errPW2.innerHTML = "";
@@ -104,13 +104,16 @@ function getOption (datas){
 //=======Control de saisie par utilisateur=====
 //saisies obligatoires: nom prenom tel email aderesse1 nomSalon mot de passe code postale ville
 const btnSubmit = document.getElementById("inscriptionBtn");
+let phone = inputTel.value.replace(/\s/g, ''); //enlever des espace
+phone = Number(phone);
+
 btnSubmit.addEventListener("click",(event)=>{
   event.preventDefault();
   let isValid = true;
   if(!inputName.value){
     const errNom=document.getElementById("errNom");
     errNom.innerHTML = "Champ obligatoire"
-    errNom.className = "text-warning border-warning";
+    errNom.className = "text-danger border-danger";
     isValid =  false;
     
     } else {
@@ -120,7 +123,7 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputFirstName.value){
    const errPrenom=document.getElementById("errPrenom");
    errPrenom.innerHTML = "Champ obligatoire"
-   errPrenom.className = "text-warning border-warning";
+   errPrenom.className = "text-danger border-danger";
    isValid =  false;
    } else {
     errPrenom.className = "d-none";
@@ -129,7 +132,7 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputAddress.value){
     const errAd=document.getElementById("errAd");
     errAd.innerHTML = "Champ obligatoire"
-    errAd.className = "text-warning border-warning";
+    errAd.className = "text-danger border-danger";
     isValid = false;
     } else {
       errAd.className = "d-none";
@@ -138,7 +141,7 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputEmail.value){
     const errEmail=document.getElementById("errEmail");
     errEmail.innerHTML = "Champ obligatoire"
-    errEmail.className = "text-warning border-warning";
+    errEmail.className = "text-danger border-danger";
     isValid =  false;
      } else {
       errEmail.className = "d-none";
@@ -147,26 +150,32 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputTel.value){
     const errTel=document.getElementById("errTel");
     errTel.innerHTML = "Champ obligatoire"
-    errTel.className = "text-warning border-warning";
+    errTel.className = "text-danger border-danger";
     isValid =  false;
-    } else {
-      errTel.className = "d-none";
-      
-      } 
+  } else if(!/^\d+$/.test(phone)){
+      errTel.innerHTML = "Veuillez n'entrer que des chiffres"
+      errTel.className = "text-danger border-danger";
+      isValid =  false;
+    }else if(phone.length <10 || phone.length<11 ){
+        errTel.innerHTML = "Saisissez votre numéro de téléphone à 10 chiffres";
+        errTel.className = "text-danger border-danger";
+        isValid =  false;
+      }else errTel.className = "d-none";
+        
 
   if(!inputSalon.value){
     const errNomSalon=document.getElementById("errNomSalon");
     errNomSalon.innerHTML = "Champ obligatoire"
-    errNomSalon.className = "text-warning border-warning";
+    errNomSalon.className = "text-danger border-danger";
     isValid =  false;
     } else {
       errNomSalon.className = "d-none";
       }     
       
   if(!inputZip.value){
-    const errZip=document.getElementById("errZip");
+    let errZip=document.getElementById("errZip");
     errZip.innerHTML = "Champ obligatoire"
-    errZip.className = "text-warning border-warning";
+    errZip.className = "text-danger border-danger";
     isValid =  false;
     } else {
       errZip.className = "d-none";
@@ -175,7 +184,7 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputCity.value){
     const errVille=document.getElementById("errVille");
     errVille.innerHTML = "Champ obligatoire"
-    errVille.className = "text-warning border-warning";
+    errVille.className = "text-danger border-danger";
     isValid =  false;
     } else {
       errVille.className = "d-none";
@@ -184,17 +193,17 @@ btnSubmit.addEventListener("click",(event)=>{
   if(!inputPW1.value){
     const errPW1=document.getElementById("errPW1");
     errPW1.innerHTML = "Champ obligatoire"
-    errPW1.className = "text-warning border-warning";
+    errPW1.className = "text-danger border-danger";
     isValid = false;
   } else if(!inputPW1.value.match(/^([a-zA-Z0-9]{8,})$/)){
          errPW1.innerHTML = "Veuillez saisir un mot de passe d'au moins 8 caractères.";
-         errPW1.className = "text-warning border-warning";
+         errPW1.className = "text-danger border-danger";
          isValid =  false;
          
   }else if(inputPW1.value!==inputPW2.value) {
           const errPW2 = document.getElementById("errPW2");
           errPW2.innerHTML = "Le mot de passe saisi ne correspond pas au mot de passe de confirmation.";
-          errPW2.className= "text-warning border-warning"  
+          errPW2.className= "text-danger border-danger"  
           isValid =  false
           
     } else {
@@ -204,8 +213,8 @@ btnSubmit.addEventListener("click",(event)=>{
             errPW1.className = "d-none";
             isValid =  false;
           };
-  if (isValid=true) addSalonAccount();        
-
+  console.log(isValid);   
+  if(isValid) addSalonAccount(); 
 });
 
 
