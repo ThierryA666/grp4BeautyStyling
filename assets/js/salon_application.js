@@ -46,7 +46,8 @@ inputZip.addEventListener("change",(event)=>{
 }) 
    
 function affMsg(message){
-  const errZip=document.getElementById("errZip");
+  console.log("affiche message" + message);
+  const errZip = document.getElementById("errZip");
   errZip.innerHTML = message;
 }
 
@@ -55,6 +56,7 @@ function getOption (datas){
   console.log(zip);
   let listCity = datas.filter(city =>city.codesPostaux.indexOf(zip)!==-1);
   console.log(listCity);
+  if(listCity.length==0) throw new Error ('Il y a une erreur de saisie sur code postale.');
   inputCity.innerHTML=""
   listCity.forEach(com =>{
   inputCity.innerHTML += `<option value ="${com.code}">${com.nom}</option>`;  
@@ -262,10 +264,13 @@ function addSalonAccount(){
   let inputCity = document.getElementById("inputCity").value;
   let inputSalon = document.getElementById("inputSalon").value;
   let inputURL = document.getElementById("inputURL").value;
-  let photoUL = document.getElementById("photoUL").files[0].name;
-  console.log(photoUL)
-  let inputPW1 = document.getElementById("inputPW1").value
+  
+  let photoUL = ""
+  if(document.getElementById("photoUL").files[0]){
+    photoUL = document.getElementById("photoUL").files[0].name;
+    console.log(photoUL)}
 
+  let inputPW1 = document.getElementById("inputPW1").value
   let formData = new data.SalonData(new Date(),inputName,inputFirstName,inputAddress,inputAddress2,inputEmail,fullNumber,inputZip,inputCity,inputSalon,inputURL,photoUL, inputPW1);
   console.log(formData);
   data.salons.push(formData);
