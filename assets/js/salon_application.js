@@ -62,44 +62,7 @@ function getOption (datas){
   inputCity.innerHTML += `<option value ="${com.code}">${com.nom}</option>`;  
   })
 } 
-// inputPW1.addEventListener("change", (event)=>{
-//   event.preventDefault();
-//   if(!inputPW1.value.match(/^([a-zA-Z0-9]{8,})$/)){
-//     errPW1.innerHTML = "Veuillez saisir un mot de passe d'au moins 8 caractères.";
-//     errPW1.className = "text-danger border-danger";
-//   } else {
-//       errPW1.innerHTML ="";
-//       errPW1.className = "d-none";
-//     }
-// });
 
-// inputEmail.addEventListener("change",(event)=>{
-//   event.preventDefault();
-//   if(!inputEmail.value.match(/.+@.+\..+/)) {
-//     errEmail.innerHTML = "Veuillez saisir votre mail dans le bon format";
-//    errEmail.className = "text-danger border-danger";
-//    return;
-//   } else {
-//       errEmail.innerHTML ="";
-//       errEmail.className ="d-none";
-//     }
-   
-// });
-
-
-// // le moment ou mot de passe à confirmer est saisie, comparer avec &er mot de passe
-// inputPW2.addEventListener("change", (event)=>{
-//   event.preventDefault();
-//   if(inputPW1.value!==inputPW2.value) {
-//     const errPW2 = document.getElementById("errPW2");
-//     errPW2.innerHTML = "Le mot de passe saisi ne correspond pas au mot de passe de confirmation.";
-//     errPW2.className= "text-danger border-danger";
-//     return;
-//     } else{
-//       errPW2.innerHTML = "";
-//       errPW2.className="d-none";
-//     }
-// })
 
 //=======Control de saisie par utilisateur=====
 //saisies obligatoires: nom prenom tel email aderesse1 nomSalon mot de passe code postale ville
@@ -189,7 +152,6 @@ btnSubmit.addEventListener("click",(event)=>{
     } else {
       errVille.className = "d-none";
       } 
-
   if(!inputPW1.value){
     const errPW1=document.getElementById("errPW1");
     errPW1.innerHTML = "Champ obligatoire"
@@ -211,54 +173,13 @@ btnSubmit.addEventListener("click",(event)=>{
             errPW2.innerHTML ="";
             errPW1.className = "d-none";
             errPW1.className = "d-none";
-            isValid =  false;
+            
           };
   console.log(isValid);   
   if(isValid) addSalonAccount(); 
 });
 
-
-
-
 // Recuperer la donné par le formulaire 
-
-
-
-
-// function errorCheck(){
-//   try{
-//   if(inputName.value.length ===0 ||inputName.value.trim()==0) throw new Error( "chaine videe");
-//   if(inputFirstName.value.length ===0 ||inputFirstName.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputCodeInt.value.length ===0 ||inputCodeInt.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputTel.value.length ===0 ||inputTel.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputAddress.value.length ===0 ||inputAddres.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputEmail.value.length ===0 ||inputEmail.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputSalon.value.length ===0 ||inputSalon.value.trim()==0)throw new Error( "chaine vide");  
-//   if(inputPW1.value.length ===0 ||inputSalon.value.trim()==0)throw new Error( "chaine vide");
-//   if(inputTel.value.length <10) throw new Error( "Erreur de format de saisie");
-//   if(inputPW1.value.length <8) throw new Error( "Erreur de format de saisie");
-//   if(inputPW2.value.length <8) throw new Error( "Erreur de format de saisie");
-  
-//   if(inputPW1.value!==inputPW2.value) throw new Error("Erreur mots de passes")
-//   if(inputPW1.value!==inputPW2.value) throw new Error("Erreur mots de passes")
-
-//   }catch(error){
-//     if (error.message === "chaine vide"){
-//       console.error("Champ obligatoire.")
-//     }
-//     if (error.message ==="Erreur de format de saisie"){
-//       console.error("Veuillez saisir le format correct.")
-//     }
-//     if (error.message ==="Erreur mots de passes"){
-//       console.error("Le mot de passe de confirmation ne correspond pas au mot de passe saisi.")
-//     }
-//   }
-//   addSalonAccount();
-// }
-
-
-
-
 
 function addSalonAccount(){
   let inputName = document.getElementById("inputName").value ;
