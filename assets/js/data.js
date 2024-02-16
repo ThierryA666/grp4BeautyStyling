@@ -14,6 +14,7 @@ export class SalonData{
     #url;
     #photo;
     #motDePasse;
+    #prestations;
     
     #newSalonID(){
         SalonData.nextSalonID.increment();
@@ -42,6 +43,7 @@ export class SalonData{
         this.photo = photo;
         this.motDePasse = motDePasse;
         this.#creationDate = creationDate
+        this.prestations = new Array();
     } 
     get id()            {return this.#id;} 
     get creationdate()  {return this.#creationDate;}
@@ -57,6 +59,8 @@ export class SalonData{
     get url()           {return this.#url;}
     get photo()         {return this.#photo;}
     get motDePasse()    {return this.#motDePasse;}
+    get prestations() {return this.#prestations;}
+    
 
     //set creationDate(creationDate)  {this.#creationDate = creationDate}
     set nom(nom)                    {this.#nom = nom}
@@ -72,8 +76,10 @@ export class SalonData{
     set photo(photo)                {this.#photo = photo}
     set motDePasse(motDePasse)      {this.#motDePasse = motDePasse}
     set creationDate(creationDate)  {this.#creationDate = creationDate}
+    set prestations(prestations)    {this.#prestations=prestations}
 
-    toString(){return `Salon ID: ${this.#id}, Date de création: ${this.#creationDate}, Nom: ${this.#nom}, Prénom:${this.#prenom}, Aderesse1:${this.#ad1}, Aderesse2: ${this.#ad2}, Email: ${this.#email}, Tel: ${this.#tel}, Code Postale: ${this.#codePostale}, Ville: ${this.#ville}, Nom de Salon: ${this.#nomSalon}, URL: ${this.#url} `};
+    toString(){return `Salon ID: ${this.#id}, Date de création: ${this.#creationDate}, Nom: ${this.#nom}, Prénom:${this.#prenom}, Aderesse1:${this.#ad1}, Aderesse2: ${this.#ad2}, Email: ${this.#email}, Tel: ${this.#tel}, Code Postale: ${this.#codePostale}, Ville: ${this.#ville}, Nom de Salon: ${this.#nomSalon}, URL: ${this.#url}`};
+    addPrestationToSalon(prestation) {this.#prestations.push(prestation)}
 }
 
 /******************Classe Reservation******************************************/
@@ -84,8 +90,10 @@ export class Reservation {
     #client = 'toti';
     #dateCreation = new Date('05/03/2021');
     #dateModif;
-    #dateRDV;
-    #prestations;
+    #date;
+    #heure;
+    #services;
+    #details;
     
     #newReservationID() {
         Reservation.nextReservationID.increment();
@@ -101,12 +109,15 @@ export class Reservation {
       })();
    
 
-    constructor(nom, dateRDV, salon) {
+    constructor(date, heure, client, services, details, salon) {
         this.#nom = nom;
         this.#salon = salon;
-        this.#prestations = new Array();
-        this.#dateRDV = dateRDV;
+        this.#services = services;
+        this.#date = date;
+        this.#heure = heure;
         this.#dateCreation;
+        this.#details = details;
+        this.#client = client
         this.#dateModif = this.#dateCreation;
     }
 
@@ -116,24 +127,29 @@ export class Reservation {
     get salon() {return this.#salon;}
     get dateCreation() {return this.#dateCreation;}
     get dateModif() {return this.#dateModif;}
-    get prestations() {return this.#prestations;}
-    get dateRDV() {return this.#dateRDV;}
-    get client() {return this.#client}
+    get services() {return this.#services;}
+    get date() {return this.#date;}
+    get heure() {return this.#heure;}
+    get client() {return this.#client;}
+    get details() {return this.#details;}
 
     //setter
     set nom(nom) {this.nom = nom;}
     set salon(salon) {this.#salon = salon;}
     set dateCreation(dateCreation) {this.#dateCreation = dateCreation;}
     set dateModif(dateModif) {this.#dateModif = dateModif;}
-    set prestations(prestations) {this.#prestations = prestations;}
+    set services(services) {this.#services = services;}
     set client(client) {this.#client = client;}
-    set dateRDV(dateRDV) {this.#dateRDV = dateRDV;}
+    set date(date) {this.#date = date;}
+    set heure(heure) {this.#heure = heure;}
+    set details(details) {this.#details = details;}
+
     
-    toString() { return `{"id":"${this.#id}","nom":"${this.#nom}","salon":"${this.#salon}","client":"${this.#client}"},"dateCreation":"${this.#dateCreation}","dateModif":"${this.#dateModif}"},"dateRDV":"${this.#dateRDV}"}`};
-    addPrestationToReservation(prestation, quantite) {
+    toString() { return `{"id":"${this.#id}","nom":"${this.#nom}","salon":"${this.#salon}","client":"${this.#client}"},"dateCreation":"${this.#dateCreation}","dateModif":"${this.#dateModif}"},"date":"${this.#date}"}`};
+    addPrestationToReservation(prestation, quantite = 1) {
         let total = Number(prestation.price) * quantite;
         let rdv = [prestation, quantite, total];
-        this.#prestations.push(rdv);
+        this.#services.push(rdv);
     }
 }
 /******************Classe Panier Client******************************************/
@@ -250,16 +266,6 @@ export class SalonPrestation {
 }
 
 /******************Initialisation des données******************************************/
-export let salon001 = new SalonData (new Date('03/04/2017'), "CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
-export let salon002 = new SalonData (new Date('12/01/2020'), "Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
-export let salon003 = new SalonData (new Date('01/01/2000'), "Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
-export let salon004 = new SalonData (new Date('09/12/2019'), "Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
-export let salon005 = new SalonData (new Date('03/04/2012'), "Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
-
-
-export var salons = [salon001,salon002,salon003,salon004,salon005]
-console.log(salons);
-
 export let prestations = new Array();
 let presta1 = new SalonPrestation('Coupe Homme', 1, 'Coupe ciseaux et tondeuse',20, 'Maria');
 let presta2 = new SalonPrestation('Coupe Femme', 1, 'Coupe ciseaux et peigne',30, 'Takako');
@@ -314,6 +320,16 @@ reservations.push(res5);
 reservations.push(res6);
 
 console.log(`Réservations (data.js) : ${reservations}`);
+
+export let salon001 = new SalonData (new Date('03/04/2017'), "CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
+salon001.addPrestationToSalon(presta1);
+export let salon002 = new SalonData (new Date('12/01/2020'), "Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
+export let salon003 = new SalonData (new Date('01/01/2000'), "Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
+export let salon004 = new SalonData (new Date('09/12/2019'), "Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
+export let salon005 = new SalonData (new Date('03/04/2012'), "Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
+
+export var salons = [salon001,salon002,salon003,salon004,salon005]
+console.log(salons);
 
 export let paniersDeleted = new Array();
 console.log(paniersDeleted);
