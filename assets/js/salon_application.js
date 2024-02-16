@@ -105,7 +105,7 @@ function getOption (datas){
 //saisies obligatoires: nom prenom tel email aderesse1 nomSalon mot de passe code postale ville
 const btnSubmit = document.getElementById("inscriptionBtn");
 let phone = inputTel.value.replace(/\s/g, ''); //enlever des espace
-phone = Number(phone);
+
 
 btnSubmit.addEventListener("click",(event)=>{
   event.preventDefault();
@@ -143,7 +143,11 @@ btnSubmit.addEventListener("click",(event)=>{
     errEmail.innerHTML = "Champ obligatoire"
     errEmail.className = "text-danger border-danger";
     isValid =  false;
-     } else {
+     } else if(!inputEmail.value.match(/.+@.+\..+/)){
+      errEmail.innerHTML = "Veuillez saisir votre adresse mail dans le bon format."
+      errEmail.className = "text-danger border-danger";
+      isValid =  false;
+      }else {
       errEmail.className = "d-none";
        } 
 
@@ -152,15 +156,11 @@ btnSubmit.addEventListener("click",(event)=>{
     errTel.innerHTML = "Champ obligatoire"
     errTel.className = "text-danger border-danger";
     isValid =  false;
-  } else if(!/^\d+$/.test(phone)){
-      errTel.innerHTML = "Veuillez n'entrer que des chiffres"
+  } else if (phone.lenght<10 || phone.length>11) {
+      errTel.innerHTML = "Saisissez votre numéro de téléphone à 10 chiffres"
       errTel.className = "text-danger border-danger";
       isValid =  false;
-    }else if(phone.length <10 || phone.length<11 ){
-        errTel.innerHTML = "Saisissez votre numéro de téléphone à 10 chiffres";
-        errTel.className = "text-danger border-danger";
-        isValid =  false;
-      }else errTel.className = "d-none";
+     }else errTel.className = "d-none";
         
 
   if(!inputSalon.value){

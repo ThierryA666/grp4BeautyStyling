@@ -32,7 +32,7 @@
             code    : 0,
             message : ""
         }    
-        if (!/^0\d{10}$/.test(input)){retour.code=3; retour.message = "Saisissez votre numéro de téléphone à 10 chiffres."};
+        if (input.length<10 || input.length>11){retour.code=3; retour.message = "Saisissez votre numéro de téléphone à 10 chiffres."};
         return retour;
     }
 
@@ -72,7 +72,7 @@
     });
 
     test('T3- chiffres numero de tel', assert => {
-        const reponse = controlNumber(Number("01"));
+        const reponse = controlNumber("067619213");
         assert.equal(reponse.code,3);
         assert.equal(reponse.message,"Saisissez votre numéro de téléphone à 10 chiffres.");
     });
