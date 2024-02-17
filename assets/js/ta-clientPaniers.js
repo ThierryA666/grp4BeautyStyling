@@ -92,7 +92,7 @@ function showClientPaniers(reservations=datas.reservations, salonsList=salons, d
     searchdiv.setAttribute('class', 'd-inline');
     let elemh1 = document.createElement('h1');
     elemh1.setAttribute('class', 'h4 text-dark text-start mx-auto');
-    let elemtxt1 = document.createTextNode('Mes paniers');
+    let elemtxt1 = document.createTextNode('Mes réservations');
     elemh1.appendChild(elemtxt1);
     searchdiv.appendChild(elemh1);
     fragment7.appendChild(searchdiv);
@@ -509,7 +509,7 @@ function showClientPanier(reservation, modif=false){
     let elemh1 = document.createElement('h1');
     elemh1.setAttribute('id', 'titleDetailPanier');
     elemh1.setAttribute('class', 'h4 text-dark text-center d-inline mx-auto');
-    let elemtxt1 = document.createTextNode('Détail de mon panier chez ');
+    let elemtxt1 = document.createTextNode('Détail de ma réservation chez ');
     elemh1.appendChild(elemtxt1);
     let elemhref1 = document.createElement('a');
     elemhref1.setAttribute('href', '#');
@@ -627,7 +627,7 @@ function showClientPanier(reservation, modif=false){
         let elemspan4 = document.createElement('span');
         elemspan4.setAttribute('id', `p${data[0].id}4`)
         elemspan4.setAttribute('class', 'p-1');
-        elemspan4.appendChild(document.createTextNode(`${reservation.date}`));
+        elemspan4.appendChild(document.createTextNode(`${reservation.date.toLocaleDateString()}-${reservation.date.toLocaleTimeString()}`));
         elemdiv4.appendChild(elemspan4);
         elemdivdet.appendChild(elemdiv4);
        
