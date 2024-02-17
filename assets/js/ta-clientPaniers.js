@@ -75,7 +75,7 @@ if (document.location.pathname === '/html/clientDetailPanier.html'){
         datas.reservations.forEach (item => salonsList.push(item.salon));
         let uniqueSalonsList = salonsList.filter((value, index, self) => {return self.indexOf(value) === index;});
         console.log(uniqueSalonsList);
-        showClientPaniers(datas.prestations, uniqueSalonsList)
+        showClientPaniers(datas.reservations, uniqueSalonsList)
     }
 }
 
@@ -248,7 +248,7 @@ function showClientPaniers(reservations=datas.reservations, salonsList=salons, d
             elemdiv3.setAttribute('class', 'grid-item');
             let elemspan3 = document.createElement('span');
             elemspan3.setAttribute('class', 'p1');
-            elemspan3.appendChild(document.createTextNode(data.dateRDV.toLocaleDateString()));
+            elemspan3.appendChild(document.createTextNode(data.date.toLocaleDateString()));
             elemdiv3.appendChild(elemspan3);
             elemdivdet.appendChild(elemdiv3);
 
@@ -554,8 +554,8 @@ function showClientPanier(reservation, modif=false){
     let fragment1 = document.createDocumentFragment();
     let elembr = document.createElement('br');
     
-    console.log(reservation.prestations);
-    reservation.prestations.forEach(data => {
+    console.log(reservation.services);
+    reservation.services.forEach(data => {
         let elemdivdet = document.createElement('div');
         elemdivdet.setAttribute('class', 'grid-container justify-content-between p-3 col-sm border bg-light border-primary rounded-2 m-1');
         let elemdiv1 = document.createElement('div');
@@ -699,7 +699,7 @@ function showClientPanier(reservation, modif=false){
     elemdiv.setAttribute('class', 'boldfonts d-flex justify-content-end text-decoration-underline');
     let elemp = document.createElement('p');
     let totalPanier = 0;
-    reservation.prestations.forEach(data => totalPanier += data[2] );
+    reservation.services.forEach(data => totalPanier += data[2] );
     elemp.appendChild(document.createTextNode(`Total du panier : ${totalPanier}€`));
     elemdiv.appendChild(elemp);
     fragment1.appendChild(elemdiv);
@@ -732,10 +732,10 @@ function showClientPanier(reservation, modif=false){
         formDetail.appendChild(fragment1);
         console.log(formDetail);
         if (modif) {
-            reservation.prestations.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}7`).addEventListener('click', modifLignePanier));
+            reservation.services.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}7`).addEventListener('click', modifLignePanier));
         }
-        reservation.prestations.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}8`).addEventListener('click', supprimeLignePanier));
-        reservation.prestations.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}3`).addEventListener('input', updateLignePanier));
+        reservation.services.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}8`).addEventListener('click', supprimeLignePanier));
+        reservation.services.forEach(elem => document.getElementById(`${'p'.concat(elem[0].id)}3`).addEventListener('input', updateLignePanier));
         document.getElementById('bt2').addEventListener('click', addLineToReservation);
         document.getElementById('bt3').addEventListener('click', goToReservation);
         document.getElementById('bt1').addEventListener('click', deleteReservation);
@@ -782,7 +782,7 @@ function updateLignePanier(event) {
             datas.reservations.forEach((item) => {
                 if (item.id === Number(parampanier.reservationID)) {
                     console.log(item);
-                    item.prestations.forEach((elem) => {
+                    item.services.forEach((elem) => {
                           if (elem[0].id == Number(event.target.id.substr(1,1))) { 
                             elem[1] = Number(document.getElementById(event.target.id).value);
                             elem[2] = elem[1] * Number(elem[0].price);
@@ -821,9 +821,9 @@ function supprimeLignePanier(event){
             datas.reservations.forEach((item, index, self) => {
                 if (item.id === Number(parampanier.reservationID)) {
                     console.log(item);
-                    let ind = item.prestations.findIndex(item => item[0].id === id);
-                    console.log(item.prestations[ind])
-                    self[index].prestations.splice(ind,1);
+                    let ind = item.services.findIndex(item => item[0].id === id);
+                    console.log(item.services[ind])
+                    self[index].services.splice(ind,1);
                     showClientPanier(item);
                 }
             })

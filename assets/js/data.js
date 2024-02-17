@@ -87,12 +87,12 @@ export class Reservation {
     #id = this.#newReservationID();
     #nom;
     #salon;
-    #client = 'toti';
+    #client;
     #dateCreation = new Date('05/03/2021');
     #dateModif;
     #date;
     #heure;
-    #services;
+    #services = new Array();;
     #details;
     
     #newReservationID() {
@@ -109,10 +109,10 @@ export class Reservation {
       })();
    
 
-    constructor(date, heure, client, services, details, salon) {
+    constructor(nom, date, heure, client, details, salon) {
         this.#nom = nom;
         this.#salon = salon;
-        this.#services = services;
+        this.#services = new Array();
         this.#date = date;
         this.#heure = heure;
         this.#dateCreation;
@@ -150,57 +150,6 @@ export class Reservation {
         let total = Number(prestation.price) * quantite;
         let rdv = [prestation, quantite, total];
         this.#services.push(rdv);
-    }
-}
-/******************Classe Panier Client******************************************/
-export class PanierClient {
-    #id = this.#newPanierID();
-    #nom;
-    #salon;
-    #dateCreation;
-    #dateModif;
-    #prestations;
-    
-    #newPanierID() {
-        PanierClient.nextPanierID.increment();
-        return PanierClient.nextPanierID.getValue();
-    };
-    
-    static nextPanierID = (() => {
-        let staticCount = 0;
-        return {
-          getValue: () => staticCount,
-          increment: () => staticCount++,
-        };
-      })();
-   
-
-    constructor(nom, dateCreation, salon, option) {
-        this.#nom = nom;
-        this.#salon = salon;
-        this.#dateCreation = dateCreation;
-        this.#dateModif = this.#dateCreation;
-        this.#prestations = new Array();
-    }
-
-    //getter
-    get id() {return this.#id;}
-    get nom() {return this.#nom;}
-    get salon() {return this.#salon;}
-    get dateCreation() {return this.#dateCreation;}
-    get dateModif() {return this.#dateModif;}
-    get prestations() {return this.#prestations;}
-
-    //setter
-    set nom(nom) {this.nom = nom;}
-    set salon(salon) {this.#salon = salon;}
-    set dateCreation(dateCreation) {this.#dateCreation = dateCreation;}
-    set dateModif(dateModif) {this.#dateModif = dateModif;}
-    set prestations(prestations) {this.#prestations = prestations;}
-    
-    toString() { return `{"id":"${this.#id}","nom":"${this.#nom}","salon":"${this.#salon}","dateCreation":"${this.#dateCreation}","dateModif":"${this.#dateModif}"}`};
-    addPrestationToPanier(prestation) {
-        this.prestations.push(prestation);
     }
 }
 
@@ -283,14 +232,24 @@ prestations.push(presta5);
 prestations.push(presta6);
 prestations.push(presta7);
 
-console.log(`Prestations (data.js) : ${prestations}`);
+console.log(prestations);
 
-let res1 = new Reservation('rdv1', new Date('01/02/2022 14:00:00'), salon001);
-let res2 = new Reservation('rdv2', new Date('01/02/2021 13:00:00'), salon002);
-let res3 = new Reservation('rdv3', new Date('12/04/2023 11:00:00'), salon003);
-let res4 = new Reservation('MonRdv', new Date('05/31/2023 12:00:00'), salon003);
-let res5 = new Reservation('rdv5', new Date('04/15/2022 17:00:00'), salon005);
-let res6 = new Reservation('rdvTiti', new Date('04/15/2023 17:00:00'), salon005);
+export let salon001 = new SalonData (new Date('03/04/2017'), "CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
+export let salon002 = new SalonData (new Date('12/01/2020'), "Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
+export let salon003 = new SalonData (new Date('01/01/2000'), "Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
+export let salon004 = new SalonData (new Date('09/12/2019'), "Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
+export let salon005 = new SalonData (new Date('03/04/2012'), "Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
+
+export var salons = [salon001,salon002,salon003,salon004,salon005]
+console.log(salons);
+
+//constructor(nom = 'clientRDV', date, heure, client, services, details, salon)
+let res1 = new Reservation('MonRDV', new Date('01/02/2022 14:00:00'), new Date('01/02/2022 14:00:00'), 'client1', 'details réservation', salon001);
+let res2 = new Reservation('rdv11', new Date('01/02/2021 13:00:00'), new Date('01/02/2021 13:00:00'), 'client1', 'details réservation', salon002);
+let res3 = new Reservation('rdv13', new Date('12/04/2023 11:00:00'), new Date('12/04/2023 11:00:00'), 'client1', 'details réservation', salon003);
+let res4 = new Reservation('Un autre rdv', new Date('05/31/2023 12:00:00'), new Date('05/31/2023 12:00:00'), 'client1', 'details réservation', salon003);
+let res5 = new Reservation('rdv5', new Date('04/15/2022 17:00:00'), new Date('04/15/2022 17:00:00'), 'client1', 'details réservation', salon005);
+let res6 = new Reservation('rdvTiti', new Date('04/15/2023 17:00:00'), new Date('04/15/2023 17:00:00'), 'client1', 'details réservation', salon005);
 
 res1.addPrestationToReservation(presta1, 1);
 res1.addPrestationToReservation(presta3, 1);
@@ -319,17 +278,7 @@ reservations.push(res4);
 reservations.push(res5);
 reservations.push(res6);
 
-console.log(`Réservations (data.js) : ${reservations}`);
-
-export let salon001 = new SalonData (new Date('03/04/2017'), "CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
-salon001.addPrestationToSalon(presta1);
-export let salon002 = new SalonData (new Date('12/01/2020'), "Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
-export let salon003 = new SalonData (new Date('01/01/2000'), "Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
-export let salon004 = new SalonData (new Date('09/12/2019'), "Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
-export let salon005 = new SalonData (new Date('03/04/2012'), "Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
-
-export var salons = [salon001,salon002,salon003,salon004,salon005]
-console.log(salons);
+console.log(reservations);
 
 export let paniersDeleted = new Array();
 console.log(paniersDeleted);
