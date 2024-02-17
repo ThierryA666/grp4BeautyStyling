@@ -402,13 +402,13 @@ function dateSelect(event) {
         if (dateAfter && dateBefore) {
             let dateAfterObj = new Date(dateAfter);
             let dateBeforeObj = new Date(dateBefore);
-            if (item.dateRDV >= dateAfterObj && item.dateRDV <= dateBeforeObj) resaList.push(item);
+            if (item.date >= dateAfterObj && item.date <= dateBeforeObj) resaList.push(item);
         } else if (dateAfter) {
             let dateAfterObj = new Date(dateAfter);
-            if (item.dateRDV >= dateAfterObj) resaList.push(item);
+            if (item.date >= dateAfterObj) resaList.push(item);
         } else if (dateBefore) {
             let dateBeforeObj = new Date(dateBefore);
-            if (item.dateRDV <= dateBeforeObj) resaList.push(item);
+            if (item.date <= dateBeforeObj) resaList.push(item);
         } else {resaList.push(item);}
     })
     console.log(resaList);
@@ -627,7 +627,7 @@ function showClientPanier(reservation, modif=false){
         let elemspan4 = document.createElement('span');
         elemspan4.setAttribute('id', `p${data[0].id}4`)
         elemspan4.setAttribute('class', 'p-1');
-        elemspan4.appendChild(document.createTextNode(`${reservation.dateRDV}`));
+        elemspan4.appendChild(document.createTextNode(`${reservation.date}`));
         elemdiv4.appendChild(elemspan4);
         elemdivdet.appendChild(elemdiv4);
        
