@@ -85,10 +85,10 @@ btnEnregist.addEventListener("click",(event)=>{
         item.tel =  modifTel.value;
         item.codePostale = modifZip.value;
         item.ville = modifCity.value;
-        // modifSalon.value;
         item.email = modifEmail.value;
         item.url = modifURL.value;
-        let newPhoto = document.getElementById("modifPhoto").files[0].name
+        let newPhoto =""
+        if(document.getElementById("modifPhoto").files[0]) newPhoto = document.getElementById("modifPhoto").files[0].name
         registeredPhoto.innerHTML =`<img src="${modifPhoto}" width="250">` ;
         item.photo = newPhoto
         item.motDePasse = modifPW.value;

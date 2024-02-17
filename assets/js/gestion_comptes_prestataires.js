@@ -4,8 +4,7 @@ console.log(data.salons);
 
 //-----------Afficher data gestion de comptes-----------
 //DOM
-const btnPen = document.getElementsByClassName("bi bi-pencil");
-const btnX = document.getElementsByClassName("bi bi-x");
+
 const btnSearchSalonAccount = document.getElementById("btnSearchSalonAccount")
 const listSalonAccount = document.getElementById("listSalonAccount")
 
