@@ -81,11 +81,49 @@ class DaoBeauty {
             throw new \Exception('Error !!! : ' .  $error->getMessage());
         }
     }
+    
+    public function searchSalon(?string $keyWord): array {
+        $salons = [];
 
-    public function delSalon(Salon $salon){
-        $query = Requetes::DELETE_SALON;
-        $statement = $this->conn->prepare($query);
+        $query = Requetes::SELECT_SALON_BY_MOTSCLES;
+        try{
+            if ($keyWord !== null) {
+                // verifier si c'est numero de tel
+                if ($keyWord[0] === '0') {
+                    // enleve '0'
+                    $keyWord = substr($keyWord, 1);
+                }
+                $keyWord = '%' . $keyWord . '%';
+                //verifier si c'est numeric -> convert int
+                if (is_numeric($keyWord)) {
+                    $keyWord = filter_var($keyWord, FILTER_SANITIZE_NUMBER_INT); 
+                }
+            }
+            $cursor = $this->conn->prepare($query);
+            $cursor ->bindValue(':motcle', $keyWord);
+            $cursor->execute(); 
+            while($row = $cursor->fetch(\PDO::FETCH_OBJ)){
+                $tel_salon = strval($row->tel_salon);
+                $salon = new Salon(0, $row->nom_res, $row->prenom_res, '', '', $row->nom_salon, $row->email_salon, '', $tel_salon, '', '', '',  new \DateTime(), '');
+                $salons[] = $salon;
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception  !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $salons;
     }
+
+
+
+
+    // public function delSalon(Salon $salon){
+    //     $query = Requetes::DELETE_SALON;
+    //     $statement = $this->conn->prepare($query);
+    // }
     
 
 

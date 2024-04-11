@@ -11,16 +11,26 @@ use beautyStyling\metier\Prestation;
 use beautyStyling\metier\Offrir;
 use DateTime;
 
-$dao = new DaoBeauty();
 
+//Insert test
+// $salon = new Salon (0,'REISS','Takako','51 rte de Tence','','Salon Chambon', 'takako@abc.com','43400', '0123456789','www.abc.fr','photo.jpg','password', new DateTime, 'LE CHAMBON SUR LIGNON');
+// $salon = $dao ->addSalon($salon);
 
-
-$salon = new Salon (0,'REISS','Takako','51 rte de Tence','','Salon Chambon', 'takako@abc.com','43400', '0123456789','www.abc.fr','photo.jpg','password', new DateTime, 'LE CHAMBON SUR LIGNON');
-$salon = $dao ->addSalon($salon);
-
+// //Affiche test
 // $salons = $dao->getSalon();
 // affiche($salons);
 // echo '<hr>';
+
+// //Serch test
+// $salon =$dao->searchSalon();
+$keyWord = '0125547928';
+$dao = new DaoBeauty();
+$salons = $dao->searchSalon($keyWord);
+affiche($salons);
+
+
+
+
 
 function affiche($salons) : void {
     foreach ($salons as $salon) {
