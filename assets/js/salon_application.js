@@ -69,6 +69,9 @@ function getOption (datas){
 const btnSubmit = document.getElementById("inscriptionBtn");
 let phone = inputTel.value.replace(/\s/g, ''); //enlever des espace
 
+const form = document.getElementById("salonapp");
+
+
 
 btnSubmit.addEventListener("click",(event)=>{
   event.preventDefault();
@@ -176,7 +179,7 @@ btnSubmit.addEventListener("click",(event)=>{
             
           };
   console.log(isValid);   
-  if(isValid) addSalonAccount(); 
+  if(isValid) form.submit();
 });
 
 // Recuperer la donné par le formulaire 
