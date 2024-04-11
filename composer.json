@@ -1,0 +1,15 @@
+{
+    "name": "takak/takako_ecf_git",
+    "autoload": {
+        "psr-4": {
+            "beautyStyling\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Takako Onodera",
+            "email": "takako.onodera@gmail.com"
+        }
+    ],
+    "require": {}
+}
