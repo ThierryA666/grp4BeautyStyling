@@ -1,4 +1,4 @@
-import *as data from "./data.js";
+import * as data from "./data.js";
 console.log(data.salons);
 
 

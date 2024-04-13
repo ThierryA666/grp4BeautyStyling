@@ -1,0 +1,16 @@
+{
+    "name": "thier/grp4beauty-styling",
+    "description": "Project Beauty Styling",
+    "autoload": {
+        "psr-4": {
+            "beautyStyling\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thierry Anglade",
+            "email": "thierryanglade66@gmail.com"
+        }
+    ],
+    "require": {}
+}

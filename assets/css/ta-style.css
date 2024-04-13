@@ -47,17 +47,40 @@ a:hover{
     color:black;
 }
 
-button:hover{
-    background-color: #A0ECBA !important;
-    color:#FF5B76 !important;
+.bsbtn1{
+    background-color:rgb(160,236,186) !important;
+}
+
+.bsbtn1:hover {
+    background-color: rgb(95, 168, 228) !important;
+    /* color:#FF5B76 !important; */
 }
 
 .bsbtn2{
     background-color:rgb(255,91,118) !important;
 }
 
-.bsbtn1{
-    background-color:rgb(160,236,186) !important;
+.bsbtn2:hover {
+    background-color: rgb(95, 168, 228) !important;
+    /* color:#FF5B76 !important; */
+}
+
+.bsbtn3 {
+    background-color: orange !important;
+}
+
+.bsbtn3:hover {
+    background-color: red !important;
+}
+
+.bsIconButtonTrash {
+    border :0;
+    background-color: transparent;
+}
+
+.bsIconButtonPencil {
+    border :0;
+    background-color: transparent;
 }
 
 .buttonmodif {
@@ -90,22 +113,20 @@ button:hover{
     border: none;
 }
 
-.bipencil {
-    color:blue;
+.bi-pencil {
+    color:rgb(95, 168, 228);
 }
 
-.bipencil:hover {
-    color:#FF5B76 ;
+.bi-pencil:hover {
+    color: blue ;
 }
 
-.bicross {
+.bi-trash {
+    color:orange;
+}
+
+.bi-trash:hover {
     color:red;
-    width: 100px;
-    height: 100px;
-}
-
-.bicross:hover {
-    color:#FF5B76;
 }
 
 .grid-container {
