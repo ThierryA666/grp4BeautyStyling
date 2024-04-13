@@ -23,18 +23,18 @@ class Salon {
     private ? DateTime   $date_cre;
     private   string  $nom_ville;
 
-    public function __construct(int $id_salon, string $nom_res, string $prenom_res, string $ad1, string $ad2, string $nom_salon, string $email_salon, string $cp_salon, string $tel_salon, string $url_salon, string $photo_salon, string $pw_salon, DateTime $date_cre, string $nom_ville) {
+    public function __construct(int $id_salon, string $nom_res, string $prenom_res, string $ad1, ?string $ad2, string $nom_salon, string $email_salon, string $cp_salon, string $tel_salon, ?string $url_salon, ?string $photo_salon, string $pw_salon, DateTime $date_cre, string $nom_ville) {
         $this ->id_salon = $id_salon;
         $this ->nom_res = $nom_res;
         $this ->prenom_res =$prenom_res;
         $this ->ad1 = $ad1;
-        $this ->ad2 = $ad2;
+        $this ->ad2 = $ad2  !== null ? $ad2 : '';
         $this ->nom_salon = $nom_salon;
         $this ->email_salon = $email_salon;
         $this ->cp_salon = $cp_salon;
         $this ->tel_salon = $tel_salon;
-        $this ->url_salon = $url_salon;
-        $this ->photo_salon = $photo_salon;
+        $this ->url_salon = $url_salon !== null ? $url_salon : '';
+        $this ->photo_salon = $photo_salon !== null ? $photo_salon : '';
         $this ->pw_salon = $pw_salon;
         $this ->date_cre = $date_cre;
         $this ->nom_ville = $nom_ville;

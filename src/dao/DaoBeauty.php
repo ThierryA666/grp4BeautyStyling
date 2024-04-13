@@ -82,6 +82,7 @@ class DaoBeauty {
         }
     }
     
+    //rechercher salons par mots cles
     public function searchSalon(?string $keyWord): array {
         $salons = [];
 
@@ -104,7 +105,7 @@ class DaoBeauty {
             $cursor->execute(); 
             while($row = $cursor->fetch(\PDO::FETCH_OBJ)){
                 $tel_salon = strval($row->tel_salon);
-                $salon = new Salon(0, $row->nom_res, $row->prenom_res, '', '', $row->nom_salon, $row->email_salon, '', $tel_salon, '', '', '',  new \DateTime(), '');
+                $salon = new Salon($row->id_salon, $row->nom_res, $row->prenom_res, '', '', $row->nom_salon, $row->email_salon, '', $tel_salon, '', '', '',  new \DateTime(), '');
                 $salons[] = $salon;
             }
         }
@@ -118,6 +119,84 @@ class DaoBeauty {
     }
 
 
+    public function getSalonByID(int $id_salon): ?Salon {
+        
+        $query = Requetes::SELECT_SALON_BY_ID;
+        try {
+            $query  = $this->conn->prepare($query);
+            $query->execute([':id_salon' => $id_salon]);
+            $row = $query->fetch(\PDO::FETCH_OBJ);
+            $tel_salon = strval($row->tel_salon); // 不要な場合は削除できます
+            $cp_salon = strval($row->cp_salon);   // 不要な場合は削除できます
+            $salon = new Salon($row->id_salon, $row->nom_res, $row->prenom_res, $row->ad_1, $row->ad_2, $row->nom_salon, $row->email_salon, $cp_salon, $tel_salon, $row->url_salon, $row->photo_salon, $row->pw_salon, new \DateTime(), $row->nom_ville); 
+        } catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage(), $this->convertCode($e->getCode()));
+        } catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $salon;
+    }
+    
+
+    // public function updateSalonByID(Salon $salon){
+    //     $query = Requetes::UPDATE_SALON_BY_ID;
+    //     try{
+    //         $statement = $this->conn->prepare($query);
+    //         $statement->bindValue(':id_salon', $salon->getId_salon());
+    //         $statement->bindValue(':nom_res', $salon->getNom_res());
+    //         $statement->bindValue(':prenom_res', $salon->getPrenom_res());
+    //         $statement->bindValue(':ad_1', $salon->getAd1());
+    //         $statement->bindValue(':ad_2', $salon->getAd2());
+    //         $statement->bindValue(':email_salon', $salon->getEmail_salon());
+    //         //codepostal:string
+    //         $statement->bindValue(':cp_salon', (string)$salon->getCp_salon());
+    //         //concatener '0' pour numero de tel
+    //         $statement->bindValue(':tel_salon', '0' . $salon->getTel_salon());
+    //         $statement->bindValue(':url_salon',$salon->getUrl_salon());
+    //         $statement->bindValue(':photo_salon',$salon->getPhoto_salon());
+    //         $statement->bindValue(':pw_salon',$salon->getPw_salon());
+    //         $statement->bindValue(':nom_salon', $salon->getNom_salon());
+    //         $statement->bindValue(':nom_ville',$salon->getNom_ville());
+    //         $statement->execute();
+    
+    //     }
+    //     catch (\Exception $e) {
+    //         throw new \Exception('Exception  !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+    //     }
+    //     catch (\Error $error) {
+    //         throw new \Exception('Error !!! : ' .  $error->getMessage());
+    //     }
+    // }
+
+    public function updateSalonByID(Salon $salon){
+        $query = Requetes::UPDATE_SALON_BY_ID;
+        try{
+            $statement = $this->conn->prepare($query);
+            $statement->bindValue(':id_salon', $salon->getId_salon());
+            $statement->bindValue(':nom_res', $salon->getNom_res());
+            $statement->bindValue(':prenom_res', $salon->getPrenom_res());
+            $statement->bindValue(':ad_1', $salon->getAd1());
+            $statement->bindValue(':ad_2', $salon->getAd2());
+            $statement->bindValue(':email_salon', $salon->getEmail_salon());
+            //codepostal:string
+            $statement->bindValue(':cp_salon', (string)$salon->getCp_salon());
+            //concatener '0' pour numero de tel
+            $statement->bindValue(':tel_salon', '0' . $salon->getTel_salon());
+            $statement->bindValue(':url_salon',$salon->getUrl_salon());
+            $statement->bindValue(':photo_salon',$salon->getPhoto_salon());
+            $statement->bindValue(':pw_salon',$salon->getPw_salon());
+            $statement->bindValue(':nom_salon', $salon->getNom_salon());
+            $statement->bindValue(':nom_ville',$salon->getNom_ville());
+            $statement->execute();
+    
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception  !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+    }
 
 
     // public function delSalon(Salon $salon){

@@ -8,7 +8,7 @@ delete from employe;
 delete from prestation;
 delete from client;
 delete from salon;
-delete from villes_france_free;
+
 delete from etat;
 
 alter table prestation auto_increment = 1;
@@ -18,17 +18,12 @@ alter table salon auto_increment = 1;
 alter table reservation auto_increment = 1;
 alter table etat auto_increment = 1;
 
-INSERT INTO `villes_france_free` (`ville_id`, `ville_departement`, `ville_slug`, `ville_nom`, `ville_nom_simple`, `ville_nom_reel`, `ville_nom_soundex`, `ville_nom_metaphone`, `ville_code_postal`, `ville_commune`, `ville_code_commune`, `ville_arrondissement`, `ville_canton`, `ville_amdi`, `ville_population_2010`, `ville_population_1999`, `ville_population_2012`, `ville_densite_2010`, `ville_surface`, `ville_longitude_deg`, `ville_latitude_deg`, `ville_longitude_grd`, `ville_latitude_grd`, `ville_longitude_dms`, `ville_latitude_dms`, `ville_zmin`, `ville_zmax`) VALUES
-(28153, '69', 'lyon', 'LYON', 'lyon', 'Lyon', 'L500', 'LYN', '69001-69002-69003-69004-69005-69006-69007-69008-69009', '123', '69123', 1, '99', 2, 484344, 445274, 474900, 10117, 47.87, 4.84139, 45.7589, '2783', '50843', '+45029', '454532', 162, 312),
-(35911, '92', 'antony', 'ANTONY', 'antony', 'Antony', 'A535', 'ANTN', '92160', '002', '92002', 1, '87', 4, 61793, 59849, 61200, 6463, 9.56, 2.3, 48.75, '-44', '54170', '+21748', '484512', 45, 103),
-(13206, '34', 'beziers', 'BEZIERS', 'beziers', 'Béziers', 'B262', 'BSRS', '34500', '032', '34032', 1, '98', 4, 70955, 69359, 71700, 743, 95.48, 3.25, 43.35, '977', '48159', '+31258', '432036', 4, 120),
-(23015, '59', 'tourcoing', 'TOURCOING', 'tourcoing', 'Tourcoing', 'T6252', 'TRKNK', '59200', '599', '59599', 5, '97', 5, 91923, 93531, 92600, 6051, 15.19, 3.15, 50.7167, '915', '56358', '+30937', '504321', 24, 49);
 
-insert into salon values (1,'CLAIR','Agathe','140 Rue de Créqui',null,'Julie Borne Coiffure Création','agt@gmail.com',69006,'0611223344',null,'abc.jpg','dnPf5z9OQz07CBv',date('2024-01-01'),'LYON');
-insert into salon values (2,'Théberge','Channing ','27, Avenue De Marlioz',null,'Salon Antony','ChanningTheberge@rhyta.com',92160,'0125547928','www.ComedyDiary.fr','efg.jpg','Jee1ceeXin',date('2024-1-2'),'ANTONY');
-insert into salon values (3,'Aupry','Guy','81, rue Marie de Médicis',null,'Salon Guy','GuyAupry@dayrep.com',34500,'0458098057','www.guy-salon.fr','hjk.jpg','EeW7iechu',date('2024-1-3'),'BEZIERS');
-insert into salon values (4,'Tessier','Laurent','3,  Rue Neuve',null,'Red Studio','LaurentTessier@rhyta.com',69001,'0461124244',null,'hhh.jpg','eichia4ahS',date('2024-1-5'),'LYON');
-insert into salon values (5,'Magnolia','Sciverit','77, quai Saint-Nicolas',null,'Frédéric Moréno','MagnoliaSciverit@rhyta.com',59200,'0365847757',null,'ppp.jpg','IeNgangu4u',date('2024-1-7'),'TOURCOING');
+insert into salon values (1,'CLAIR','Agathe','140 Rue de Créqui',null,'Julie Borne Coiffure Création','agt@gmail.com',69006,'0611223344',null,'salon1.jpg','dnPf5z9OQz07CBv',date('2024-01-01'),'LYON');
+insert into salon values (2,'Théberge','Channing ','27, Avenue De Marlioz',null,'Salon Antony','ChanningTheberge@rhyta.com',92160,'0125547928','www.ComedyDiary.fr','salon2.jpg','Jee1ceeXin',date('2024-1-2'),'ANTONY');
+insert into salon values (3,'Aupry','Guy','81, rue Marie de Médicis',null,'Salon Guy','GuyAupry@dayrep.com',34500,'0458098057','www.guy-salon.fr','salon3.jpg','EeW7iechu',date('2024-1-3'),'BEZIERS');
+insert into salon values (4,'Tessier','Laurent','3,  Rue Neuve',null,'Red Studio','LaurentTessier@rhyta.com',69001,'0461124244',null,'salon4.jpg','eichia4ahS',date('2024-1-5'),'LYON');
+insert into salon values (5,'Magnolia','Sciverit','77, quai Saint-Nicolas',null,'Frédéric Moréno','MagnoliaSciverit@rhyta.com',59200,'0365847757',null,'salon5.jpg','IeNgangu4u',date('2024-1-7'),'TOURCOING');
 
 insert into prestation (nom_presta,duree_presta,desc_presta,prix_ind_presta) values ('Coupe Homme',time('01:00:00'),'Coupe ciseaux et tondeuse',20);
 insert into prestation (nom_presta,duree_presta,desc_presta,prix_ind_presta) values ('Coupe Femme',time('01:00:00'),'Coupe ciseaux et peigne',40);

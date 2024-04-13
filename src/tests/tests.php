@@ -22,13 +22,37 @@ use DateTime;
 // echo '<hr>';
 
 // //Serch test
-// $salon =$dao->searchSalon();
-$keyWord = '0125547928';
+
+// $keyWord = '0125547928';
+// $dao = new DaoBeauty();
+// $salons = $dao->searchSalon($keyWord);
+// affiche($salons);
+
+//get salon by id test
+
+
+// $id_salon = 2;
+// $dao = new DaoBeauty();
+// $salon = $dao->getSalonByID($id_salon);
+// echo $salon;
+
+
+//update test
+
 $dao = new DaoBeauty();
-$salons = $dao->searchSalon($keyWord);
-affiche($salons);
+$id_salon = 3;
 
+$salon = $dao->getSalonByID($id_salon);
+var_dump($salon);
+// set value to be updated
+$prenom_res = 'Guy';
+$salon->setPrenom_res($prenom_res);
 
+$dao->updateSalonByID($salon);
+
+$updatedSalon = $dao->getSalonByID($id_salon);
+
+var_dump($updatedSalon);
 
 
 

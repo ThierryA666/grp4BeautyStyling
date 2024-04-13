@@ -17,7 +17,7 @@
     <header class="container-fluid">
         <nav class="navbar navbar-expand-md" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="index.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -28,13 +28,13 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="index.html" style="font-family: 'DM Serif Display', serif">Accueil</a>
+                    <a class="nav-link" aria-current="page" href="index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link disabled" href="salon_top.html" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
+                    <a class="nav-link disabled" href="salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_login.html" style="font-family: 'DM Serif Display', serif;">Se connecter (Compte salon)</a>
+                    <a class="nav-link" href="salon_login.php" style="font-family: 'DM Serif Display', serif;">Se connecter (Compte salon)</a>
                   </li>
                   
                 </ul>
@@ -78,7 +78,7 @@
                 </div>
                 
                 <div class="col-12 d-flex justify-content-center">
-                    <a href="salon_application.html"><button id="insSalon" type="submit" class="btn btn-lg fs-2" style="background-color: #FF5B76; color: white;">Inscrire mon salon <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                    <a href="vsalon_application.php"><button id="insSalon" type="submit" class="btn btn-lg fs-2" style="background-color: #FF5B76; color: white;">Inscrire mon salon <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                         <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
                       </svg></button></a>  
                 </div>        

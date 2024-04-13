@@ -17,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-lg" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="index.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -28,13 +28,13 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="index.html" style="font-family: 'DM Serif Display', serif">Accueil</a>
+                    <a class="nav-link" aria-current="page" href="index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link " href="salon_gestionnaire.html" style="font-family: 'DM Serif Display', serif;">Gestionnaire salon</a>
+                    <a class="nav-link " href="salon_gestionnaire.php" style="font-family: 'DM Serif Display', serif;">Gestionnaire salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_login.html" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
+                    <a class="nav-link" href="salon_login.php" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
                   </li>
                   
                 </ul>
@@ -43,80 +43,88 @@
           </nav>
     </header>
     <main>
-      <div class="">
+      <div>
         <P class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">- Infos de votre salon -</P>
       </div>
+      <div>
+        <P class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">Bonjour <?=$salon->getNom_salon()?> !</P>
+      </div>
+      <div>
+        <p class="fs-5 text-center"><?=$message?></p>
+      </div>
       <div class="container mt-5">
-        <form method="get" class="row g-3 s-2 m-n" enctype="multipart/form-data" style="background-color: #A0ECBA;">
+        <form id="myForm" method="POST" action="salon_profile.php" class="row g-3 s-2 m-n" enctype="multipart/form-data" style="background-color: #A0ECBA;">
+        <input type="hidden" name="id_salon" value="<?=$salon->getId_salon()?>">
           <div class="col-md-3">
             <label for="inputName" class="form-label">Nom</label>
-            <input type="name" class="form-control" id="modifName" disabled>
+            <input type="name" class="form-control" id="modifName" name="nom" value="<?=$salon->getNom_res()?>" disabled>
           </div>
 
           <div class="col-md-3">
             <label for="inputFirstName" class="form-label">Prénom</label>
-            <input type="name" class="form-control" id="modifFirstName" value="" disabled>
+            <input type="name" class="form-control" id="modifFirstName" name="prenom" value="<?=$salon->getPrenom_res()?>"  disabled>
           </div>
 
           <div class="col-md-6">
             <label for="inputAddress" class="form-label">Aderesse</label>
-            <input type="text" class="form-control" id="modifAddress1" disabled>
+            <input type="text" class="form-control" id="modifAddress1" name="ad1" value="<?=$salon->getAd1()?>" disabled>
           </div>
 
           <div class="col-md-6">
             <label for="email" class="form-label">E-mail</label>
-            <input type="text" class="form-control" id="modifEmail" disabled >
+            <input type="text" class="form-control" id="modifEmail" name="email" value="<?=$salon->getEmail_salon()?>"  disabled >
           </div>
 
           <div class="col-md-6">
             <label for="inputAddress2" class="form-label">Address 2</label>
-            <input type="text" class="form-control" id="modifAddress2" placeholder="" disabled>
+            <input type="text" class="form-control" id="modifAddress2" name="ad2" value="<?=$salon->getAd2()?>" placeholder="" disabled>
           </div>
 
           <div class="col-md-6">
             <label for="inpuTel" class="form-label">Téléphone</label>
-            <input type="text" class="form-control" id="modifTel" disabled>
+            <input type="text" class="form-control" id="modifTel" name="tel"  value="<?='0'.$salon->getTel_salon()?>" disabled>
           </div>
          
           <div class="col-md-2">
             <label for="inputZip" class="form-label">Code postal</label>
-            <input type="text" class="form-control" id="modifZip" placeholder="" disabled>
+            <input type="text" class="form-control" id="modifZip" name="zip" value="<?=$salon->getCp_salon()?>" placeholder="" disabled>
           </div>
 
           <div class="col-md-3">
             <label for="inputCity" class="form-label">Ville</label>
-            <input type="text" class="form-control" id="modifCity" placeholder="" disabled>
+            <input type="text" class="form-control" id="modifCity" name="ville" value="<?=$salon->getNom_ville()?>" placeholder="" disabled>
           </div>
 
           <div class="col-md-6">
             <label for="salonName" class="form-label">Nom de salon</label>
-            <input type="text" class="form-control" id="modifSalon" disabled>
+            <input type="text" class="form-control" id="modifSalon" name="nom_salon" value="<?=$salon->getNom_salon()?>" readonly>
           </div>
 
           <div class="col-md-6">
             <label for="inputURL" class="form-label">URL ou Page Facebook / Instagram de salon </label>
-            <input type="text" class="form-control" id="modifURL" disabled>
+            <input type="text" class="form-control" id="modifURL" name="url" value="<?=$salon->getUrl_salon()?>" disabled>
           </div>
 
           <div class="col-md-3">
             <label for="photoUL" class="form-label">Photo de profil</label>
-            <input type="file" class="form-control" id="modifPhoto"disabled>
+            <input type="file" class="form-control" name="photo" id="modifPhoto" disabled>
           </div>
           
           <div id="registeredPhoto" class="col-md-3">
-            <img src="/assets/img/photos-salon/salon4.jpg" width="250">
+            <img src="/assets/img/photos-salon/<?=$salon->getPhoto_salon()?>" width="250">
           </div>
 
           <div class="col-md-3">
             <label for="password" class="form-label">Mot de passe (8 caractères minimum)</label>
-            <input type="password" class="form-control" id="modifPW"  minlength="8" maxlength="12" disabled>
+            <input type="password" class="form-control" name="pw" id="modifPW"  minlength="8" maxlength="12" value="<?=$salon->getPw_salon()?>" disabled>
             <label for="checkbox" class="form-label">Afficher le mot de passe </label>
             <input type="checkbox" id="chk">
           </div>
         
           <div class="col-12 mb-6 d-flex justify-content-md-end">
-            <button type="submit" class="btn text-white mx-5 mb-3 fs-4" style="background-color: #FF5B76;" id="btnModif">Modifier</button>
-            <button type="submit" class="btn text-white mx-5 mb-3 fs-4" style="background-color: #FF5B76;" id="btnEnregist" disabled>Enregistrer</button>
+            <button type="submit" class="btn text-white mx-5 mb-3 fs-4" style="background-color: #FF5B76;" id="btnModif" name="modif" onclick="recordButtonClick('modif')">Modifier</button>
+            <button type="submit" class="btn text-white mx-5 mb-3 fs-4" style="background-color: #FF5B76;" id="btnEnregist" name="update" onclick="recordButtonClick('update')" disabled>Enregistrer</button>
+            <input type="hidden" id="clickedButton" name="clickedButton" value="">
           </div>
 
           </div>

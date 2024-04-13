@@ -1,3 +1,9 @@
+<?php
+namespace beautyStyling\view;
+use beautyStyling\webapp\gestion_comptes_prestataires;
+use beautyStyling\metier\Salon;
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,7 +23,7 @@
     <header>
         <nav class="navbar navbar-expand-lg" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="vindex.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -51,7 +57,7 @@
       </div>
       <div class="container row mt-5 d-flex mx-auto">
         <div class="col-md-12 d-flex justify-content-center mx-auto">
-          <form class="container-fluid row border border-success-subtle" >
+          <form method="POST" action="gestion-comptes-prestataires.php" name="searchForm"  class="container-fluid row border border-success-subtle" >
 
             <div class="container-fluid mt-2 " style="background-color: #A0ECBA;">
               <p class="text-md-center fs-3">Liste des comptes prestataires</p>
@@ -59,13 +65,15 @@
 
             <div class="col-md-12 d-flex">
               <div class="col-md-3 my-3 d-flex">
-                <a href ="salon_application.html" type="button" class="btn text-white mx-5" style="background-color: #FF5B76;">Ajouter un compte</a>
+                <a href ="salon_application.php" type="button" class="btn text-white mx-5" style="background-color: #FF5B76;">Ajouter un compte</a>
               </div> 
-              <div class="col-9 my-3 d-flex">
-                <!-- <label for="search" class="form-label">Ville</label> -->
-                <input type="text" class="form-control" id="inputKeyword" placeholder="Entrez nom de salon">
-                <button id="btnSearchSalonAccount" type="submit" class="btn text-white mx-5" style="background-color: #FF5B76;"> Rechecher </button>
+              <div class="col-md-9 my-3 d-flex">
+                
+                  <input type="text" class="form-control" id="inputKeyword" name="keyWord" placeholder="Entrez nom de salon ou numéro de téléphone">
+                  <button id="btnSearchSalonAccount" type="submit" class="btn text-white mx-5" style="background-color: #FF5B76;"> Rechecher </button>
+             
               </div> 
+            
             </div>
 
             <div class="col-md-12 d-flex">
@@ -82,30 +90,20 @@
                   </tr>
                 </thead>
                 <tbody id="listSalonAccount">
-                  <!-- <tr>
-                    <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th>
-                    <td id="nameSalon">Slaon A</td>
-                    <td id="nameRep">Durand Franck</td>
-                    <td id="telSalon">0600110011</td>
-                    <td id="emailSalon">name1@mail.com</td>
-                    <td> <i class="bi bi-pencil" style="color:blue;"></i> / <i class="bi bi-x" style="color:red;"></i></td>
-                  </tr>
+                  <?php
+                  foreach ($salons as $salon ){ ?>
                   <tr>
                     <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th>
-                    <td>Slaon B</td>
-                    <td>Muller Dominique</td>
-                    <td>0600110012</td>
-                    <td>name2@mail.com</td>
-                    <td> <i class="bi bi-pencil" style="color:blue;"></i> / <i class="bi bi-x" style="color:red;"></i></td>
+                    <td id="nameSalon"><?=$salon->getNom_salon()?></td>
+                    <td id="nameRep"><?=$salon->getNom_res()?><?=" ".$salon->getPrenom_res()?></td>
+                    <td id="telSalon"><?="0".$salon->getTel_salon()?></td>
+                    <td id="emailSalon"><?=$salon->getEmail_salon()?></td>
+                    <td><a href="salon_profile.php?id_salon=<?=$salon->getId_salon()?> "><i class="bi bi-pencil" style="color:blue;"></i></a> / <i class="bi bi-x" style="color:red;"></i></td>
                   </tr>
-                  <tr>
-                    <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th>
-                    <td>Slaon C</td>
-                    <td>Marcon Stéphanie</td>
-                    <td>0600110013</td>
-                    <td>nam3@mail.com</td>
-                    <td> <i class="bi bi-pencil" style="color:blue;"></i> / <i class="bi bi-x" style="color:red;"></i></td>
-                  </tr> -->
+                  <?php
+                  } ?>
+                  
+                  
                 </tbody>
               </table>
             </div>

@@ -1,13 +1,13 @@
-import *as data from "./data.js";
-console.log(data.salons);
+// import *as data from "./data.js";
+// console.log(data.salons);
 
 
-let search = window.location.search;
-console.dir(search);
-let link = search.split("=");
-console.dir(link);
-let salonID =link[1]
-console.log(salonID);
+// let search = window.location.search;
+// console.dir(search);
+// let link = search.split("=");
+// console.dir(link);
+// let salonID =link[1]
+// console.log(salonID);
 
 let modifName = document.getElementById("modifName");
 let modifFirstName= document.getElementById("modifFirstName");
@@ -24,7 +24,7 @@ let modifPW = document.getElementById("modifPW");
 let registeredPhoto = document.getElementById("registeredPhoto");
 const chk = document.getElementById("chk");
 const btnModif = document.getElementById("btnModif");
-const btnEnregist = document.getElementById("btnEnregist");
+// const btnEnregist = document.getElementById("btnEnregist");
 
 // afficher le password avec check box
 chk.addEventListener("change", function () {
@@ -38,28 +38,45 @@ chk.addEventListener("change", function () {
 //Afficher le data du salon
 // window.addEventListener('load',(event)=>{
 //     event.preventDefault();
-    let salonModif = data.salons.filter(salon=>salon.id==salonID)
-    console.dir(salonModif);
-    salonModif.forEach(item =>{
-        console.log(item.nom)
-        modifName.value = item.nom;
-        modifFirstName.value = item.prenom;
-        modifAddress1.value = item.ad1;
-        modifAddress2.value = item.ad2;
-        modifTel.value = item.tel;
-        modifZip.value = item.codePostale;
-        modifCity.value = item.ville;
-        modifSalon.value = item.nomSalon;
-        modifEmail.value = item.email;
-        modifURL.value = item.url;
-        registeredPhoto.innerHTML =`<img src="/assets/img/photos-salon/${item.photo}" width="250">` ;
-        modifPW.value = item.motDePasse;
-    })
+    // let salonModif = data.salons.filter(salon=>salon.id==salonID)
+    // console.dir(salonModif);
+    // salonModif.forEach(item =>{
+    //     console.log(item.nom)
+    //     modifName.value = item.nom;
+    //     modifFirstName.value = item.prenom;
+    //     modifAddress1.value = item.ad1;
+    //     modifAddress2.value = item.ad2;
+    //     modifTel.value = item.tel;
+    //     modifZip.value = item.codePostale;
+    //     modifCity.value = item.ville;
+    //     modifSalon.value = item.nomSalon;
+    //     modifEmail.value = item.email;
+    //     modifURL.value = item.url;
+    //     registeredPhoto.innerHTML =`<img src="/assets/img/photos-salon/${item.photo}" width="250">` ;
+    //     modifPW.value = item.motDePasse;
+    // })
 // });
-
-//button "Modifier"
-btnModif.addEventListener("click",(event)=>{
+document.getElementById('btnModif').addEventListener('click', function(event) {
+    // デフォルトのフォーム送信をキャンセル
     event.preventDefault();
+    // クリックされたボタンの名前を記録する
+    recordButtonClick('modif');
+    // 入力フィールドを有効にする
+    enableInputFields();
+});
+
+// "Enregistrer" ボタンがクリックされたときの処理
+document.getElementById('btnEnregist').addEventListener('click', function(event) {
+    // デフォルトのフォーム送信をキャンセル
+    event.preventDefault();
+    // クリックされたボタンの名前を記録する
+    recordButtonClick('update');
+    // フォームを送信する
+    document.getElementById('myForm').submit();
+});
+
+// 入力フィールドを有効にする関数
+function enableInputFields() {
     modifName.disabled = false;
     modifFirstName.disabled = false;
     modifAddress1.disabled = false;
@@ -71,28 +88,37 @@ btnModif.addEventListener("click",(event)=>{
     modifURL.disabled = false;
     modifPhoto.disabled = false;
     modifPW.disabled = false;
+    
     btnEnregist.disabled = false;
-})
+}
+
+// ボタンがクリックされたときの処理
+function recordButtonClick(buttonName) {
+    // クリックされたボタンの名前を記録する
+    document.getElementById('clickedButton').value = buttonName;
+}
+
+
 
 //button "Enregistrer"
-btnEnregist.addEventListener("click",(event)=>{
-    event.preventDefault();
-    salonModif.forEach(item =>{
-        item.nom = modifName.value;
-        item.prenom = modifFirstName.value;
-        item.ad1= modifAddress1.value;
-        item.ad2 = modifAddress2.value;
-        item.tel =  modifTel.value;
-        item.codePostale = modifZip.value;
-        item.ville = modifCity.value;
-        item.email = modifEmail.value;
-        item.url = modifURL.value;
-        let newPhoto =""
-        if(document.getElementById("modifPhoto").files[0]) newPhoto = document.getElementById("modifPhoto").files[0].name
-        registeredPhoto.innerHTML =`<img src="${modifPhoto}" width="250">` ;
-        item.photo = newPhoto
-        item.motDePasse = modifPW.value;
-        console.log(salonModif);    
-    });
-});
+// btnEnregist.addEventListener("click",(event)=>{
+//     event.preventDefault();
+//     salonModif.forEach(item =>{
+//         item.nom = modifName.value;
+//         item.prenom = modifFirstName.value;
+//         item.ad1= modifAddress1.value;
+//         item.ad2 = modifAddress2.value;
+//         item.tel =  modifTel.value;
+//         item.codePostale = modifZip.value;
+//         item.ville = modifCity.value;
+//         item.email = modifEmail.value;
+//         item.url = modifURL.value;
+//         let newPhoto =""
+//         if(document.getElementById("modifPhoto").files[0]) newPhoto = document.getElementById("modifPhoto").files[0].name
+//         registeredPhoto.innerHTML =`<img src="${modifPhoto}" width="250">` ;
+//         item.photo = newPhoto
+//         item.motDePasse = modifPW.value;
+//         console.log(salonModif);    
+//     });
+// });
 
