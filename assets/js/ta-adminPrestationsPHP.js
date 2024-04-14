@@ -36,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }        
 
     if (document.location.pathname ==='/src/webapp/adminPrestation.php') {
+
+        // $(document).ready(function() {
+        //     $('#inputDuration').inputmask('99:99');
+        // });
+
         function suppPresta (event) {
             event.preventDefault();
             console.log(event.target.id);

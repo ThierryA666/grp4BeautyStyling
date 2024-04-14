@@ -71,7 +71,7 @@ class DaoBeauty {
             $cursor  = $this->conn->query($query);
             // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
             while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
-                $prestation = new Prestation($row->id_presta, $row->nom_presta, \DateTime::createFromFormat("h:i:s", $row->duree_presta), floatval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
+                $prestation = new Prestation($row->id_presta, $row->nom_presta, intval($row->duree_presta), intval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
                 array_push($prestations,$prestation);
             }
             $cursor->closeCursor();
@@ -174,7 +174,7 @@ class DaoBeauty {
                 // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
                 $row = $statement->fetch(\PDO::FETCH_OBJ);
                 if ($row) {
-                    $prestation = new Prestation($row->id_presta, $row->nom_presta, \DateTime::createFromFormat("h:i:s", $row->duree_presta), floatval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
+                    $prestation = new Prestation($row->id_presta, $row->nom_presta, intval($row->duree_presta), intval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
                     return $prestation;
                 } else {
                     throw new \PDOException('Cette prestation est inexistante', 8002)  ;
@@ -209,10 +209,10 @@ class DaoBeauty {
             $statement= $this->conn->prepare($query);
             $statement->bindValue(':nomPresta', $prestation->getNomPresta(), \PDO::PARAM_STR);
             $statement->bindValue(':descPresta', $prestation->getDescPresta(), \PDO::PARAM_STR);
-            $statement->bindValue(':dureePresta', $prestation->getDureePresta()->format('h:i:s'), \PDO::PARAM_STR);
-            $statement->bindValue(':modifDate', null);
+            $statement->bindValue(':dureePresta', $prestation->getDureePresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':modifDate', null, \PDO::PARAM_STR);
             $statement->bindValue(':creationDate', $prestation->getCreationDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
-            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta());
+            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta(), \PDO::PARAM_INT);
             $response = $statement->execute();
             return $response;
         }
@@ -242,9 +242,9 @@ class DaoBeauty {
             $statement= $this->conn->prepare($query);
             $statement->bindValue(':nomPresta', $prestation->getNomPresta(), \PDO::PARAM_STR);
             $statement->bindValue(':descPresta', $prestation->getDescPresta(), \PDO::PARAM_STR);
-            $statement->bindValue(':dureePresta', $prestation->getDureePresta()->format('Y-m-d h:i:s'), \PDO::PARAM_STR);
+            $statement->bindValue(':dureePresta', $prestation->getDureePresta(), \PDO::PARAM_INT);
             $statement->bindValue(':modifDate', $prestation->getModifDate()->format('Y-m-d'), \PDO::PARAM_STR);
-            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta());
+            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta(),  \PDO::PARAM_INT);
             $statement->bindValue(':idPresta', $prestation->getIdPresta(), \PDO::PARAM_INT);
             $response = $statement->execute();
             return $response;

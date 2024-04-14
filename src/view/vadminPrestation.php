@@ -59,27 +59,27 @@
               <div>    
                 <div>
                     <label for="input1" class="col-form-label col-form-label-sm">Nom* :</label>
-                    <input type="text" size="48" class="form-control form-control-sm rounded-2" maxlength="128" id="input1" name="name" placeholder="le nom de la prestation" <?=$disabled ? 'disabled' : ''?> value="<?=$prestation->getNomPresta()?>"></input>
+                    <input type="text" size="48" class="form-control form-control-sm rounded-2" maxlength="128" id="inputName" name="name" placeholder="le nom de la prestation" <?=$disabled ? 'disabled' : ''?> value="<?=$prestation->getNomPresta()?>"></input>
                 </div>
                 <div>
-                  <label for="input2" class="col-form-label col-form-label-sm">Durée en heure* :</label>
-                  <input type="number" size="5" class="form-control form-control-sm rounded-2" maxlength="5" min="<?=$min?>" max="<?=$max?>" id="input2" name="duration" placeholder="la durée de la prestation" value="<?=$prestation->getDureePresta() ? intval($prestation->getDureePresta()->format('h')) : 1?>"></input>
+                  <label for="input2" class="col-form-label col-form-label-sm">Durée en heure:min* :</label>
+                  <input type="text" size="5" class="form-control form-control-sm rounded-2" maxlength="5" min="<?=$min?>" max="<?=$max?>" id="inputDuration" name="duration" placeholder="la durée de la prestation hh:mm" value="<?=$prestation->getDureePrestaHM()?>"></input>
                 </div>
                 <div>
                   <label for="input3" class="col-form-label col-form-label-sm">Description :</label>
-                  <input type="text" size="64" class="form-control form-control-sm rounded-2" maxlength="256" id="input3" name="description" placeholder="description de la prestation" value="<?=$prestation->getDescPresta() ? $prestation->getDescPresta() : ''?>"></input>
+                  <input type="text" size="64" class="form-control form-control-sm rounded-2" maxlength="256" id="inputDescription" name="description" placeholder="description de la prestation" value="<?=$prestation->getDescPresta() ? $prestation->getDescPresta() : ''?>"></input>
                 </div>
                 <div>
                   <label for="input4" class="col-form-label col-form-label-sm">Prix* (indicatif) en €:</label>
-                  <input type="number" size="5" class="form-control form-control-sm rounded-2 p-2" maxlength="<?=$maxLength?>" min="<?=$min?>" id="input4" name="price" value="<?=$prestation->getPrixIndPresta() ? $prestation->getPrixIndPresta() : ''?>"></input>
+                  <input type="number" size="5" class="form-control form-control-sm rounded-2 p-2" maxlength="<?=$maxLength?>" min="<?=$min?>" max="<?=$maxPrice?>" id="inputPrice" name="price"  placeholder="le prix de la prestation en €" value="<?=$prestation->getPrixIndPresta() ? $prestation->getPrixIndPrestaEuro() : 1?>"></input>
                 </div>
                 <div>
                   <label for="input5" class="col-form-label col-form-label-sm">Date de création</label>
-                  <input type="Date" class="form-control form-control-sm rounded-2 p-2" id="input5" name="creationDate" disabled value="<?=$prestation->getCreationDate() ? $prestation->getCreationDate()->format('Y-m-d') : ''?>"></input>
+                  <input type="Date" class="form-control form-control-sm rounded-2 p-2" id="inputCreationDate" name="creationDate" disabled value="<?=$prestation->getCreationDate() ? $prestation->getCreationDate()->format('Y-m-d') : ''?>"></input>
                 </div>
                 <div class="<?=$display?>">
                   <label for="input6" class="col-form-label col-form-label-sm ">Date de modification</label>
-                  <input type="Date" class="form-control form-control-sm rounded-2 p-2" id="input6" name="modifDate" <?=$disabled ? 'disabled' : ''?> value="<?=$prestation->getModifDate() ? $prestation->getModifDate()->format('Y-m-d') : '' ?>"></input>
+                  <input type="Date" class="form-control form-control-sm rounded-2 p-2" id="inputModifDate" name="modifDate" <?=$disabled ? 'disabled' : ''?> value="<?=$prestation->getModifDate() ? $prestation->getModifDate()->format('Y-m-d') : '' ?>"></input>
                 </div>
                 <div class="row d-flex  justify-content-end">
                   <div class="col">
@@ -89,7 +89,7 @@
                     <button type="submit" id="buttonSupp" name="Supprimer" class="bsbtn2 btn d-flex m-5 mx-auto" value="Supprimer">Supprimer</button>
                   </div>
                   <div class="col <?=$afficher2?>">
-                    <button type="submit" id="buttonSupp" name="goBackList" formethod="post" formaction="./adminListePrestations.php" class="bsbtn2 btn d-flex m-5 mx-auto" value="goBackList">Retour à la liste</button>
+                    <button type="submit" id="goBackList" name="goBackList" formethod="post" formaction="./adminListePrestations.php" class="bsbtn2 btn d-flex m-5 mx-auto" value="goBackList">Retour à la liste</button>
                   </div>
               </div>
               </form>
@@ -121,6 +121,7 @@
   </main>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/jquery.inputmask.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

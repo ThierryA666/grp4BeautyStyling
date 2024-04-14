@@ -20,7 +20,7 @@ try {
 
 if (isset($_SERVER['HTTP_REFERER']) &&  $_SERVER['HTTP_REFERER'] !== 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']) unset($_SESSION['msgUtilisateur']);
 $msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : $msgUtilisateur ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => true];
-$dummy = [$prestation = new Prestation(0, '',  new \DateTime( '00:00:00'), 1, new \DateTime())];
+$dummy = [$prestation = new Prestation(0, '',  0, 1, new \DateTime())];
 //var_dump($_POST);
 
 try {
@@ -32,6 +32,7 @@ try {
       $prestaList = $dummy;
       $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
       $_SESSION['msgUtilisateur'] = $msgUtilisateur;
+      session_destroy($_SESSION);
     }   
 } catch (\Exception $e) {
   $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
@@ -46,7 +47,7 @@ try {
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
   if (isset($_POST['goBackList']) && $_POST['goBackList'] === 'goBackList') {
     $afficher2 = '';
-    ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => false];
+    $msgUtilisateur = ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => false];
   } else {
     try {
       if (isset($_POST['key']) ) {

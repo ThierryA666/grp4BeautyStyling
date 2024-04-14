@@ -20,9 +20,12 @@ try {
 const MAX_LENGTH = 5;
 const MIN = 1;
 const MAX = 12;
+const MAX_PRICE = 99999;
 $min = MIN;
 $max = MAX;
+$maxPrice = MAX_PRICE;
 $maxLength = MAX_LENGTH;
+$ok = true;
 
 
 unset($_SESSION['msgUtilisateur']);
@@ -40,43 +43,68 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     $id = intval(substr($_POST['key'],11));
     try {
       $prestation= $daoBeauty->getPrestationByID(intval(substr(htmlspecialchars(trim($_POST['key'])),11)));
+      if ($prestation) {
+        $display = $prestation->getModifDate() ? '' : 'd-none';
+        $_SESSION['prestation'] = $prestation;
+      } else {
+        $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la prestation demandée n\'existe pas!', 'style' => 'text-danger', 'msgShow' => true];
+        $prestation = new Prestation(0, '',  3600, 100, new \DateTime());
+        $buttonID = 'buttonCreate';
+        $buttonLabel = 'Créer';
+        $afficher = 'd-none';
+        $disabled = false;
+        $display = $prestation->getModifDate() ? '' : 'd-none';
+      }
     } catch (\Exception $e) {
-      $msgShow = true;
       $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la prestation demandée n\'existe pas!', 'style' => 'text-danger', 'msgShow' => true];
-      $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
+      $prestation = new Prestation(0, '',  3600, 100, new \DateTime());
       $buttonID = 'buttonCreate';
       $buttonLabel = 'Créer';
       $afficher = 'd-none';
       $disabled = false;
       $display = $prestation->getModifDate() ? '' : 'd-none';
     }
-    $display = $prestation->getModifDate() ? '' : 'd-none';
-    $_SESSION['prestation'] = $prestation;
   } elseif (isset($_POST['Sauvegarder']) && $_POST['Sauvegarder'] === 'Sauvegarder' && isset($_SESSION['prestation'])) {
     if (isset($_POST['duration']) && isset($_POST['description']) && isset($_POST['price']) && isset($_SESSION['prestation'])) {
-      $duration = new \DateTime(date('Y-m-d') . ' ' . htmlspecialchars(trim($_POST['duration'])) . ':00:00');
-      $modifDate = new \DateTime();
-      $updatePrestation = new Prestation($_SESSION['prestation']->getIdPresta(), ($_SESSION['prestation']->getNomPresta()), $duration, floatval(htmlspecialchars(trim($_POST['price']))), $_SESSION['prestation']->getCreationDate(), $modifDate, htmlspecialchars(trim($_POST['description'])));
-      $display = $modifDate ? '' : 'd-none';
-      try {
-        $response = $daoBeauty->updatePrestation($updatePrestation);
-        if ($response) {
-          $prestation = $updatePrestation;
-          $buttonID = 'buttonSave';
-          $buttonLabel = 'Sauvegarder';
-          $afficher = '';
-          $display = $prestation->getModifDate() ? '' : 'd-none';
-          $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling, la prestation ' . $prestation->getNomPresta() . ' a été mise à jour!', 'style' => 'text-primary', 'msgShow' => true];
-          $_SESSION['prestation'] = $prestation;
-        }
-      } catch (\Exception $e) {
-        $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la prestation demandée n\'existe pas!', 'style' => 'text-danger', 'msgShow' => true];
-        $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
-        $buttonID = 'buttonCreate';
-        $buttonLabel = 'Créer';
-        $afficher = 'd-none';
-        $disabled = false;
+      // Define the regex pattern to match the "hours:minutes" format
+      $pattern = '/^(\d{1,2}):(\d{2})$/';
+      if (preg_match($pattern, $_POST['duration'], $matches)) {
+        list($hours, $minutes) = explode(':', $_POST['duration']);
+        $duration = ($hours * 3600) + ($minutes * 60);
+        $ok = true;
+      } else {
+        $ok = false;
+        $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, la durée de la prestation doit être au format hh:mm', 'style' => 'text-danger', 'msgShow' => true];
+        $prestation = $_SESSION['prestation'];
+        $buttonID = 'buttonSave';
+        $buttonLabel = 'Sauvegarder';
+        $afficher = '';
         $display = $prestation->getModifDate() ? '' : 'd-none';
+      }
+      if ($ok) {
+        $modifDate = new \DateTime();
+        $updatePrestation = new Prestation($_SESSION['prestation']->getIdPresta(), ($_SESSION['prestation']->getNomPresta()), intval($duration), intval(htmlspecialchars(trim($_POST['price']))) * 100, $_SESSION['prestation']->getCreationDate(), $modifDate, htmlspecialchars(trim($_POST['description'])));
+        $display = $modifDate ? '' : 'd-none';
+        try {
+          $response = $daoBeauty->updatePrestation($updatePrestation);
+          if ($response) {
+            $prestation = $updatePrestation;
+            $buttonID = 'buttonSave';
+            $buttonLabel = 'Sauvegarder';
+            $afficher = '';
+            $display = $prestation->getModifDate() ? '' : 'd-none';
+            $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, la prestation ' . $prestation->getNomPresta() . ' a été mise à jour!', 'style' => 'text-primary', 'msgShow' => true];
+            $_SESSION['prestation'] = $prestation;
+          }
+        } catch (\Exception $e) {
+          $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la prestation demandée n\'existe pas!', 'style' => 'text-danger', 'msgShow' => true];
+          $prestation = new Prestation(0, '', 3600, 100, new \DateTime());
+          $buttonID = 'buttonCreate';
+          $buttonLabel = 'Créer';
+          $afficher = 'd-none';
+          $disabled = false;
+          $display = $prestation->getModifDate() ? '' : 'd-none';
+        }
       }
     }
   } else if (isset($_POST['Supprimer']) && $_POST['Supprimer'] === 'Supprimer' && isset($_SESSION['prestation'])) {
@@ -86,7 +114,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         $msgUtilisateur = ['success' => true, 'message' => 'BeautyStyling Info, Suppression de la prestation ' . $_SESSION['prestation']->getNomPresta() . ' effectuée avec succès!', 'style' => 'text-primary', 'msgShow' => true];
         unset($_SESSION['prestation']);
         //unset($_POST);
-        $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
+        $prestation = new Prestation(0, '', 3600, 100, new \DateTime());
         $buttonID = 'buttonCreate';
         $buttonLabel = 'Créer';
         $afficher = 'd-none';
@@ -103,39 +131,52 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
        $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la suppression de la prestation ' . $prestation->getNomPresta() . ' a échoué', 'style' => 'text-danger', 'msgShow' => true];
     } 
   } elseif (isset($_POST['Créer']) && $_POST['Créer'] === 'Créer') {
-    if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['description']) && isset($_POST['price']) && !empty($_POST['price'])) {
-      $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
+    if (isset($_POST['name']) && !empty(htmlspecialchars(trim($_POST['name']))) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['description']) && isset($_POST['price']) && !empty($_POST['price'])) {
+      $prestation = new Prestation(0, '',  3600, 100, new \DateTime());
       $prestation->setNomPresta(htmlspecialchars(trim($_POST['name'])));
-      $prestation->setDureePresta(new \DateTime(date('Y-m-d') . ' ' . htmlspecialchars(trim($_POST['duration'])) . ':00:00'));
+      $pattern = '/^(\d{1,2}):(\d{2})$/';
+      if (preg_match($pattern, $_POST['duration'], $matches)) {
+        $prestation->setDureePrestaHM($_POST['duration']);
+        $ok = true;
+      } else {
+        $ok = false;
+        $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, la durée de la prestation doit être au format hh:mm', 'style' => 'text-danger', 'msgShow' => true];
+        $buttonID = 'buttonSave';
+        $buttonLabel = 'Sauvegarder';
+        $afficher = '';
+        $display = $prestation->getModifDate() ? '' : 'd-none';
+      }
       $prestation->setDescPresta(htmlspecialchars(trim($_POST['description'])));
-      $prestation->setPrixIndPresta(floatval(htmlspecialchars(trim($_POST['price']))));
-      try {
-        $response = $daoBeauty->createPrestation($prestation);
-        if ($response) {
-          $msgUtilisateur = ['success' => true, 'message' => 'BeautyStyling Info, création de la prestation ' . $prestation->getNomPresta() . ' effectuée avec succès!', 'style' => 'text-primary', 'msgShow' => true];
-          unset($_SESSION['prestation']);
-          $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
-          $buttonID = 'buttonCreate';
-          $buttonLabel = 'Créer';
-          $afficher = 'd-none';
-          $disabled = false;
-          $display = $prestation->getModifDate() ? '' : 'd-none';
-        }
-      } catch (\Exception $e) {
+      $prestation->setPrixIndPresta(intval(htmlspecialchars(trim($_POST['price']))) * 100);
+      if ($ok) {
+        try {
+          $response = $daoBeauty->createPrestation($prestation);
+          if ($response) {
+            $msgUtilisateur = ['success' => true, 'message' => 'BeautyStyling Info, création de la prestation ' . $prestation->getNomPresta() . ' effectuée avec succès!', 'style' => 'text-primary', 'msgShow' => true];
+            unset($_SESSION['prestation']);
+            $prestation = new Prestation(0, '', 3600, 100, new \DateTime());
+            $buttonID = 'buttonCreate';
+            $buttonLabel = 'Créer';
+            $afficher = 'd-none';
+            $disabled = false;
+            $display = $prestation->getModifDate() ? '' : 'd-none';
+          }
+        } catch (\Exception $e) {
           $buttonID = 'buttonCreate';
           $buttonLabel = 'Créer';
           $afficher = 'd-none';
           $disabled = false;
           $display = $prestation->getModifDate() ? '' : 'd-none';
           $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, création de la prestation ' . $prestation->getNomPresta() . ' a échoué car elle existe déjà!', 'style' => 'text-danger', 'msgShow' => true];
+        }
       }
     } else {
         $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, les champs marqués d\'un astérique sont obligatoires!', 'style' => 'text-secondary', 'msgShow' => true];
-        $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
+        $prestation = new Prestation(0, '',  3600, 100, new \DateTime());
         $prestation->setNomPresta(htmlspecialchars(trim($_POST['name'])));
-        $prestation->setDureePresta(new \DateTime(date('Y-m-d') . ' ' . htmlspecialchars(trim($_POST['duration'])) . ':00:00'));
+        $prestation->setDureePrestaHM($_POST['duration']);
         $prestation->setDescPresta(htmlspecialchars(trim($_POST['description'])));
-        $prestation->setPrixIndPresta(floatval(htmlspecialchars(trim($_POST['price']))));
+        $prestation->setPrixIndPresta(intval(htmlspecialchars(trim($_POST['price']))) * 100);
         $buttonID = 'buttonCreate';
         $buttonLabel = 'Créer';
         $afficher = 'd-none';
@@ -144,7 +185,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     }
   } else {
     unset( $_SESSION['prestation']);
-    $prestation = new Prestation(0, '',  new \DateTime( '01:00:00'), 1, new \DateTime());
+    $prestation = new Prestation(0, '',  3600, 100, new \DateTime());
     $buttonID = 'buttonCreate';
     $buttonLabel = 'Créer';
     $afficher = 'd-none';
@@ -152,7 +193,6 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     $display = $prestation->getModifDate() ? '' : 'd-none';
   }
 }
-
 
 include '../view/vadminPrestation.php';
 ?>
