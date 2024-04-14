@@ -12,20 +12,22 @@ error_reporting(E_ALL);
 
 session_start();
 
-if (isset($_SERVER['HTTP_REFERER']) &&  $_SERVER['HTTP_REFERER'] !== 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']) unset($_SESSION['msgUtilisateur']);
-$msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : null ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => true];
-$dummy = [$prestation = new Prestation(0, '',  new \DateTime( '00:00:00'), 1, new \DateTime())];
-//var_dump($_POST);
 try {
   $daoBeauty = new DaoBeauty();
 } catch (\Exception $e) {
   header('Location:./error.php');
 }
 
+if (isset($_SERVER['HTTP_REFERER']) &&  $_SERVER['HTTP_REFERER'] !== 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']) unset($_SESSION['msgUtilisateur']);
+$msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : $msgUtilisateur ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => true];
+$dummy = [$prestation = new Prestation(0, '',  new \DateTime( '00:00:00'), 1, new \DateTime())];
+//var_dump($_POST);
+
 try {
     $prestaList = $daoBeauty->getPrestations();
     if (!empty($prestaList)) {
       $tabIndex = array_keys($prestaList);
+      unset($_SESSION['msgUtilisateur']);
     } else {
       $prestaList = $dummy;
       $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];

@@ -4,6 +4,11 @@
 
 }
 
+.adminbg{
+    background: url('../img/onlinebooking.jpg') no-repeat center fixed;
+    background-size: cover;
+}
+
 .nav_bar{
     background-color: rgb(160,236,186);
 }

@@ -33,7 +33,7 @@
                     <a class="nav-link" href="../webapp/salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se connecter</a>
+                    <a class="nav-link" href="../webapp/salon_login.php" style="font-family: 'DM Serif Display', serif;">Se connecter</a>
                   </li>
                 </ul>
               </div>

@@ -15,7 +15,7 @@
     </head> 
     <header class="container-fluid"><!--Admin Nav Bar--> 
         <nav class="navbar navbar-expand-lg bgnav" style="font-family: 'DM Serif Display', serif; color: #FF5B76;"> 
-            <div class="container-fluid"> <a class="navbar-brand bsfont" href="index.html"> 
+            <div class="container-fluid"> <a class="navbar-brand bsfont" href="../webapp/index.php"> 
                 <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100" class="d-inline-block align-text-center"> Beauty styling </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span> </button> <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav"> 
@@ -31,42 +31,46 @@
                 </div> 
             </nav> 
         </header> 
-    <body> 
+    <body class="adminbg"> 
         <main> 
-            <div class="container"> <h1 class="h4 text-dark text-center my-5">Liste des prestations</h1>
-                <div class="input col-md-11 mx-auto rounded-2" id="input">
-                    <div class="p-2 col-md-11 mx-auto ">
+            <section id="listePresta"><!--Affichage des prestations-->
+                <div class="container"> <h1 class="h4 text-dark text-center my-5">Liste des prestations</h1>
+                    <div class="input container col-md-11 mx-auto rounded-2 p-3">
                         <div>
                             </p><h2 class="h5 <?=$msgUtilisateur['msgShow'] ? $msgUtilisateur['style'] : 'd-none'?>"><?=$msgUtilisateur['message']?></h2></p>
                         </div>
-                        <form id="formCreate" class="p-3" name="createPrestation" method="post" action="./adminPrestation.php">
+                        <form id="formCreate" name="createPrestation" method="post" action="./adminPrestation.php">
                             <button type="submit" id="buttonGoToCreate" class="bsbtn2 btn d-flex mx-auto rounded-2 p-2" value="createPrestation">Créer une prestation</button>
                         </form>
-                        <table id="tab1" class="table table-responsive table-hover mx-auto bg-light table-bordered">
-                            <tr><th>Intitulé</th><th>Description</th><th>Création date</th><th>Modif date</th><th>Modifier</th><th>Supprimer</th></tr>
-                            <?php foreach ($prestaList as $key => $prestation) {?>
-                                <tr>
-                                    <td><?=$prestation->getNomPresta()?></td>
-                                    <td><?=$prestation->getDescPresta()?></td>
-                                    <td><?=$prestation->getCreationDate()->format('d-m-Y')?></td>
-                                    <td><?=$prestation->getModifDate() ? $prestation->getModifDate()->format('d-m-Y') : ''?></td>
-                                    <td>
-                                        <form id="formModif<?=$key?>" method="post" action="./adminPrestation.php">
-                                            <button type="submit" id="modif<?=$key?>" class="bsIconButtonPencil">
-                                            <input type="hidden" name="key" value="modifPresta<?=$prestation->getIdPresta()?>">
-                                            <i id="mod<?=$key?>" class="bi-pencil m-2 p-3"></i></button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form  id="formSupp<?=$key?>" method="post" action="./adminListePrestations.php">
-                                            <button type="button" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm" >
-                                            <input type="hidden" name="key" value="<?=$key?>">
-                                            <i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id=<?=$key?>></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </table>
+                        <div id="title" class="grid-container bandeau boldfonts align-items-center p-3 col-sm">
+                            <div class="grid-item" ><span class="p-1">Intitulé</span></div>
+                            <div class="grid-item" ><span class="p-1">Description</span></div>
+                            <div class="grid-item" ><span class="p-1">Création date</span></div>
+                            <div class="grid-item" ><span class="p-1">Modif date</span></div>
+                            <div class="grid-item"><span class="p-1"></span></div>
+                            <div class="grid-item"><span class="p-1"></span></div>
+                        </div>
+                        <?php foreach ($prestaList as $key => $prestation) {?>
+                        <form id="actionPresta" name="actionPresta" action="./adminPrestation.php" method="post"></form>
+                        <div id="det<?=$key?>" class="grid-container bg-light border border-primary justify-content-between align-items-center border p-3 col-sm rounded-2">
+                            <div class="grid-item" ><span class="p-1"><?=$prestation->getNomPresta()?></span></div>
+                            <div class="grid-item" ><span class="p-1"><?=$prestation->getDescPresta()?></span></div>
+                            <div class="grid-item" ><span class="p-1"><?=$prestation->getCreationDate()->format('d-m-Y')?></span></div>
+                            <div class="grid-item" ><span class="p-1"><?=$prestation->getModifDate() ? $prestation->getModifDate()->format('d-m-Y') : ''?></span></div>
+                            <div class="grid-item">
+                                <form id="actionPresta<?=$key?>" name="actionPresta" action="./adminPrestation.php" method="post">
+                                    <button type="submit" id="modif<?=$key?>" class="bsIconButtonPencil"><i id="mod<?=$key?>" class="bi-pencil m-2 p-3"></i></button>
+                                    <input type="hidden" name="key" value="modifPresta<?=$prestation->getIdPresta()?>">
+                                </form>
+                            </div>
+                            <div class="grid-item">
+                                <form id="formSupp<?=$key?>" name="formSupp" action="./adminListePrestations.php" method="post">
+                                    <button type="submit" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm" ><i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id=<?=$key?>></i></button>
+                                    <input type="hidden" name="key" value="<?=$key?>">
+                                </form>
+                            </div>
+                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@
 <header class="container-fluid"><!--Admin Nav Bar-->
     <nav class="navbar navbar-expand-lg bgnav">
         <div class="container-fluid">
-            <a class="navbar-brand bsfont" href="index.html">
+            <a class="navbar-brand bsfont" href="../webapp/index.php">
                 <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100"  class="d-inline-block align-text-center">
                 Beauty styling
             </a>  
@@ -48,7 +48,7 @@
         </div>
       </nav>
 </header>
-<body>
+<body class="adminbg">
   <main>
     <div class="container-fluid sticky-md-bottom" > 
         <h1 class="h4 text-dark text-center my-5">Gestion prestation</h1>
