@@ -21,7 +21,11 @@ $maxLength = MAX_LENGTH;
 
 
 unset($_SESSION['msgUtilisateur']);
-$daoBeauty = new DaoBeauty();
+try {
+  $daoBeauty = new DaoBeauty();
+} catch (\Exception $e) {
+  header('Location:./error.php');
+}
 $disabled = 'true';
 $afficher2 = 'd-none';
 $msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : null ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => false];
@@ -45,7 +49,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
       $afficher = 'd-none';
       $disabled = false;
       $display = $prestation->getModifDate() ? '' : 'd-none';
-    } 
+    }
+    $display = $prestation->getModifDate() ? '' : 'd-none';
     $_SESSION['prestation'] = $prestation;
   } elseif (isset($_POST['Sauvegarder']) && $_POST['Sauvegarder'] === 'Sauvegarder' && isset($_SESSION['prestation'])) {
     if (isset($_POST['duration']) && isset($_POST['description']) && isset($_POST['price']) && isset($_SESSION['prestation'])) {

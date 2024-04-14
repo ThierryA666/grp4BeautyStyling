@@ -16,23 +16,27 @@ if (isset($_SERVER['HTTP_REFERER']) &&  $_SERVER['HTTP_REFERER'] !== 'http://' .
 $msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : null ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => true];
 $dummy = [$prestation = new Prestation(0, '',  new \DateTime( '00:00:00'), 1, new \DateTime())];
 //var_dump($_POST);
+try {
+  $daoBeauty = new DaoBeauty();
+} catch (\Exception $e) {
+  header('Location:./error.php');
+}
 
 try {
-    $daoBeauty = new DaoBeauty();
     $prestaList = $daoBeauty->getPrestations();
     if (!empty($prestaList)) {
       $tabIndex = array_keys($prestaList);
     } else {
       $prestaList = $dummy;
-      $msgUtilisateur =  ['success' => false, 'message' => 'Il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
+      $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
       $_SESSION['msgUtilisateur'] = $msgUtilisateur;
     }   
 } catch (\Exception $e) {
-  $msgUtilisateur =  ['success' => false, 'message' => 'Il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
+  $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
   $_SESSION['msgUtilisateur'] = $msgUtilisateur;
   $prestaList = $dummy;
 } catch (\Error $error) {
-  $msgUtilisateur =  ['success' => false, 'message' => 'Il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
+  $msgUtilisateur =  ['success' => false, 'message' => 'BeautyStyling Error, il n\'y pas de prestations dans le système BeautyStyling!', 'style' => 'text-danger', 'msgShow' => true];
   $_SESSION['msgUtilisateur'] = $msgUtilisateur;
   $prestaList = $dummy;
 }

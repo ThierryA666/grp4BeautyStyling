@@ -5,8 +5,7 @@ use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 use DateTime;
 
-require_once 'C:\workspace\ECF\Takako_ECF_Git\vendor\autoload.php';
-
+require_once '../../vendor/autoload.php';
 if(isset($_POST) && !empty($_POST['nom'])){
     var_dump($_POST);
     try{

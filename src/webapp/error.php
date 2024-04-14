@@ -5,8 +5,5 @@ namespace beautyStyling\webapp;
 
 require_once '../../vendor/autoload.php';
 
-$reservations = array();
-$reservations[0] = 
-
-include '../view/vclientPaniers.php';
+include '../view/verror.php';
 ?>

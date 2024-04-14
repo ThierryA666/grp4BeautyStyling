@@ -28,10 +28,10 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
+                    <a class="nav-link" aria-current="page" href="../webapp/index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
+                    <a class="nav-link" href="../webapp/salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se connecter</a>
