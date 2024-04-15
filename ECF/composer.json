@@ -1,0 +1,15 @@
+{
+    "name": "maria/ecf",
+    "autoload": {
+        "psr-4": {
+            "beautyStyling\\": "C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mari Torres",
+            "email": "mari11carmen_1989@hotmail.com"
+        }
+    ],
+    "require": {}
+}
