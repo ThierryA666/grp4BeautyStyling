@@ -12,18 +12,18 @@ error_reporting(E_ALL);
 
 session_start();
 
-try {
+try { //check DB connection
   $daoBeauty = new DaoBeauty();
 } catch (\Exception $e) {
   header('Location:./error.php');
 }
 
+//Not very useful, it's just to set the message on first entry
 if (isset($_SERVER['HTTP_REFERER']) &&  $_SERVER['HTTP_REFERER'] !== 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI']) unset($_SESSION['msgUtilisateur']);
 $msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : $msgUtilisateur ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => true];
-$dummy = [$prestation = new Prestation(0, '',  0, 1, new \DateTime())];
-//var_dump($_POST);
+$dummy = [$prestation = new Prestation(0, '',  3600, 100, new \DateTime())];
 
-try {
+try { //calling DB
     $prestaList = $daoBeauty->getPrestations();
     if (!empty($prestaList)) {
       $tabIndex = array_keys($prestaList);
@@ -45,11 +45,11 @@ try {
 }
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
-  if (isset($_POST['goBackList']) && $_POST['goBackList'] === 'goBackList') {
+  if (isset($_POST['goBackList']) && $_POST['goBackList'] === 'goBackList') { //coming from somewhere else
     $afficher2 = '';
     $msgUtilisateur = ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => false];
   } else {
-    try {
+    try { //here handling the deletion of a prestation process, it calls a modal for confirmation of delete
       if (isset($_POST['key']) ) {
         if (in_array($_POST['key'], $tabIndex)) {
           $prestation = $prestaList[intval(htmlspecialchars(trim($_POST['key'])))];

@@ -81,12 +81,20 @@ class Prestation {
         return $this->prixIndPresta;
     }
 
-    public function getPrixIndPrestaEuro(): int {
+    public function getPrixIndPrestaEuro(): float {
         return $this->prixIndPresta/100;
     }
 
     public function setPrixIndPresta(int $prixIndPresta): self {
         $this->prixIndPresta = $prixIndPresta;
+        return $this;
+    }
+
+    public function setPrixIndPrestaEuro(String $prixIndPresta): self {
+        if (str_contains($prixIndPresta, ',') || str_contains($prixIndPresta, '.')) {
+            list($int, $dec) = explode('.', str_replace(',', '.' , $prixIndPresta));
+            $this->prixIndPresta = intval($int * 100) + (strlen($dec) === 1 ? intval($dec . '0') : intval($dec));
+        } else { $this->prixIndPresta = intval($prixIndPresta) * 100;}
         return $this;
     }
 
@@ -98,7 +106,7 @@ class Prestation {
         return $this->modifDate;
     }
 
-    public function setModifDate($modifDate): self {
+    public function setModifDate(\DateTime $modifDate): self {
         $this->modifDate = $modifDate;
         return $this;
     }

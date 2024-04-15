@@ -45,6 +45,7 @@
                         <div id="title" class="grid-container bandeau boldfonts align-items-center p-3 col-sm">
                             <div class="grid-item" ><span class="p-1">Intitulé</span></div>
                             <div class="grid-item" ><span class="p-1">Description</span></div>
+                            <div class="grid-item" ><span class="p-1">Prix Indicatif €</span></div>
                             <div class="grid-item" ><span class="p-1">Création date</span></div>
                             <div class="grid-item" ><span class="p-1">Modif date</span></div>
                             <div class="grid-item"><span class="p-1"></span></div>
@@ -55,6 +56,7 @@
                         <div id="det<?=$key?>" class="grid-container bg-light border border-primary justify-content-between align-items-center border p-3 col-sm rounded-2">
                             <div class="grid-item" ><span class="p-1"><?=$prestation->getNomPresta()?></span></div>
                             <div class="grid-item" ><span class="p-1"><?=$prestation->getDescPresta()?></span></div>
+                            <div class="grid-item" ><span class="p-1"><?=$prestation->getPrixIndPrestaEuro()?>€</span></div>
                             <div class="grid-item" ><span class="p-1"><?=$prestation->getCreationDate()->format('d-m-Y')?></span></div>
                             <div class="grid-item" ><span class="p-1"><?=$prestation->getModifDate() ? $prestation->getModifDate()->format('d-m-Y') : ''?></span></div>
                             <div class="grid-item">
@@ -65,7 +67,7 @@
                             </div>
                             <div class="grid-item">
                                 <form id="formSupp<?=$key?>" name="formSupp" action="./adminListePrestations.php" method="post">
-                                    <button type="submit" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm" ><i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id=<?=$key?>></i></button>
+                                    <button type="submit" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm"><i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id=<?=$key?>></i></button>
                                     <input type="hidden" name="key" value="<?=$key?>">
                                 </form>
                             </div>
@@ -73,7 +75,7 @@
                         <?php } ?>
                     </div>
                 </div>
-            </div>
+            </section>
             <div class="modal fade" id="dialogConfirm" tabindex="-1" role="dialog" aria-labelledby="dialogConfirm" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

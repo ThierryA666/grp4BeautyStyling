@@ -5,5 +5,7 @@ namespace beautyStyling\webapp;
 
 require_once '../../vendor/autoload.php';
 
+//called when server error
+
 include '../view/verror.php';
 ?>
