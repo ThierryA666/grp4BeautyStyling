@@ -39,21 +39,28 @@ use DateTime;
 
 //update test
 
+// $dao = new DaoBeauty();
+// $id_salon = 3;
+
+// $salon = $dao->getSalonByID($id_salon);
+// var_dump($salon);
+// // set value to be updated
+// $prenom_res = 'Guy';
+// $salon->setPrenom_res($prenom_res);
+
+// $dao->updateSalonByID($salon);
+
+// $updatedSalon = $dao->getSalonByID($id_salon);
+
+// var_dump($updatedSalon);
+
+
+//delete test
 $dao = new DaoBeauty();
 $id_salon = 3;
-
 $salon = $dao->getSalonByID($id_salon);
-var_dump($salon);
-// set value to be updated
-$prenom_res = 'Guy';
-$salon->setPrenom_res($prenom_res);
-
-$dao->updateSalonByID($salon);
-
-$updatedSalon = $dao->getSalonByID($id_salon);
-
-var_dump($updatedSalon);
-
+// var_dump($salon);
+$dao->delSalonByID($salon);
 
 
 function affiche($salons) : void {
