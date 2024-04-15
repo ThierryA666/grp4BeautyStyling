@@ -57,25 +57,25 @@ chk.addEventListener("change", function () {
     // })
 // });
 document.getElementById('btnModif').addEventListener('click', function(event) {
-    // デフォルトのフォーム送信をキャンセル
+    
     event.preventDefault();
-    // クリックされたボタンの名前を記録する
+    // enregitrer le nom button
     recordButtonClick('modif');
-    // 入力フィールドを有効にする
+    // debloquer input
     enableInputFields();
 });
 
 // "Enregistrer" ボタンがクリックされたときの処理
 document.getElementById('btnEnregist').addEventListener('click', function(event) {
-    // デフォルトのフォーム送信をキャンセル
+    //
     event.preventDefault();
-    // クリックされたボタンの名前を記録する
+    //  enregitrer le nom button
     recordButtonClick('update');
-    // フォームを送信する
+    // envoyer le formulaire
     document.getElementById('myForm').submit();
 });
 
-// 入力フィールドを有効にする関数
+// debloquer le champ input
 function enableInputFields() {
     modifName.disabled = false;
     modifFirstName.disabled = false;
@@ -92,9 +92,9 @@ function enableInputFields() {
     btnEnregist.disabled = false;
 }
 
-// ボタンがクリックされたときの処理
+// quand le button est clique
 function recordButtonClick(buttonName) {
-    // クリックされたボタンの名前を記録する
+    // enregistre le nom de button
     document.getElementById('clickedButton').value = buttonName;
 }
 

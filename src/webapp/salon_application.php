@@ -4,11 +4,14 @@ use beautyStyling\metier\Salon;
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 use DateTime;
+use beautyStyling\webapp\DmException;
+use beautyStyling\webapp\MyExceptionCase;
 
 require_once 'C:\workspace\ECF\Takako_ECF_Git\vendor\autoload.php';
 
+$mesage="";
 if(isset($_POST) && !empty($_POST['nom'])){
-    var_dump($_POST);
+    // var_dump($_POST);
     try{
         $id_salon    = 0;       
         $nom_res     = '';
@@ -45,14 +48,16 @@ if(isset($_POST) && !empty($_POST['nom'])){
         
         $message = 'Votre salon est enregistré';
   
-    } catch (DaoException $e) {
+    } catch (DmException $e) {
         $message = $e->getCode() . ' - ' . $e->getMessage();
     } catch (\Exception $e) {
         $message = $e->getCode() . ' - ' . $e->getMessage();
     } catch (\Error $e) {
         $message = $e->getMessage();
     } 
-} 
+}else {
+    $message = ' ';
+}
 
 
 

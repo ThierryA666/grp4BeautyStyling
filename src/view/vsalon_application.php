@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -141,7 +142,7 @@
             <button id="inscriptionBtn" type="submit" class="btn text-white mx-5 fs-4" style="background-color: #FF5B76;">Inscrire</button>
           </div>
 
-          <!-- <div class="mt-5"><?=$message ?></div> -->
+          <div class="mt-5 text-center text-sucsess"><?=$message ?></div>
 
         </form>
       </div>   

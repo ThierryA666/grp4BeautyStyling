@@ -1,5 +1,8 @@
-import *as data from "./data.js";
-console.log(data.salons);
+// import *as data from "./data.js";
+// console.log(data.salons);
+
+let btnDel = document.getElementById('btnsupprimer') ;
+
 
 
 //-----------Afficher data gestion de comptes-----------

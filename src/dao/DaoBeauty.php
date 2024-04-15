@@ -9,6 +9,8 @@ use beautyStyling\metier\Villes;
 use beautyStyling\metier\Prestation;
 use beautyStyling\metier\Offrir;
 use DateTime;
+use beautyStyling\webapp\DmException;
+use beautyStyling\webapp\MyExceptionCase;
 
 class DaoBeauty {
     private \PDO $conn;
@@ -74,12 +76,23 @@ class DaoBeauty {
             // var_dump($statement);
             $statement->execute();
         }
+        catch (\PDOException $pdoe) {
+            // echo 'Erreur PDO : ' . $pdoe->getCode();
+            // echo '<br>';
+            // print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"email_salon"))throw new DmException(MyExceptionCase::EMAIL_DOUBLON);
+                default:
+                    throw $pdoe;
+            } 
+        } 
         catch (\Exception $e) {
-            throw new \Exception('Exception  !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+            throw $e;
         }
         catch (\Error $error) {
-            throw new \Exception('Error !!! : ' .  $error->getMessage());
-        }
+            throw $error;
+        } 
     }
     
     //rechercher salons par mots cles
@@ -129,7 +142,8 @@ class DaoBeauty {
             $tel_salon = strval($row->tel_salon); 
             $cp_salon = strval($row->cp_salon);   
             $salon = new Salon($row->id_salon, $row->nom_res, $row->prenom_res, $row->ad_1, $row->ad_2, $row->nom_salon, $row->email_salon, $cp_salon, $tel_salon, $row->url_salon, $row->photo_salon, $row->pw_salon, new \DateTime(), $row->nom_ville); 
-        } catch (\Exception $e) {
+        
+        }catch (\Exception $e) {
             throw new \Exception('Exception !!! : ' .  $e->getMessage(), $this->convertCode($e->getCode()));
         } catch (\Error $error) {
             throw new \Exception('Error !!! : ' .  $error->getMessage());
@@ -174,15 +188,20 @@ class DaoBeauty {
             $query  = $this->conn->prepare($query);
             $query->bindValue(':id_salon', $salon->getId_salon(), \PDO::PARAM_INT);
             $query->execute();
-        }
-        catch (\PDOException $pdoe) {
-            throw $pdoe;
-        } 
-        catch (\Exception $e) {
-            throw $e;
-        }
-        catch (\Error $error) {
-            throw $error;
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1451:
+                    if (str_contains($pdoe->errorInfo[2],"FOREIGN KEY")) throw new DmException(MyExceptionCase::SALON_USE);
+                default:
+                    throw $pdoe;
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Exception  !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        } catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
         } 
     }
     

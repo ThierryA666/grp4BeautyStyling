@@ -6,7 +6,7 @@ use beautyStyling\metier\Salon;
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 
-$message='';
+$message = ' ';
 
 
 // Verifier s'il y a des donnes POST
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // s'il n'y a pas d'id
                     $message = "ID du salon invalide.";
                 } else {
-                    // si c'est ok, requpere le data de salon et les afficher
+                    // si c'est ok, recupere le data de salon et les afficher
                     $dao = new DaoBeauty();
                     $salon = $dao->getSalonByID($id_salon);
                     
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $photo_salon = isset($_FILES['photo']['name']) ? ($_FILES['photo']['name']) : '';
                     $pw_salon = isset($_POST['pw']) ? ($_POST['pw']) : '';
                             
-                    // 新しいSalonオブジェクトを作成
+                    // instantier new objet
                     $updatedSalon = new Salon (
                     $id_salon,
                     $nom_res,
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $nom_ville
                     );
                 
-                // 更新をデータベースに反映
+                // ajouter dans le database
                 $dao->updateSalonByID($updatedSalon);
                 $salon = $updatedSalon;
                 $salon = $dao->getSalonByID($id_salon);
