@@ -72,7 +72,7 @@ class Prestation {
         return $this->descPresta;
     }
 
-    public function setDescPresta($descPresta): self {
+    public function setDescPresta(String $descPresta): self {
         $this->descPresta = $descPresta;
         return $this;
     }
