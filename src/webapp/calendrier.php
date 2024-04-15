@@ -54,6 +54,7 @@
 
   <main>
     <?php
+    // Hola essai git hub
         function generateCalendar($month, $year) {
             $monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
             $currentDate = new DateTime("$year-$month-01");
