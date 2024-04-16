@@ -1,56 +1,27 @@
-<<<<<<< HEAD
 a:hover{
-    color:#FF5B76 !important;
-  }
+  color:#FF5B76 !important;
+}
 
-  #footerlink {
-    text-decoration:none !important;
+#footerlink {
+  text-decoration:none !important;
 
-  }
+}
 
-  #footerlink:visited {
-    color:black;
-  }
+#footerlink:visited {
+  color:black;
+}
 
-  button:hover{
-    background-color: #A0ECBA !important;
-    color:#FF5B76 !important;
-  }
-  table{
-    margin-top: 30px;
-    margin-left: 600px;
-    font-size: 1.5em;
-    background-color: #A0ECBA;
-  }
-  td{
-    padding: 20px;
-    border: white 2px solid;
-=======
-a:hover{
-    color:#FF5B76 !important;
-  }
-
-  #footerlink {
-    text-decoration:none !important;
-
-  }
-
-  #footerlink:visited {
-    color:black;
-  }
-
-  button:hover{
-    background-color: #A0ECBA !important;
-    color:#FF5B76 !important;
-  }
-  table{
-    margin-top: 30px;
-    margin-left: 600px;
-    font-size: 1.5em;
-    background-color: #A0ECBA;
-  }
-  td{
-    padding: 20px;
-    border: white 2px solid;
->>>>>>> a6980d88292d460c429dea4d66edcf90a6e13bb2
-  }
+button:hover{
+  background-color: #A0ECBA !important;
+  color:#FF5B76 !important;
+}
+table{
+  margin-top: 30px;
+  margin-left: 600px;
+  font-size: 1.5em;
+  background-color: #A0ECBA;
+}
+td{
+  padding: 20px;
+  border: white 2px solid;
+}
