@@ -44,7 +44,7 @@
     </header>
     <main>
       <div class="mt-2">
-        <h1 class="fs-3" style="font-family: 'DM Serif Display', serif">- Page gestionnaire de : *** -</h1>
+        <h1 class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">- Bonjour <?=$salon->getNom_salon()?> ! -</h1>
       </div>
       <div class="container mt-5 d-flex">
         <div class="col-md-8">
@@ -52,21 +52,30 @@
             <div class="container-fluid mt-2 " style="background-color: #A0ECBA;">
               <p class="text-md-center fs-3">Liste de prestation</p>
             </div>
-            <div class="form-check col-md-8">
-              <input class="form-check-input" type="radio" name="flexRadioDefault prestation1" id="flexRadioDefault1">
-              <label class="form-check-label" for="flexRadioDefault1">
-                Default radio
-              </label>
-            </div>
-            <div class="col-md-2"> 
-              <input type="text" class="form-control" id="tarif" placeholder="55">
-            </div>
-            <div class="col-md-2"> 
-              <p> € (T.T.C.) </p>
-            </div>
             
             
-            <div class="form-check col-md-8">
+        <?php 
+        foreach($prestations as $prestation){ ?>
+          <div class="d-flex">
+          <div class="form-check col-md-6 d-flex">
+            <input class="form-check-input fs-4" type="checkbox" value="<?=$prestation->getIdPresta()?>" id="flexCheckDefault">
+            <label class="form-check-label fs-4" for="flexCheckDefault">
+              <?=$prestation->getNomPresta()?>
+            </label>
+          </div>
+          <div class="col-md-2"> 
+            <input type="text" class="form-control" name="prixPresta" style="text-align:right" value="<?=$prestation->getPrixIndPresta()?>" >
+          </div>
+          <div class="col-md-2"> 
+            <p>€ (T.T.C.)</p>
+          </div>
+          </div>
+        <?php
+        }?>
+        
+         
+            
+            <!-- <div class="form-check col-md-8">
               <input class="form-check-input" type="radio" name="flexRadioDefault prestation2" id="flexRadioDefault1">
               <label class="form-check-label" for="flexRadioDefault1">
                 Default radio
@@ -142,10 +151,10 @@
             </div>
             <div class="col-md-2"> 
               <p> € (T.T.C.) </p>
-            </div>
+            </div> -->
 
             <div class="col-12 my-3 d-flex justify-content-end">
-              <button type="submit" class="btn text-white mx-5" style="background-color: #FF5B76;">Enregistrer</button>
+              <button type="submit" class="btn text-white mx-5" style="background-color: #FF5B76;" name="savePresta">Enregistrer</button>
             </div> 
            
           </form>    

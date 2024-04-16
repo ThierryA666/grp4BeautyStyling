@@ -241,3 +241,7 @@ group by nom_salon, ad_1, ad_2, cp_salon, tel_salon, prix_prest_salon
 order by prix_prest_salon asc;
 
 
+select id_presta, prix_prest_salon 
+from offrir
+where id_salon =1
+order by id_presta asc;

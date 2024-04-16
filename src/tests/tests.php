@@ -56,12 +56,37 @@ use DateTime;
 
 
 //delete test
-$dao = new DaoBeauty();
-$id_salon = 3;
-$salon = $dao->getSalonByID($id_salon);
-// var_dump($salon);
-$dao->delSalonByID($salon);
+// $dao = new DaoBeauty();
+// $id_salon = 3;
+// $salon = $dao->getSalonByID($id_salon);
+// // var_dump($salon);
+// $dao->delSalonByID($salon);
 
+
+
+
+
+
+// try {
+//      $prestations = $dao->getPrestations();    
+//      foreach ($prestations as $prestation) {
+//         echo($prestation);
+//         echo ('<br>');
+//     }
+// } catch (\Exception $e) {
+//     echo("TA Test!! " . $e->getMessage() . ' ' . $e->getCode());
+// } catch (\Error $e) {
+//     echo("TA Test!! " . $e->getMessage() . ' ' .  $e->getCode());
+// }
+
+// $email_salon = 'agt@gmail.co';
+// $dao = new DaoBeauty();
+// $salon = $dao->getSalonByEmail($email_salon);
+// echo $salon;
+$dao = new DaoBeauty();
+$salon=$dao->getSalonByID(3);
+$offrirs = $dao->getPrestaBySalon($salon);
+affiche($offrirs);
 
 function affiche($salons) : void {
     foreach ($salons as $salon) {
@@ -69,3 +94,4 @@ function affiche($salons) : void {
         echo '<br>';
     }
 }
+
