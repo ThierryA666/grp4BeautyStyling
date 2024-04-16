@@ -82,6 +82,14 @@ try {
     function editarDetalle(idRendezVous) {
         var nuevoDetalle = prompt("Saisie la nouveau message : ");
         if (nuevoDetalle !== null && nuevoDetalle !== "") {
+            // Valider que nuevoDetalle contienne uniquement des lettres, des espaces et des caractères spéciaux
+            var caracteresPermis = /^[A-Za-z\s,]+$/;
+            if (!caracteresPermis.test(nuevoDetalle)) {
+                alert("Veuillez saisir uniquement des lettres");
+                return; // Sortir de la fonction si le texte contient autre chose que des lettres, des espaces et des caractères spéciaux
+            }
+            
+            // Si nuevoDetalle contient uniquement des lettres, des espaces et des caractères spéciaux, effectuer la requête fetch
             fetch('', {
                 method: 'POST',
                 headers: {
@@ -91,7 +99,7 @@ try {
             })
             .then(response => response.text())
             .then(data => {
-                alert("Détail correctement mis à jour"); // on affiche un message de réussite
+                alert("Détail correctement mis à jour"); // Afficher un message de réussite
                 location.reload(); // Recharger la page après la mise à jour
             })
             .catch(error => console.error('Error:', error));

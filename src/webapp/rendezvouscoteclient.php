@@ -42,53 +42,64 @@ if(isset($_GET['date'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Vérifier si le bouton cliqué est le bouton de soumission
     if(isset($_POST['submit']) && $_POST['submit'] === 'Submit') {
-        // Connexion à la base de données et traitement des données du formulaire
-        try {
-            // Conectar a la base de datos y procesar los datos del formulario
-            $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Vérifier si les champs obligatoires sont définis et non vides
+        if(empty($_POST['nom'])) {
+            echo '<span style="color: red;">Le nom du rendez-vous est obligatoire</span>';
+        } else if (empty($_POST['date'])) {
+            echo '<span style="color: red;">La date est obligatoire, cliquez sur le bouton X pour revenir au calendrier</span>';
+        } else if (!preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/", $_POST['nom'])) { // \s représente les espaces vides
+            echo '<span style="color: red;">Le nom du rendez-vous doit contenir uniquement des lettres</span>';
+        } else if (!preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/", $_POST['details'])) {
+            echo '<span style="color: red;">Les détails doivent contenir uniquement des lettres</span>';
+        } else {
+            // Connexion à la base de données et traitement des données du formulaire
+            try {
+                // Conectar a la base de datos y procesar los datos del formulario
+                $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Préparer l'insertion des données dans la table RESERVATION
-            $stmt = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
+                // Préparer l'insertion des données dans la table RESERVATION
+                $stmt = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
 
-            // Enlazar parámetros
-            $stmt->bindParam(':d_rndv', $_POST['date']);
-            $stmt->bindParam(':h_rndv', $_POST['heure']);
-            $stmt->bindParam(':nom_rndv', $_POST['nom']);
-            $stmt->bindParam(':detail_rndv', $_POST['details']);
+                // Enlazar parámetros
+                $stmt->bindParam(':d_rndv', $_POST['date']);
+                $stmt->bindParam(':h_rndv', $_POST['heure']);
+                $stmt->bindParam(':nom_rndv', $_POST['nom']);
+                $stmt->bindParam(':detail_rndv', $_POST['details']);
 
-            // Définir les valeurs par défaut pour id_etat et id_client
-            $id_etat = 1;
-            $id_client = 1;
-            $stmt->bindParam(':id_etat', $id_etat);
-            $stmt->bindParam(':id_client', $id_client);
+                // Définir les valeurs par défaut pour id_etat et id_client
+                $id_etat = 1;
+                $id_client = 1;
+                $stmt->bindParam(':id_etat', $id_etat);
+                $stmt->bindParam(':id_client', $id_client);
 
-            // Préparer la requête pour obtenir l'id_salon
-            $stmt_select = $conn->prepare("SELECT id_salon FROM salon WHERE nom_salon = :nom_salon");
-            $stmt_select->bindParam(':nom_salon', $_POST['salon']);
-            $stmt_select->execute();
-            $row = $stmt_select->fetch(PDO::FETCH_ASSOC);
-            $id_salon = $row['id_salon'];
+                // Préparer la requête pour obtenir l'id_salon
+                $stmt_select = $conn->prepare("SELECT id_salon FROM salon WHERE nom_salon = :nom_salon");
+                $stmt_select->bindParam(':nom_salon', $_POST['salon']);
+                $stmt_select->execute();
+                $row = $stmt_select->fetch(PDO::FETCH_ASSOC);
+                $id_salon = $row['id_salon'];
 
-            // Préparer l'insertion des données dans la table RESERVATION
-            $stmt_insert = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
-            $stmt_insert->bindParam(':d_rndv', $_POST['date']);
-            $stmt_insert->bindParam(':h_rndv', $_POST['heure']);
-            $stmt_insert->bindParam(':nom_rndv', $_POST['nom']);
-            $stmt_insert->bindParam(':detail_rndv', $_POST['details']);
-            $stmt_insert->bindParam(':id_etat', $id_etat);
-            $stmt_insert->bindParam(':id_client', $id_client);
-            $stmt_insert->bindParam(':id_salon', $id_salon);
+                // Préparer l'insertion des données dans la table RESERVATION
+                $stmt_insert = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
+                $stmt_insert->bindParam(':d_rndv', $_POST['date']);
+                $stmt_insert->bindParam(':h_rndv', $_POST['heure']);
+                $stmt_insert->bindParam(':nom_rndv', $_POST['nom']);
+                $stmt_insert->bindParam(':detail_rndv', $_POST['details']);
+                $stmt_insert->bindParam(':id_etat', $id_etat);
+                $stmt_insert->bindParam(':id_client', $id_client);
+                $stmt_insert->bindParam(':id_salon', $id_salon);
 
-            // Exécuter l'insertion
-            $stmt_insert->execute();
+                // Exécuter l'insertion
+                $stmt_insert->execute();
 
-            echo "Rendez-vous ajouté correctement";
-        } catch(PDOException $e) {
-            echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+                echo "Rendez-vous ajouté correctement";
+            } catch(PDOException $e) {
+                echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+            }
+            // Fermer la connexion à la base de données
+            $conn = null;
         }
-        // Fermer la connexion à la base de données
-        $conn = null;
     } else {
         echo "Vous avez cliqué sur le mauvais bouton";
     }

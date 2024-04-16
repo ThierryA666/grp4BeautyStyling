@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- Essai pour faire une modif y faire un commit -->
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
