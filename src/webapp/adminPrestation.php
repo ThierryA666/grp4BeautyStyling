@@ -223,7 +223,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
        $prestation = $_SESSION['prestation'];
        $buttonLabel = 'Sauvegarder';
        $display = $prestation->getModifDate() ? '' : 'd-none';
-       $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, la suppression de la prestation ' . $prestation->getNomPresta() . ' a échoué', 'style' => 'text-danger', 'msgShow' => true];
+       $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, Impossible de supprimer la prestation ' .$prestation->getNomPresta() . ' car elle est rattachée à d\'autres évènnements!', 'style' => 'text-danger', 'msgShow' => true];
     } 
   } else { //We are here because none of the above, no data was posted
     unset( $_SESSION['prestation']);

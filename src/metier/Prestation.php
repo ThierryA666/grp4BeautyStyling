@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace beautyStyling\metier;
 
-use DateTime;
-
 class Prestation {
     
     private int         $idPresta;
@@ -98,7 +96,7 @@ class Prestation {
         return $this;
     }
 
-    public function getCreationDate(): DateTime {
+    public function getCreationDate(): \DateTime {
         return $this->creationDate;
     }
 
