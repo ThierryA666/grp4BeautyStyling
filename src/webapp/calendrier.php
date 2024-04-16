@@ -31,10 +31,10 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link ms-5" aria-current="page" href="calendrier.html">Prendre rendez-vous</a>
+                            <a class="nav-link ms-5" aria-current="page" href="calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active link ms-5" aria-current="page" href="#">Rendez-vous à venir</a>
+                            <a class="nav-link active link ms-5" aria-current="page" href="historiquedesrendezvous.php">Rendez-vous à venir</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link ms-5" aria-current="page" href="#">Accueil</a>
@@ -43,7 +43,7 @@
                             <a  class="nav-link link ms-5" href="#">Mon compte</a>
                         </li>
                         <li class="nav-item">
-                            <a  class="nav-link link ms-5" href="#">Panier</a>
+                            <a  class="nav-link link ms-5" href="../webapp/clientPaniers.php">Panier</a>
                         </li>
                   
                 </ul>
@@ -54,7 +54,6 @@
 
   <main>
     <?php
-    // Hola essai git hub
         function generateCalendar($month, $year) {
             $monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
             $currentDate = new DateTime("$year-$month-01");

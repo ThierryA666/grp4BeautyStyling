@@ -55,10 +55,10 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link ms-5" aria-current="page" href="calendrier.html">Prendre rendez-vous</a>
+                            <a class="nav-link ms-5" aria-current="page" href="calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active link ms-5" aria-current="page" href="#">Rendez-vous à venir</a>
+                            <a class="nav-link active link ms-5" aria-current="page" href="historiquedesrendezvous.php">Rendez-vous à venir</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link ms-5" aria-current="page" href="#">Accueil</a>
@@ -120,6 +120,26 @@
         </footer> <!-- On utilise le code de Takako pour le footer-->
       </div>
     <!-- <script type="module" src="..\..\assets\javascript\rendez-vousclient-js\script-rendez-vous.js"></script> -->
+    <script>
+        function editarDetalle(idRendezVous) {
+            var nuevoDetalle = prompt("Introduce el nuevo detalle:");
+            if (nuevoDetalle !== null && nuevoDetalle !== "") {
+                fetch('actualizar_detalle.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id_rndv=' + idRendezVous + '&nuevo_detalle=' + encodeURIComponent(nuevoDetalle),
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Recharger la page après la mise à jour
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

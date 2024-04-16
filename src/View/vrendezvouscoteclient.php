@@ -49,10 +49,10 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active ms-5" aria-current="page" href="">Prendre rendez-vous</a>
+                            <a class="nav-link active ms-5" aria-current="page" href="calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link link ms-5" aria-current="page" href="">Historique des rendez-vous</a>
+                            <a class="nav-link link ms-5" aria-current="page" href="historiquedesrendezvous.php">Historique des rendez-vous</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link ms-5" aria-current="page" href="#">Accueil</a>
@@ -73,11 +73,11 @@
         <form id="form" class="container align-items-center mt-5" action="rendezvouscoteclient.php" method="post">
             <div class="mb-3">
                 <label for="date" class="form-label">Date du rendez-vous</label>
-                <!-- Campo oculto para enviar la fecha seleccionada -->
+                <!-- Champ caché pour envoyer la date sélectionnée -->
                 <input type="hidden" name="date" value="<?php echo isset($_GET['date']) ? htmlspecialchars($_GET['date']) : ''; ?>">
                 <!-- Mostrar la fecha seleccionada -->
                 <div><?php echo isset($_GET['date']) ? htmlspecialchars($_GET['date']) : ''; ?></div>
-                <!-- No se requiere más el campo de fecha -->
+               <!-- Le champ date n'est plus nécessaire -->
             </div>
             <div class="mb-3">
                 <label for="heure" class="form-label">Heure du rendez-vous</label>
@@ -96,7 +96,7 @@
                 <label for="salons" class="form-label">Salon</label>
                 <select id="salons" name="salon" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <?php
-                    // Establecer la conexión a la base de datos
+                    // Établir la connexion à la base de données
                     $servername = "localhost"; 
                     $username = "beauty"; 
                     $password = "codappwd"; 
@@ -106,12 +106,12 @@
                         $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         
-                        // Consultar los nombres de los salones desde la base de datos
+                        // Consulter les noms des salons à partir de la base de données
                         $stmt = $conn->prepare("SELECT nom_salon FROM salon");
                         $stmt->execute();
                         $salons = $stmt->fetchAll(PDO::FETCH_COLUMN);
                         
-                        // Generar las opciones del select
+                        // Générer des options du SELECT
                         foreach ($salons as $salon) {
                             echo "<option value=\"$salon\">$salon</option>";
                         }
@@ -129,8 +129,12 @@
                 <textarea class="form-control" placeholder="Détails" name="details" id="detail" style="height: 100px"></textarea>
                 <label for="details">Détails</label>
             </div>        
-            <button type='submit' id="button" style='background: green; border: none; cursor: pointer;'><i class="bi bi-check2" style="color: white;"></i></button>
-            <button type='submit' style='background: red; border: none; cursor: pointer;'><i class='bi bi-x' style='color:white;'></i></button>
+            <button type='submit' name="submit" value="Submit" id="button" style='background: green; border: none; cursor: pointer;'><i class="bi bi-check2" style="color: white;"></i></button>
+            <button type='submit' style='background: red; border: none; cursor: pointer;'>
+                <a href="calendrier.php" style="text-decoration: none; color: white;">
+                 <i class='bi bi-x'></i>
+                </a>
+            </button>
         </form>
     </main>
       <div class="container-fluid  fixed-bottom">
