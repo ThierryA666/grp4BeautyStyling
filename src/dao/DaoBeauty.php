@@ -278,7 +278,7 @@ class DaoBeauty {
             $offrirs=[];
             while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
                 // var_dump($row);
-                $offrir = new Offrir(new Prestation($row->id_presta, '',0,0, new \DateTime,new \DateTime, ''), $salon, (float) $row->prix_prest_salon);  
+                $offrir = new Offrir(new Prestation($row->id_presta, $row->nom_presta,0,0, new \DateTime,new \DateTime, ''), $salon, (float) $row->prix_prest_salon);  
                 array_push($offrirs, $offrir);
             }      
    

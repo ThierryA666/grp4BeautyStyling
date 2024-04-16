@@ -245,3 +245,10 @@ select id_presta, prix_prest_salon
 from offrir
 where id_salon =1
 order by id_presta asc;
+
+select id_presta, nom_presta, prix_prest_salon
+from offrir o
+join prestation p on o.id_presta = p.id_presta
+where o.id_presta = 3
+group by o.id_presta, p.nom_presta, o.prix_prest_salon
+order by o.id_presta asc;

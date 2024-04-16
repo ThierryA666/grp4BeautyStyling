@@ -19,7 +19,8 @@ class Requetes{
 
     public const SELECT_SALON_BY_EMAIL = "select id_salon, nom_res, prenom_res,  ad_1, ad_2, nom_salon, email_salon, cp_salon, tel_salon, url_salon, photo_salon, pw_salon, date_cre, nom_ville from salon WHERE email_salon = :email_salon ";
 
-    public const SELECT_PRESTA_BY_SALON ="select id_presta, prix_prest_salon from offrir where id_salon =:id_salon";
+    public const SELECT_PRESTA_BY_SALON ="select o.id_presta, p.nom_presta, o.prix_prest_salon
+    from offrir o join prestation p on o.id_presta = p.id_presta where o.id_salon = :id_salon group by o.id_presta, p.nom_presta, o.prix_prest_salon order by o.id_presta asc";
 }
 
 
