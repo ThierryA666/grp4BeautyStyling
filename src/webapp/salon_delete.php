@@ -7,26 +7,43 @@ use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 
 $message = ' ';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if(isset($_POST['btnDel'])){
+        // var_dump($_POST);
+        try{
+            $id_salon = isset($_POST['id_salon']) ? intval($_POST['id_salon']) : null;
+      
+                // si c'est ok, recupere le data de salon et les afficher
+                $dao = new DaoBeauty();
+                $salon = $dao->getSalonByID($id_salon);              
+          
 
+            if($salon) {
+                $dao->delSalonByID($salon);
+                $message = "Ce salon a été supprimé";
+            }
+        
+        } catch (DaoException $e) {
+            $message = $e->getCode() . ' - ' . $e->getMessage();
+        } catch (\Exception $e) {
+            $message = $e->getCode() . ' - ' . $e->getMessage();
+        } catch (\Error $e) {
+        $message = $e->getMessage();
+        }       
+    } 
+} else {
+        $id_salon = isset($_GET['id_salon']) ? intval($_GET['id_salon']) : null;
+    
+        if ($id_salon === null) {
+            $message = "Ce salon est inexistant.";
+            } else {
+                $dao = new DaoBeauty();
+                $salon = $dao->getSalonByID($id_salon);
+            }
+    }
 
-    $id_salon = isset($_GET['id_salon']) ? intval($_GET['id_salon']) : null;
-  
-    if ($id_salon === null) {
-        $message = "Ce salon est inexistant.";
-        } else {
-            $dao = new DaoBeauty();
-            $salon = $dao->getSalonByID($id_salon);
-        }
-    //         $dao->delSalonByID($salon);
-    //         $message = "Ce salon a été supprimé";
-    //         }
-    // } catch (DmException $e) {
-    //         $message = $e->getCode() . ' - ' . $e->getMessage();
-    // } catch (\Exception $e) {
-    //         $message = $e->getCode() . ' - ' . $e->getMessage();
-    // } catch (\Error $e) {
-    //         $message = $e->getMessage();
-    // } 
+    
+
     
 
 include '../view/vsalon_delete.php';

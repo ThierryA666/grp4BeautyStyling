@@ -142,7 +142,7 @@
             <button id="inscriptionBtn" type="submit" class="btn text-white mx-5 fs-4" style="background-color: #FF5B76;">Inscrire</button>
           </div>
 
-          <div class="mt-5 text-center text-sucsess"><?=$message ?></div>
+          <div class="fs-3 mt-5 text-center text-success"><?=$message ?></div>
 
         </form>
       </div>   

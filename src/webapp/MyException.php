@@ -8,7 +8,7 @@ class MyExceptionCase {
     
 }
 
-class DmException extends \Exception {
+class MyException extends \Exception {
     function __construct($case){
         parent::__construct($this->getErrorMessage($case), $this->getErrorCode($case));
     }

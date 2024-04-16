@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile de votre salon</title>
+    <title>Confirmation de la suppression</title>
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,16 +44,16 @@
     </header>
     <main>
       <div>
-        <P class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">- Confirmation de la suppression du compte -</P>
+        <P class="fs-3 text-center" >- Confirmation de la suppression du compte -</P>
       </div>
       <div>
-        <P class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">Je confirme la suppression du compte suivant: <?=$salon->getNom_salon()?> </P>
+        <P class="fs-3 text-center" >Je confirme la suppression du compte suivant: <?=$salon->getNom_salon()?> </P>
       </div>
       <div>
-        <p class="fs-5 text-center"><?=$message?></p>
+        <p class="fs-5 text-center text-danger"><?=$message?></p>
       </div>
       <div class="container mt-5">
-        <form id="myForm" method="POST" action="salon_profile.php" class="row g-3 s-2 m-n" enctype="multipart/form-data" style="background-color: #A0ECBA;">
+        <form id="myForm" method="POST" action="salon_delete.php" class="row g-3 s-2 m-n" enctype="multipart/form-data" style="background-color: #A0ECBA;">
         <input type="hidden" name="id_salon" value="<?=$salon->getId_salon()?>">
           <div class="col-md-3">
             <label for="inputName" class="form-label">Nom</label>
@@ -132,27 +132,9 @@
       </div>   
     </main>
 
-footer
-<div class="container-fluid  sticky-md-bottom" id="footerDiv">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="background-color: #A0ECBA;">
-      <div class="col-md-4 d-flex align-items-center">
-        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-          <img src="/assets/img/logo_beautystyling.jpg" width="80">
-          <!-- <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
-        </a>
-        <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Company, Inc</span>
-      </div>
-      <div class="col-md-4 d-flex align-items-center">
-        <a href="#" id="footerlink" class="text-reset" style="font-family: 'DM Serif Display', serif;">Nous contacter</a>  
-      </div>
-      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-body-secondary" href="#"><img src="/assets/img/logo-white.png" class="bi" width="24" height="24"></a></li>
-        <li class="ms-3"><a class="text-body-secondary" href="#"><img src="/assets/img/Instagram_Glyph_Gradient.png"  class="bi" width="24" height="24"></a></li>
-        <li class="mx-3"><a class="text-body-secondary" href="#"><img src="/assets/img/icons8-facebook.png"  class="bi" width="30" height="30"></a></li>
-      </ul>
-    </footer>
+
   </div>
-  <script type ="module" src="/assets/js/salon_profile.js"></script>
+  <!-- <script type ="module" src="/assets/js/salon_profile.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
