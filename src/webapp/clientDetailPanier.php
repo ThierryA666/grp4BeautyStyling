@@ -32,41 +32,33 @@ $reservationDetails = array();
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') { 
   if (isset($_POST['detail']) && substr(htmlspecialchars(trim($_POST['detail'])),0,6) === 'detail') {
     $key = intval(substr(htmlspecialchars(trim($_POST['detail'])),6));
-    try {
-      $reservationDetails = $daoBeauty->getReservationDetailsByRndv($key);
-      $_SESSION['key'] = $_POST['detail'];
-    } catch (\Exception $e) {
-      echo '1-Oupppsss!!!';
-      header('Location:./error.php');
-      exit;   
-    }
-    try {//en attendant que la partie reservation soit terminé
-      if (empty($reservationDetails)) {
-        // echo ('I am here!');
-        $etat = new Etat(1,'En cours');
-        $salon = new Salon(0,'','','','','','','','','','','', new \Datetime(),'');
-        $reservation = new Reservation($key, new \DateTime(), new \DateTime(),'','',$etat, $client, $salon);
-        $prestation = new Prestation(5,'',3600, 50, new \DateTime(),null, null);
-        $ligneDetail = new LigneDetails($reservation,$prestation,1,$employe,1);
-        $reponse = $daoBeauty->insertLigneDetail($ligneDetail);
-        $reservationDetails = $daoBeauty->getReservationDetailsByRndv($key);
-      }
-      foreach($reservationDetails as $key => $reservationDetail) {
-        $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
-      }
-    } catch (\Exception $e) {
-      echo '2-Oupppsss!!!';
-      header('Location:./error.php');
-      exit;
-    }
+    // try {//en attendant que la partie reservation soit terminé
+    //   if (empty($reservationDetails)) {
+    //     // echo ('I am here!');
+    //     $etat = new Etat(1,'En cours');
+    //     $salon = new Salon(0,'','','','','','','','','','','', new \Datetime(),'');
+    //     $reservation = new Reservation($key, new \DateTime(), new \DateTime(),'','',$etat, $client, $salon);
+    //     $prestation = new Prestation(5,'',3600, 50, new \DateTime(),null, null);
+    //     $ligneDetail = new LigneDetails($reservation,$prestation,1,$employe,1);
+    //     $reponse = $daoBeauty->insertLigneDetail($ligneDetail);
+    //     $reservationDetails = $daoBeauty->getLigneDetailsByRndv($key);
+    //   }
+    //   foreach($reservationDetails as $key => $reservationDetail) {
+    //     $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
+    //   }
+    // } catch (\Exception $e) {
+    //   echo '2-Oupppsss!!!';
+    //   header('Location:./error.php');
+    //   exit;
+    // }
   } elseif (isset($_POST['modifLigne']) && isset($_POST['qte']) && isset($_POST['idRndv']) && isset($_POST['numLigne']) && isset($_POST['idPresta'])) {
+    $key = intval(htmlspecialchars(trim($_POST['idRndv'])));
+    $presta = intval(htmlspecialchars(trim($_POST['idPresta'])));
+    $qte = intval(htmlspecialchars(trim($_POST['qte'])));
+    $numLigne = intval(htmlspecialchars(trim($_POST['numLigne'])));
     try {
-      $key = intval(htmlspecialchars(trim($_POST['idRndv'])));
-      $presta = intval(htmlspecialchars(trim($_POST['idPresta'])));
-      $qte = intval(htmlspecialchars(trim($_POST['qte'])));
-      $numLigne = intval(htmlspecialchars(trim($_POST['numLigne'])));
       $ligneDetails = new LigneDetails($daoBeauty->getReservationById($key), $daoBeauty->getPrestationByID($presta), $numLigne, $employe, $qte);
-      $response = $daoBeauty->updateReservationDetails($ligneDetails);
+      $response = $daoBeauty->updateLigneDetails($ligneDetails);
       if (!$response) {
         header('Location:./error.php');
         exit;
@@ -75,13 +67,36 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
       header('Location:./error.php');
       exit;
     }
-    $reservationDetails = $daoBeauty->getReservationDetailsByRndv($key);
-    foreach($reservationDetails as $key => $reservationDetail) {
-      $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
+  } elseif (isset($_POST['suppReservation'])) {
+    $key = intval(htmlspecialchars(trim($_POST['suppReservation'])));
+    try {
+      $reservationDetails = $daoBeauty->getLigneDetailsByRndv($key);
+      $ligneDetails = $reservationDetails[0];
+      $response = $daoBeauty->deleteLigneDetails($ligneDetails);
+      if ($response) {
+        $daoBeauty->delReservation($ligneDetails->getIdRDV()->getId_rndv());
+        $key = 0;
+        unset($reservationDetails);
+        header('Location:./clientPaniers.php');
+      }
+    } catch (\Exception $e) {
+      header('Location:./error.php');
+      exit;
     }
+ 
   } else {
     header('Location:./clientPaniers.php');
     exit;
+  }
+  try {
+    $reservationDetails = $daoBeauty->getLigneDetailsByRndv($key);
+    foreach($reservationDetails as $key => $reservationDetail) {
+      $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
+    }
+  } catch (\Exception $e) {
+    echo '1-Oupppsss!!!';
+    header('Location:./error.php');
+    exit;   
   }
 } else {
   header('Location:./clientPaniers.php');

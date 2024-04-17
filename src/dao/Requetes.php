@@ -29,5 +29,6 @@ class Requetes {
     public const INSERT_LIGNE_DETAILS = "insert into ligne_detail (id_rndv, num_ligne, qte, id_employe, id_presta) values (:id_rndv, :num_ligne, :qte, :id_employe, :id_presta)";
     public const SELECT_LIGNE_DETAILS = "select num_ligne, id_presta, id_rndv, qte, id_employe from ligne_detail order by id_rndv";
     public const UPDATE_QTY_LIGNE_DETAILS = "update ligne_detail set qte = :qte where id_rndv = :idrndv and id_presta = :idpresta and num_ligne = :numLigne";
+    public const DELETE_LIGNE_DETAILS = "delete from ligne_detail where id_rndv = :idRndv";
 }
 ?>

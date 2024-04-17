@@ -97,7 +97,7 @@
                   <div class="grid-item"><i class="bi-trash p-1"></i></div>
                 </div>
                 <?php } ?>
-                <div>  
+                <div class="align-item-center text-center p-3">  
                   <button id="goToReservation" class="btn bsbtn1 btn-outline-primary" type="submit" formmethod="post" formaction="../webapp/calendrier.php"><i class="bi bi-scissors"></i>&nbsp;&nbsp;Réservations</button>
                 </div>
               </form>

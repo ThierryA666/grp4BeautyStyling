@@ -158,8 +158,7 @@ class DaoBeauty {
             $query = Requetes::DELETE_PRESTA_BY_ID;
             try {
                 $statement= $this->conn->prepare($query);
-                $statement->execute(['idPresta' => $prestation->getIdPresta()]);
-                $response = $statement->execute();
+                $response = $statement->execute(['idPresta' => $prestation->getIdPresta()]);
                 if ($response) {
                     return $response;
                 } else {
@@ -477,8 +476,43 @@ class DaoBeauty {
 /*******************************************************************************************************************************************************/
 // Reservation queries
 /*******************************************************************************************************************************************************/    
+    public function deleteLigneDetails(LigneDetails $ligneDetails) : ? bool {
+        if (!isset($ligneDetails)) {
+            throw new DaoException('Objet LigneDetails est inexistant',8003);
+            $ligneDetails = null; 
+        } else {
+            $query = Requetes::DELETE_LIGNE_DETAILS;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->bindValue(':idRndv', $ligneDetails->getIdRDV()->getId_rndv());
+                $response = $statement->execute();
+                if ($response) {
+                    return $response;
+                } else {
+                    throw new \PDOException('La ligne detail est inexistante', 8003);
+                }
+            }
+            catch (\PDOException $pdoe) {
+                switch ($pdoe-> getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"ligne_detail"))throw new \Exception();
+                    case 8003:
+                        throw new \Exception('La ligne detail est inexistante', 8003);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }
 
-    public function updateReservationDetails(LigneDetails $ligneDetail) {
+    public function updateLigneDetails(LigneDetails $ligneDetail) {
         if (!isset($ligneDetail)) throw new DaoException('Cette ligneDetail est inexistante',8003);
         $query = Requetes::UPDATE_QTY_LIGNE_DETAILS;
         try {
@@ -513,7 +547,7 @@ class DaoBeauty {
         } 
     }
        
-    public function getReservationDetailsByRndv(int $id_rndv) : array {
+    public function getLigneDetailsByRndv(int $id_rndv) : array {
         $reservationDetails = array();
         $query = Requetes::SELECT_RESERVATION_DETAILS_BY_RNDV_ID;
         try {
@@ -598,7 +632,8 @@ class DaoBeauty {
             switch ($pdoe->errorInfo[1]) {
                 case 1062:
                     if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
-                    if (str_contains($pdoe->errorInfo[2],"id_rndv,  id_presta"))throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv"))throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_presta"))throw new \Exception();
                 default:
                     throw $pdoe;
             } 

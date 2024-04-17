@@ -11,7 +11,7 @@
     <link href="../../assets/img/logo-beautystyling.jpg" rel="icon">
     <title>clientDetailPanier</title>
 </head>
-<body class="bodybg" style="background: url('../../assets/img/photos-salon/<?=$reservationDetail->getIdRDV()->getId_salon()->getPhoto_salon()?>') no-repeat center fixed;background-size: cover;">
+<body class="bodybg fade-out" style="background: url('../../assets/img/photos-salon/<?=$reservationDetail->getIdRDV()->getId_salon()->getPhoto_salon()?>') no-repeat center fixed;background-size: cover;">
     <header class="container-fluid"><!--Client Nav Bar Takako + group-->
         <nav class="navbar navbar-expand-lg bgnav">
             <div class="container-fluid">
@@ -46,18 +46,18 @@
     </header>
     <main>
       <section><!--Dialogue panier sauvegarde/supprimer-->
-        <div class="container mx-auto">
+        <div class="container mx-auto grow">
           <div class="my-3 col-md-11 mx-auto">
-            <form id="actionPanier" name="actionPanier" method="post" class="d-inline" action="#">
+            <form id="actionPanier" name="actionPanier" method="post" class="d-inline" action="../webapp/clientDetailPanier.php">
               <div class="d-inline-flex">
                 <div>
-                  <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de mon panier chez <a href="#"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
+                  <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de ma réservation <?=$reservationDetail->getIdRDV()->getNom_rndv()?>, chez <a href="#"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
                 </div>
                 <div>
-                  <button id="suppReservation" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
+                  <button id="suppReservation" name="suppReservation" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
                 </div>
                 <div>
-                  <button id="backToListe" formmethod="post" formaction="../webapp/clientPaniers.php" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
+                  <button id="backToListe" type="submit" formmethod="post" formaction="../webapp/clientPaniers.php" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
                 </div>
               </div>
             </form>
@@ -67,7 +67,7 @@
       <section><!--Detail du panier-->
         <div class="container-fluid input col-md-11 mx-auto rounded-2 p-3" id="input">
           <div class="p-2 col-md-11 bgbs mx-auto rounded-2">
-          <?php foreach ($reservationDetails as $key =>$reservationDetail) {?>
+          <?php foreach ($reservationDetails as $key => $reservationDetail) {?>
             <form id="formDetailPanier<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="p-3" name="detailPanier" method="post" action="#">
               <div id="det" class="grid-container justify-content-between p-3 col-sm border bg-light border-primary rounded-2 m-1">
                 <div class="grid-item col-form-label col-form-label-sm">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
                   Modifier la ligne</label><br>
-                    <button name="modifLigne" class="bsIconButtonPencil " type="submit" value="<?=$reservationDetail->getnumligne()?>"><i id="p17" class="bi bi-pencil p-1 col-sm"></i></button>
+                    <button name="modifLigne" class="bsIconButtonPencil " type="submit" value="<?=$reservationDetail->getnumligne()?>"><i id="p17" class="bi bi-pencil p-1 col-sm slide-up"></i></button>
                     <input type="hidden" name="idRndv" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>">
                     <input type="hidden" name="idPresta" value="<?=$reservationDetail->getIdPresta()->getIdPresta()?>">
                     <input type="hidden" name="numLigne" value="<?=$reservationDetail->getnumligne()?>">
