@@ -49,7 +49,7 @@ function removeDuplicate($clientSalons) {
   return $result;
 };
 
-$clientSalons = removeDuplicate($clientSalons);
+$clientSalons = array_unique($clientSalons,SORT_STRING);
 
 
 include '../view/vclientPaniers.php';

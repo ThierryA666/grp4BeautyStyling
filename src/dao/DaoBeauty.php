@@ -13,7 +13,7 @@ use beautyStyling\metier\Etat;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Client;
 use beautyStyling\metier\Employe;
-use beautyStyling\metier\ReservationDetails;
+use beautyStyling\metier\LigneDetails;
 use LDAP\Result;
 
 //TODO : gestion des exceptions
@@ -24,7 +24,21 @@ class DaoBeauty {
     public function __construct() {
         try {
             $this->conn = Database::getConnection();
-        } catch (\Exception $e) {
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                case 1226:
+                    if (str_contains($pdoe->errorInfo[2],"max_queries_per_hour")) throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
             $conn = null;
             throw new \Exception('Connection failed!', 500);
         }
@@ -37,44 +51,6 @@ class DaoBeauty {
         return $code; 
     }
 
-/*******************************************************************************************************************************************************/
-// Reservation Details queries
-/*******************************************************************************************************************************************************/
-    public function getReservationDetailsByRndv(int $id_rndv) : array {
-        $reservationDetails = array();
-        $query = Requetes::SELECT_RESERVATION_DETAILS_BY_RNDV_ID;
-        try {
-            $cursor = $this->conn->prepare($query);
-            $cursor->bindValue(':idRDV', $id_rndv, \PDO::PARAM_INT);
-            $cursor->execute();
-            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
-                $prestation = $this->getPrestationByID($row->id_presta);
-                $reservation = $this->getReservationById($row->id_rndv);
-                $ligneDetails = new ReservationDetails($reservation,$prestation,$row->num_ligne, new Employe(1,'Albator'), $row->qte);
-                array_push($reservationDetails, $ligneDetails);
-            }
-            $cursor->closeCursor();
-        } catch (\PDOException $pdoe) {
-            echo 'Erreur PDO : ' . $pdoe->getCode();
-            echo '<br>';
-            print_r ($pdoe->errorInfo);
-            switch ($pdoe->errorInfo[1]) {
-                case 1062:
-                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
-                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
-                default:
-                    throw $pdoe;
-            } 
-        } 
-        catch (\Exception $e) {
-            throw $e;
-        }
-        catch (\Error $error) {
-            throw $error;
-        } 
-
-        return $reservationDetails;
-    }
 
 /*******************************************************************************************************************************************************/
 // Prestation queries
@@ -283,6 +259,7 @@ class DaoBeauty {
             throw $error;
         } 
     }
+
     public function updatePrestation(Prestation $prestation) : bool {
         if (!isset($prestation)) throw new DaoException('Cette prestation est inexistante',8003);
         $query = Requetes::UPDATE_PRESTA;
@@ -500,6 +477,140 @@ class DaoBeauty {
 /*******************************************************************************************************************************************************/
 // Reservation queries
 /*******************************************************************************************************************************************************/    
+
+    public function updateReservationDetails(LigneDetails $ligneDetail) {
+        if (!isset($ligneDetail)) throw new DaoException('Cette ligneDetail est inexistante',8003);
+        $query = Requetes::UPDATE_QTY_LIGNE_DETAILS;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':idrndv', $ligneDetail->getIdRDV()->getId_rndv(), \PDO::PARAM_INT);
+            $statement->bindValue(':idpresta', $ligneDetail->getIdPresta()->getIdPresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':numLigne', $ligneDetail->getNumLigne(), \PDO::PARAM_INT);
+            $statement->bindValue(':qte', $ligneDetail->getQte(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            return $response;
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
+                    case 8002:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+       
+    public function getReservationDetailsByRndv(int $id_rndv) : array {
+        $reservationDetails = array();
+        $query = Requetes::SELECT_RESERVATION_DETAILS_BY_RNDV_ID;
+        try {
+            $cursor = $this->conn->prepare($query);
+            $cursor->bindValue(':idRDV', $id_rndv, \PDO::PARAM_INT);
+            $cursor->execute();
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $prestation = $this->getPrestationByID($row->id_presta);
+                $reservation = $this->getReservationById($row->id_rndv);
+                $ligneDetails = new LigneDetails($reservation,$prestation,$row->num_ligne, new Employe(1,'Albator'), $row->qte);
+                array_push($reservationDetails, $ligneDetails);
+            }
+            $cursor->closeCursor();
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+        return $reservationDetails;
+    }
+
+    public function getLigneDetails() : array {
+        $ligneDetails = array();
+        $query      = Requetes::SELECT_LIGNE_DETAILS;
+    try {
+        $cursor  = $this->conn->query($query);
+        // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+        while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+            $ligneDetail = new LigneDetails($this->getReservationById(intval($row->id_rndv)), $this->getPrestationByID(intval($row->id_presta)),intval($row->num_ligne), new Employe(intval($row->id_employe), 'Gertrude'), intval($row->qte));
+            array_push($ligneDetails,$ligneDetail);
+        }
+        $cursor->closeCursor();
+    }
+    catch (\PDOException $pdoe) {
+        switch ($pdoe->errorInfo[1]) {
+            case 1062:
+                if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+            default:
+                throw $pdoe;
+        } 
+    } 
+    catch (\Exception $e) {
+        throw $e;
+    }
+    catch (\Error $error) {
+        throw $error;
+    } 
+    return $ligneDetails;
+    }
+
+    public function insertLigneDetail(LigneDetails $details) : bool {
+        if (!isset($details)) throw new DaoException('Objet reservation est inexistant',8003);
+        $query = Requetes::INSERT_LIGNE_DETAILS;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':id_rndv', $details->getIdRDV()->getId_rndv(), \PDO::PARAM_INT);
+            $statement->bindValue(':id_presta', $details->getIdPresta()->getIdPresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':num_ligne', $details->getNumLigne(), \PDO::PARAM_INT);
+            $statement->bindValue(':id_employe', $details->getIdEmploye()->getIdEmploye(), \PDO::PARAM_INT);
+            $statement->bindValue(':qte', $details->getQte(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            return $response;
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv,  id_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+    
     /**
      * Retourne la liste des rendez-vous de la BDD
      *
@@ -513,7 +624,7 @@ class DaoBeauty {
             // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
             while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
                 $salon = $this->getSalonByID($row->id_salon);
-                $rndv = new Reservation($row->id_rndv, new \DateTime(date('y-m-d') . ' ' .  $row->h_rndv), \DateTime::createFromFormat('Y-m-d', $row->d_rndv), $row->nom_rndv, $row->detail_rndv ? $row->detail_rndv : '', new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Takako'),$salon);
+                $rndv = new Reservation($row->id_rndv,  \DateTime::createFromFormat('H:i:s',$row->h_rndv), \DateTime::createFromFormat('Y-m-d', $row->d_rndv), $row->nom_rndv, $row->detail_rndv ? $row->detail_rndv : '', new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Takako'),$salon);
                 array_push($rendezVous,$rndv);
             }
         }
@@ -609,7 +720,7 @@ class DaoBeauty {
             if($row) {
                 $salon = $this->getSalonByID($row->id_salon);
                 $etat = new Etat($row->id_etat, 'En cours');
-                $rndv = new Reservation($row->id_rndv, \DateTime::createFromFormat("h:i:s",$row->h_rndv), \DateTime::createFromFormat("Y-m-d", $row->d_rndv), $row->nom_rndv, $row->detail_rndv, $etat, new Client($row->id_client, ''), $salon);
+                $rndv = new Reservation($row->id_rndv, \DateTime::createFromFormat("H:i:s",$row->h_rndv), \DateTime::createFromFormat("Y-m-d", $row->d_rndv), $row->nom_rndv, $row->detail_rndv ? $row->detail_rndv : '', $etat, new Client($row->id_client, ''), $salon);
             }
         }
         catch (\Exception $e) {

@@ -84,7 +84,7 @@ class Prestation {
     }
 
     public function setPrixIndPresta(int $prixIndPresta): self {
-        $this->prixIndPresta = $prixIndPresta;
+        $this->prixIndPresta = $prixIndPresta * 100;
         return $this;
     }
 

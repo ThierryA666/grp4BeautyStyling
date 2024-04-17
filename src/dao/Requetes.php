@@ -26,5 +26,8 @@ class Requetes {
     //Requetes Reservation Details
     //public const SELECT_RESERVATION_DETAILS_BY_RNDV_ID = "select id_rndv, id_presta, id_employe, num_ligne, qte from reservation_details where id_rndv = :idRDV order by num_ligne asc";
     public const SELECT_RESERVATION_DETAILS_BY_RNDV_ID = "select id_rndv, id_presta, id_employe, num_ligne, qte from ligne_detail where id_rndv = :idRDV order by num_ligne asc";
+    public const INSERT_LIGNE_DETAILS = "insert into ligne_detail (id_rndv, num_ligne, qte, id_employe, id_presta) values (:id_rndv, :num_ligne, :qte, :id_employe, :id_presta)";
+    public const SELECT_LIGNE_DETAILS = "select num_ligne, id_presta, id_rndv, qte, id_employe from ligne_detail order by id_rndv";
+    public const UPDATE_QTY_LIGNE_DETAILS = "update ligne_detail set qte = :qte where id_rndv = :idrndv and id_presta = :idpresta and num_ligne = :numLigne";
 }
 ?>

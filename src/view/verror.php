@@ -42,8 +42,9 @@
     </header>
     <div class="error-container">
         <div>
-            <h1>Erreur 500</h1>
+            <h1><?=$show ? 'Erreur processing your request' : 'Erreur 500'?></h1>
             <p>Désolé, le service est temporairement interrompu, veuillez reéssayer plus tard.</p>
+            <p class="<?=$display?>">OOOuuuuppsss something went wrong, <a href="<?=$url?>">reéssayer la page</a></p>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

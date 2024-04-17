@@ -34,7 +34,7 @@
                     <a class="nav-link" href="../webapp/clientPaniers.php" style="font-family: 'DM Serif Display', serif;">Mes paniers</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Calendrier</a>
+                    <a class="nav-link" href="../webapp/calendrier.php" style="font-family: 'DM Serif Display', serif;">Calendrier</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se déconnecter</a>
@@ -56,7 +56,7 @@
                 <datalist id = "salons">
                     <option value="">--Choisissez une option--</option>
                     <?php foreach ($clientSalons as $key => $salon) { ?>
-                      <option value="salon<?=$key?>"><?=$salon->getNom_salon()?></option>
+                      <option id="salon<?=$key?>" value="salon<?=$key?>"><?=$salon->getNom_salon()?></option>
                     <?php } ?>
                 </datalist>
                 </select>
@@ -78,7 +78,7 @@
         <section id="clientPaniers"><!--On montre les paniers du clients-->
           <div class="input container col-md-11 mx-auto rounded-2 p-3" id="input">
             <div class="col-md-10 mx-auto rounded-2 bgbs">
-              <form id="formPaniers" class=" mx-auto p-3" name="Panier" method="post" action="./clientDetailPanier.php">
+              <form id="formPaniers" class=" mx-auto p-3" name="Panier" method="post" action="./clientPaniers.php">
                 <div id="title" class="grid-container bandeau boldfonts align-items-center p-3 col-sm">
                   <div class="grid-item" ><span class="p-1">Nom:</span></div>
                   <div class="grid-item"><span class="p-1">Salon:</span></div>
@@ -88,17 +88,17 @@
                   <div class="grid-item"><span class="p-1"></span></div>
                 </div>
                 <?php foreach ($rndvs as $key => $rndv) { ?>
-                <div id="det<?=$key?>" class="grid-container bg-light border border-primary justify-content-between align-items-center border p-3 col-sm rounded-2">
+                <div id="detail<?=$key?>" class="grid-container bg-light border border-primary justify-content-between align-items-center border p-3 col-sm rounded-2">
                   <div class="grid-item"><span class="p-1 fw-bold" ><?=$rndv->getNom_rndv()?></span></div>
                   <div class="grid-item"><span class="p-1"><a href="#"><?=$rndv->getId_salon()->getNom_salon()?></a></span></div>
                   <div class="grid-item"><span class="p-1"><?=$rndv->getD_rndv()->format('d-m-Y')?></span></div>
-                  <div class="grid-item"><span class="p-1"><?=$rndv->getH_rndv()->format('h:i:s')?></span></div>
-                  <div class="grid-item"><button id="bt<?=$key?>" class="bsIconButtonPencil " type="submit" value="<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
+                  <div class="grid-item"><span class="p-1"><?=$rndv->getH_rndv()->format('H:i:s')?></span></div>
+                  <div class="grid-item"><button id="btGoToDetail<?=$key?>" class="bsIconButtonPencil " type="submit" formmethod="post" formaction="../webapp/clientDetailPanier.php" name="detail" value="detail<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
                   <div class="grid-item"><i class="bi-trash p-1"></i></div>
                 </div>
                 <?php } ?>
                 <div>  
-                  <button id="bt2" class="btn bsbtn1 btn-outline-primary" type="submit"><i class="bi bi-scissors"></i>&nbsp;&nbsp;Réservations</button>
+                  <button id="goToReservation" class="btn bsbtn1 btn-outline-primary" type="submit" formmethod="post" formaction="../webapp/calendrier.php"><i class="bi bi-scissors"></i>&nbsp;&nbsp;Réservations</button>
                 </div>
               </form>
             </div>
@@ -132,6 +132,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
   <script type="module" src="../../assets/js/ta-adminPrestationsPHP.js"></script>
-  <script type="module" src="../../assets/js/ta-clientPaniers.js"></script>
+  <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>
 </body>
 </html>

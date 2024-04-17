@@ -34,7 +34,7 @@
                     <a class="nav-link" href="../webapp/clientPaniers.php" style="font-family: 'DM Serif Display', serif;">Mes paniers</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Calendrier</a>
+                    <a class="nav-link" href="../webapp/calendrier.php" style="font-family: 'DM Serif Display', serif;">Calendrier</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se déconnecter</a>
@@ -48,9 +48,18 @@
       <section><!--Dialogue panier sauvegarde/supprimer-->
         <div class="container mx-auto">
           <div class="my-3 col-md-11 mx-auto">
-            <form id="actionPanier" name="actionPanier" method="get" class="d-inline" action="#"> 
-              <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de mon panier chez <a href="#"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
-              <button id="bt1" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
+            <form id="actionPanier" name="actionPanier" method="post" class="d-inline" action="#">
+              <div class="d-inline-flex">
+                <div>
+                  <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de mon panier chez <a href="#"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
+                </div>
+                <div>
+                  <button id="suppReservation" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
+                </div>
+                <div>
+                  <button id="backToListe" formmethod="post" formaction="../webapp/clientPaniers.php" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -58,44 +67,52 @@
       <section><!--Detail du panier-->
         <div class="container-fluid input col-md-11 mx-auto rounded-2 p-3" id="input">
           <div class="p-2 col-md-11 bgbs mx-auto rounded-2">
-            <form id="formDetailPanier" class="p-3" name="detailPanier" method="get" action="#">
-            <?php foreach ($reservationDetails as $key =>$reservationDetail) {?>
+          <?php foreach ($reservationDetails as $key =>$reservationDetail) {?>
+            <form id="formDetailPanier<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="p-3" name="detailPanier" method="post" action="#">
               <div id="det" class="grid-container justify-content-between p-3 col-sm border bg-light border-primary rounded-2 m-1">
                 <div class="grid-item col-form-label col-form-label-sm">
-                <label for="p12">Prestation:</label><br><span class="p-1"><?=$reservationDetail->getIdPresta()->getNomPresta()?></span>
+                  Prestation:<br><span name="prestation" class="p-1"><?=$reservationDetail->getIdPresta()->getNomPresta()?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p12">Prix:</label><br><span class="p-1"><?=$reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
+                  Prix:<br><span name="prix" class="p-1"><?=$reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p13">Quantité:</label>
-                    <input type="number" id="p13" size="2" value="<?=$reservationDetail->getQte()?>" min="1" class="rounded-2 text-center">
+                  Quantité:</label>
+                    <input type="number" size="2" name="qte" value="<?=$reservationDetail->getQte()?>" min="1" class="rounded-2 text-center">
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p14">Date-heure:</label><br><span id="p14" class="p-1"><?=$reservationDetail->getIdRDV()->getD_rndv()->format('d-m-Y') . ' ' . $reservationDetail->getIdRDV()->getH_rndv()->format('h:i:s')?></span>
+                  Date-heure:</label><br><span name="rdv" class="p-1"><?=$reservationDetail->getIdRDV()->getD_rndv()->format('d-m-Y') . ' ' . $reservationDetail->getIdRDV()->getH_rndv()->format('H:i:s')?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p15">Option:</label><br><span id="p15" class="p-1"><?=' '?></span>
+                  Option:</label><br><span name="option" class="p-1"><?=' '?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p16">Total:</label><br><span id="p16" class="p-1"><?=$reservationDetail->getQte() * $reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
+                  Total:</label><br><span name="total" class="p-1"><?=$reservationDetail->getQte() * $reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p17">Modifier la ligne</label><br><i id="p17" class="bi bi-pencil p-1 col-sm"></i>
+                  Modifier la ligne</label><br>
+                    <button name="modifLigne" class="bsIconButtonPencil " type="submit" value="<?=$reservationDetail->getnumligne()?>"><i id="p17" class="bi bi-pencil p-1 col-sm"></i></button>
+                    <input type="hidden" name="idRndv" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>">
+                    <input type="hidden" name="idPresta" value="<?=$reservationDetail->getIdPresta()->getIdPresta()?>">
+                    <input type="hidden" name="numLigne" value="<?=$reservationDetail->getnumligne()?>">
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                    <label for="p18">Supprimer la ligne</label><br><i id="18" class="bi-trash p-1 col-sm"></i>
+                  Supprimer la ligne</label><br><i class="bi-trash p-1 col-sm"></i>
                 </div>
-              </div>
-              <?php }?>
-              <div class="boldfonts d-flex justify-content-end text-decoration-underline">
-                <p class="text-start">Total du panier: 88€</p>
-              </div>
-              <div class="d-flex justify-content-end">
-                <button type="submit" id="bt2" class="bsbtn1 btn mx-auto rounded-2"><i class="bi bi-bag-plus"></i>&nbsp;Ajouter une ligne</button>
-                <button type="submit" id="bt3" class="bsbtn1 btn mx-auto rounded-2"><i class="bi bi-scissors"></i>&nbsp;Réservation</button>
               </div>
             </form>
+              <?php }?>
+              <div class="boldfonts d-flex justify-content-end text-decoration-underline">
+                <p class="text-start">Total du panier: <?=$totalPanier?>€</p>
+              </div>
+              <div class="d-flex justify-content-between col-md-12">
+                <form>
+                  <button type="submit" id="buttonAdd" class="bsbtn1 btn mx-auto rounded-2"><i class="bi bi-bag-plus"></i>&nbsp;Ajouter une ligne</button>
+                </form>  
+                <form>
+                  <button type="submit" id="buttonCal" formmethod="get" formaction="../webapp/calendrier.php" class="bsbtn1 btn mx-auto rounded-2"><i class="bi bi-scissors"></i>&nbsp;Réservation</button>
+                </form>
+              </div>
           </div>
         </div>
       </section>
@@ -125,6 +142,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-  <script type="module" src="../../assets/js/ta-adminPrestationsPHP.js"></script>
+  <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Employe;
 
 
-class ReservationDetails {
+class LigneDetails {
     
     private Reservation     $idRDV;
     private Prestation      $idPresta;
