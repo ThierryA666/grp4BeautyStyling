@@ -20,10 +20,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span> </button> <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav"> 
                         <ul class="navbar-nav"> 
-                            <li class="nav-item"> <a class="nav-link" aria-current="page" href="#" style="font-family: 'DM Serif Display', serif">Administration</a></li>
+                            <li class="nav-item"> <a class="nav-link" aria-current="page" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif">Administration</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Clients</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Salons</a></li>
-                            <li class="nav-item"> <a class="nav-link" id="nav1" href="#" style="font-family: 'DM Serif Display', serif;">Prestations</a></li>
+                            <li class="nav-item"> <a class="nav-link" id="nav1" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif;">Prestations</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Calendrier</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se déconnecter</a></li>
                         </ul> 

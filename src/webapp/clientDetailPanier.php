@@ -94,7 +94,6 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
       $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
     }
   } catch (\Exception $e) {
-    echo '1-Oupppsss!!!';
     header('Location:./error.php');
     exit;   
   }

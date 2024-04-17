@@ -646,6 +646,39 @@ class DaoBeauty {
         } 
     }
     
+    public function getReservationsBySalon(Salon $salon) : array {
+        if (!isset($salon)) throw new DaoException('Objet salon est inexistant',8003);
+        $reservations = array();
+        $query = Requetes::SELECT_RESERVATION_BY_SALON;
+        try {
+            $cursor = $this->conn->prepare($query);
+            $cursor->bindValue(':idsalon', $salon->getId_salon(), \PDO::PARAM_INT);
+            $cursor->execute();
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $reservation = new Reservation($row->id_rndv,\DateTime::createFromFormat('H:i:s',$row->h_rndv),\DateTime::createFromFormat('Y-m-d',$row->d_rndv), $row->nom_rndv, $row->detail_rndv, new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Thierry'), $salon);
+                array_push($reservations, $reservation);
+            }
+            $cursor->closeCursor();
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+        return $reservations;
+    }
     /**
      * Retourne la liste des rendez-vous de la BDD
      *
@@ -693,11 +726,6 @@ class DaoBeauty {
         return $rendezVous;
     }
 
-        /**
-     * Retourne la liste des plats de la BDD
-     *
-     * @return array : Tableau d'objets de type Plat
-     */
     public function getEtats() : ? array {
         $etats = array();
         $query      = Requetes::SELECT_ETAT;

@@ -71,7 +71,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
         $_SESSION['msgUtilisateur'] = $msgUtilisateur;
       }
     } catch (\Exception $e) {
-      $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, Impossible de supprimer la prestation ' .$prestation->getNomPresta() . ' car elle est rattachée à d\'autres évènnements!', 'style' => 'text-danger', 'msgShow' => true];    
+      $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Error, Impossible de supprimer la prestation ' .$prestation->getNomPresta() . ' car elle est rattachée à d\'autres évènements!', 'style' => 'text-danger', 'msgShow' => true];    
       $_SESSION['msgUtilisateur'] = $msgUtilisateur;
     }
   }

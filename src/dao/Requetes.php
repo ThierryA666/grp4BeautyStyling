@@ -23,8 +23,8 @@ class Requetes {
     public const DELETE_RESERVATION_BY_ID           = "delete from reservation where id_rndv = :id_rndv";
     public const UPDATE_RESERVATION                 = "update reservation set nom_rndv = :nom_rndv, h_rndv = :h_rndv, d_rndv = :d_rndv, detail_rndv = :detail_rndv, modif_date = :modifDate where id_rndv = :id_rndv";
     public const INSERT_RESERVATION                 = "insert into reservation (h_rndv, d_rndv, nom_rndv, detail_rndv, creation_date, modif_date) values (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :creationDate, :modifDate)";
+    public const SELECT_RESERVATION_BY_SALON = "select id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon from reservation where id_salon = :idsalon order by id_rndv asc";
     //Requetes Reservation Details
-    //public const SELECT_RESERVATION_DETAILS_BY_RNDV_ID = "select id_rndv, id_presta, id_employe, num_ligne, qte from reservation_details where id_rndv = :idRDV order by num_ligne asc";
     public const SELECT_RESERVATION_DETAILS_BY_RNDV_ID = "select id_rndv, id_presta, id_employe, num_ligne, qte from ligne_detail where id_rndv = :idRDV order by num_ligne asc";
     public const INSERT_LIGNE_DETAILS = "insert into ligne_detail (id_rndv, num_ligne, qte, id_employe, id_presta) values (:id_rndv, :num_ligne, :qte, :id_employe, :id_presta)";
     public const SELECT_LIGNE_DETAILS = "select num_ligne, id_presta, id_rndv, qte, id_employe from ligne_detail order by id_rndv";

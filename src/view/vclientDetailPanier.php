@@ -11,7 +11,7 @@
     <link href="../../assets/img/logo-beautystyling.jpg" rel="icon">
     <title>clientDetailPanier</title>
 </head>
-<body class="bodybg fade-out" style="background: url('../../assets/img/photos-salon/<?=$reservationDetail->getIdRDV()->getId_salon()->getPhoto_salon()?>') no-repeat center fixed;background-size: cover;">
+<body class="bodybg" style="background: url('../../assets/img/photos-salon/<?=$reservationDetail->getIdRDV()->getId_salon()->getPhoto_salon()?>') no-repeat center fixed;background-size: cover;">
     <header class="container-fluid"><!--Client Nav Bar Takako + group-->
         <nav class="navbar navbar-expand-lg bgnav">
             <div class="container-fluid">

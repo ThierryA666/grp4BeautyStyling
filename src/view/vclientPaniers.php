@@ -48,29 +48,27 @@
       <section id="search"><!--Recherche par salons ou par dates-->
         <div class="container bgbs col-md-11 mx-auto">
           <div class="row my-1 justify-content-between d-block">
-            <form id="formSearch" name="search" action="#">
+            <form id="formSearch" name="search" action="../webapp/clientPaniers.php">
               <div class="d-inline">
                 <h1 class="h4 text-dark text-start mx-auto">Mes réservations</h1>
                 <label for="salons" class="mx-1">Sélectionnez un salon ou 2 dates:</label>
-                <select id="salons" list = "salons" name="salons" class="mx-1"> 
-                <datalist id = "salons">
-                    <option value="">--Choisissez une option--</option>
-                    <?php foreach ($clientSalons as $key => $salon) { ?>
-                      <option id="salon<?=$key?>" value="salon<?=$key?>"><?=$salon->getNom_salon()?></option>
-                    <?php } ?>
-                </datalist>
+                <select id="salons" name="salons" class="mx-1">
+                  <option value="showAll">--**Montrez tous les salons**--</option>
+                  <?php foreach ($clientSalons as $key => $salon) { ?>
+                  <option id="salon<?=$key?>" value="salon<?=$key?>"><?=$salon->getNom_salon()?></option>
+                  <?php } ?>
                 </select>
               </div>
               <div class="d-inline">
-                  <label for="panierDateAfter" class="mx-1">Après le :</label>
-                  <input type="date" id="panierDateAfter" class="rounded-2">
+                  <label for="dateAfter" class="mx-1">Après le :</label>
+                  <input type="date" id="dateAfter" name="dateAfter" class="rounded-2">
                 </div>
               <div class="d-inline">
-                  <label for="panierDateBefore" class="mx-1">Avant le :</label>
-                  <input type="date" id="panierDateBefore" class="mx-1 rounded-2">
+                  <label for="dateBefore" class="mx-1">Avant le :</label>
+                  <input type="date" id="dateBefore" name="dateBefore" class="mx-1 rounded-2">
               </div>
               <div class="d-inline">
-      				    <button id="bt1" class="btn bsbtn1 btn-outline-primary" type="submit"><i class="bi bi-search"></i>&nbsp;&nbsp;Trouvez moi</button>
+      				    <button id="search" name="search" value="search" class="btn bsbtn1 btn-outline-primary" type="submit" formmethod="post" formaction="../webapp/clientPaniers.php"><i class="bi bi-search"></i>&nbsp;&nbsp;Trouvez moi</button>
               </div>
             </form>
           </div>
