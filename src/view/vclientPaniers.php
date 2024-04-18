@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="../../assets/css/ta-style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.css" integrity="sha512-9rQHiowu3AtR6xVE8Jz+lyV1r2/xXQVW0kI8+O9+PrfWSvoOHDF2SOUIUFAj0mwIAPf1ezTxRlpdngvsZeC4Rw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
     <link href="../../assets/img/logo-beautystyling.jpg" rel="icon">
     <title>clientPaniers</title>
 </head>
@@ -51,11 +52,11 @@
             <form id="formSearch" name="search" action="../webapp/clientPaniers.php">
               <div class="d-inline">
                 <h1 class="h4 text-dark text-start mx-auto">Mes réservations</h1>
-                <label for="salons" class="mx-1">Sélectionnez un salon ou 2 dates:</label>
+                <label for="salons" class="mx-1">Sélectionnez un salon et/ou 2 dates:</label>
                 <select id="salons" name="salons" class="mx-1">
                   <option value="showAll">--**Montrez tous les salons**--</option>
                   <?php foreach ($clientSalons as $key => $salon) { ?>
-                  <option id="salon<?=$key?>" value="salon<?=$key?>"><?=$salon->getNom_salon()?></option>
+                  <option id="salon<?=$key?>" value="salon<?=$key?>" <?=(isset($salonSelected) && $salonSelected === $salon) ? 'selected' : ''?>><?=$salon->getNom_salon()?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -65,8 +66,7 @@
                 </div>
               <div class="d-inline">
                   <label for="dateBefore" class="mx-1">Avant le :</label>
-                  <input type="date" id="dateBefore" name="dateBefore" class="mx-1 rounded-2">
-              </div>
+                  <input type="date" id="dateBefore" name="dateBefore" min="1" max="5" class="mx-1 rounded-2">
               <div class="d-inline">
       				    <button id="search" name="search" value="search" class="btn bsbtn1 btn-outline-primary" type="submit" formmethod="post" formaction="../webapp/clientPaniers.php"><i class="bi bi-search"></i>&nbsp;&nbsp;Trouvez moi</button>
               </div>
@@ -128,6 +128,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
   <script type="module" src="../../assets/js/ta-adminPrestationsPHP.js"></script>
   <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>

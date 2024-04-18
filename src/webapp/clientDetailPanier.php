@@ -9,11 +9,10 @@ use beautyStyling\dao\DaoBeauty;
 use beautyStyling\metier\Client;
 use beautyStyling\metier\LigneDetails;
 use beautyStyling\metier\Employe;
-use beautyStyling\metier\Etat;
-use beautyStyling\metier\Prestation;
-use beautyStyling\metier\Reservation;
-use beautyStyling\metier\Salon;
-
+// use beautyStyling\metier\Etat;
+// use beautyStyling\metier\Prestation;
+// use beautyStyling\metier\Reservation;
+// use beautyStyling\metier\Salon;
 
 error_reporting(E_ALL);
 session_start();
@@ -28,7 +27,6 @@ $client = new Client(1, 'Thierry');
 $employe = new Employe(5, 'Maria');
 $reservationDetails = array();
 
-//var_dump($_POST);
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') { 
   if (isset($_POST['detail']) && substr(htmlspecialchars(trim($_POST['detail'])),0,6) === 'detail') {
     $key = intval(substr(htmlspecialchars(trim($_POST['detail'])),6));
