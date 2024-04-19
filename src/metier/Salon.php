@@ -168,5 +168,6 @@ class Salon {
         }
         public function __toString() {
                 return '[Salon: '.$this->id_salon.', '.$this->nom_salon. ', Adresse:'.$this->ad1.' '.$this->ad2.' '.$this->cp_salon.' '.$this->nom_ville.', Responsable: '. $this->nom_res.' '.$this->prenom_res.', Tel: '.$this->tel_salon. ', Email: '.$this->email_salon.  '. ]';
-        }
+            }
 }
+?>

@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace beautyStyling\metier;
+namespace
+beautyStyling\metier;
 
 class Prestation {
     
@@ -84,7 +85,7 @@ class Prestation {
     }
 
     public function setPrixIndPresta(int $prixIndPresta): self {
-        $this->prixIndPresta = $prixIndPresta * 100;
+        $this->prixIndPresta = $prixIndPresta;
         return $this;
     }
 
@@ -110,4 +111,3 @@ class Prestation {
     }
 }
 
-?>

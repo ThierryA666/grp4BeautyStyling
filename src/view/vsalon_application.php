@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,7 +35,7 @@
                     <a class="nav-link disabled" href="salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_login.html" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
+                    <a class="nav-link" href="salon_login.php" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
                   </li>
                   
                 </ul>
@@ -141,7 +142,7 @@
             <button id="inscriptionBtn" type="submit" class="btn text-white mx-5 fs-4" style="background-color: #FF5B76;">Inscrire</button>
           </div>
 
-          <!-- <div class="mt-5"><?=$message ?></div> -->
+          <div class="fs-3 mt-5 text-center text-success"><?=$message ?></div>
 
         </form>
       </div>   

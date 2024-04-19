@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace beautyStyling\metier;
 
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\metier\Reservation;
 
@@ -15,7 +15,7 @@ class Etat {
 
     public function __construct($id_etat, $libel_etat) {
         $this->id_etat       = $id_etat;
-        $this->libel_etat  = $libel_etat;
+        $this->libelle  = $libel_etat;
     }
 
     public function getId_etat(): int {

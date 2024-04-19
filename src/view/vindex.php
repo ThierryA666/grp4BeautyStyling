@@ -49,34 +49,45 @@
             </div>
             <div class="col-md-6 mx-auto">
                 <h1 class="fs-1" style="font-family: 'DM Serif Display', serif; color:#FF5B76">Découvrez et réservez le salon qui vous correspond !</h1>    
-                <form>
+                <form method="POST" action="index.php" name="searchForm" id="searchForm">
                     <div class="m-3">
-                        <label for="formGroupExampleInput2" class="form-label">Nom de salon</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Nom de salon">
+                        <label for="nameInput"   class="form-label">Nom de salon</label>
+                        <input name="nameInput" id="nameInput" type="text" class="form-control"  placeholder="Veuillez saisir une partie ou la totalité du nom du salon.">
                     </div>
                     <div class="m-3">
-                        <label for="formGroupExampleInput2" class="form-label">Séléctionez une date</label>
-                        <input type="date" class="form-control" id="formGroupExampleInput2" placeholder="date">
+                        <label for="dateInput" class="form-label">Séléctionez une date</label>
+                        <input id ="dateInput" type="date" class="form-control"  placeholder="date">
                     </div>
                     <div class="m-3">
                         <label for="prestation" class="form-label">Préstation</label>
                         <select name="prestation" class="form-control" id="prestation" placeholder="Prestation">
-                            <option value="">--Choisissez un prestation--</option>
-                            <option value="coupefemme">Coupe femme</option>
-                            <option value="coupehomme">Coupe homme</option>
-                            <option value="coupeenfants">Coupe enfants</option> 
-                            <option value="coloration">Coloration</option>
-                            <option value="balayagemeche">Balayage/Mèche</option>
-                            <option value="soinducheveu">Soin du cheveu</option>
-                            <option value="permanent">Permanent</option>
-                            <option value="barbier">Barbier</option>    
+                            <option name ="all" value="">--Tous les prestations--</option>
+                            <?php foreach ($prestations as $prestation){ ?>
+                            <option name ="prest" value="<?=$prestation->getIdPresta()?>"><?=$prestation->getNomPresta()?></option>
+                            <?php
+                              }?>
+                       
                         </select>
                     </div>
                     <div class="col-12 d-flex justify-content-end">
-                        <button id="cestParti" type="submit" class="btn fs-3" style="background-color: #FF5B76; color: white;">C'EST PARTI !</button>      
+                        <button name="search" id="cestParti" type="submit" class="btn fs-3" style="background-color: #FF5B76; color: white;">C'EST PARTI !</button>      
                     </div>
-                </form>     
-            </div>
+                </form>
+                <div id="searchResult" class="col-md-6 mx-auto m-3">
+           
+            <?php foreach ($salons as $salon) { ?>
+                <div class="m-3">
+                    <p class="fs-4"><?=$salon->getNom_salon()?></p>
+                    <p class="fs-5"><?=$salon->getAd1()?> <?=$salon->getAd2()?> <?=$salon->getCp_salon()?> <?=$salon->getNom_ville()?></p>
+                    <div class="d-flex">
+                        <p class="mx-2"><?=$salon->getUrl_salon()?></p>
+                        <p class="mx-2">TEL: 0<?=$salon->getTel_salon()?></p>
+                        <img class="mx-2" width="100" src="/assets/img/photos-salon/<?=$salon->getPhoto_salon()?>">
+                    </div>              
+                </div> 
+            <?php } ?>
+        </div>
+            
         </div>    
     </main>
 
@@ -100,7 +111,7 @@
         </footer>
       </div>
 
-  
+  <script type ="module" src="/assets/js/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>

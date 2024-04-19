@@ -1,6 +1,6 @@
 <?php
 namespace beautyStyling\webapp;
-require_once 'C:\workspace\ECF\Takako_ECF_Git\vendor\autoload.php';
+require_once '../../vendor/autoload.php';
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\metier\Salon;
 use beautyStyling\dao\DaoException;
@@ -16,7 +16,11 @@ if (isset($_POST['keyWord']) && !empty($_POST['keyWord'])) {
     $salons = [];
 }
 
-
+if(isset($_GET['id_salon'])) {
+    $id_salon = $_GET['id_salon'];
+    $dao = new DaoBeauty();
+    $salon = $dao->delSalonByID($id_salon);
+}
 // <tr>
 // <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th>
 // <td id="nameSalon">Slaon A</td>

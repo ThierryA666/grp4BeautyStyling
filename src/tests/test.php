@@ -1,36 +1,39 @@
 <?php
-declare(strict_types=1);
 
 namespace beautyStyling\tests;
+use PDO;
 
-require_once '..\\..\\vendor\\autoload.php';
+require 'C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\vendor\\autoload.php';
+use beautyStyling\dao\Database;
+use beautyStyling\dao\Requettes;
+use beautyStyling\metier\Reservation;
+use beautyStyling\metier\Etat;
 
-use beautyStyling\dao\DaoBeauty;
-
-$dao = new DaoBeauty();
-
-try {
-     $prestations = $dao->getPrestations();    
-     foreach ($prestations as $prestation) {
-        echo($prestation);
-        echo ('<br>');
-    }
-} catch (\Exception $e) {
-    echo("TA Test!! " . $e->getMessage() . ' ' . $e->getCode());
-} catch (\Error $e) {
-    echo("TA Test!! " . $e->getMessage() . ' ' .  $e->getCode());
-}
+$servername = "localhost"; 
+$username = "beauty"; 
+$password = "codappwd"; 
+$database = "BEAUTYSTYLING";
 
 try {
-    $spes = $dao->getSPE();
-    foreach ($spes as $spe) {
-        print_r($spe);
-        echo ('<br>');
-    }
-} catch (\Exception $e) {
-    echo("TA Test!! " . $e->getMessage() . ' ' . $e->getCode());
-} catch (\Error $e) {
-    echo("TA Test!! " . $e->getMessage() . ' ' .  $e->getCode());
-}
+    // Crear conexión PDO
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    // Establecer el modo de error PDO en excepción
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Consulta SQL para obtener todos los datos
+    $sql = "SELECT id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon FROM reservation";
+    $stmt = $conn->query($sql);
+
+    // Verificar si hay resultados
+    if ($stmt->rowCount() > 0) {
+        // Mostrar datos de cada fila
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "ID: " . $row["id_rndv"] . " - Heure: " . $row["h_rndv"] . " - date: " . $row["d_rndv"] . " - nom: " . $row["nom_rndv"] . "<br>";
+        }
+    } else {
+        echo "0 resultados";
+    }
+} catch (PDOException $e) {
+    echo "Error de conexión: " . $e->getMessage();
+}
 ?>

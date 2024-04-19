@@ -3,21 +3,17 @@
 declare(strict_types=1);
 namespace beautyStyling\metier;
 
-use beautyStyling\metier\Salon;
-
 class Employe {
-    private int         $idEmploye;
-    private String      $nomEmploye;
-    private ? Salon     $idSalon;
+    private int     $idEmploye;
+    private String  $nomEmploye;
 
-    public function __construct(int $idEmploye, String $nomEmploye, Salon $idSalon = null) {
-        $this->idEmploye        = $idEmploye;
+    public function __construct($idEmploye, $nomEmploye) {
+        $this->idEmploye       = $idEmploye;
         $this->nomEmploye       = $nomEmploye;
-        $this->idSalon          = $idSalon;
     }
 
     public function __toString() {
-        return '[Employe : ID=>' . $this->idEmploye .', Nom=>' . $this->nomEmploye . ', Salon=>' . $this->idSalon->getNom_salon() . ']';
+        return '[Employe : ID=>' . $this->idEmploye .', Nom=>' . $this->nomEmploye . ']';
     }
     
     /**
@@ -48,15 +44,6 @@ class Employe {
      */
     public function getNomEmploye(): String {
         return $this->nomEmploye;
-    }
-
-    /**
-     * Get the value of idSalon
-     *
-     * @return Salon
-     */
-    public function getIdSalon(): Salon {
-        return $this->idSalon;
     }
 }
 
