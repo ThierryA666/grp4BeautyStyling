@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace beautyStyling\metier;
 
+use beautyStyling\dao\Database;
+use beautyStyling\dao\Requettes;
+use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\metier\Prestation;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Employe;

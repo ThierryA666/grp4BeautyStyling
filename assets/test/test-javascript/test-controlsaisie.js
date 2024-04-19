@@ -1,5 +1,3 @@
-
-
 function controlSaisie(date, detail){
 
     if (date===Number(date)) {

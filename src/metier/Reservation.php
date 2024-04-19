@@ -3,12 +3,15 @@
 declare(strict_types=1);
 namespace beautyStyling\metier;
 
+use beautyStyling\dao\Database;
+use beautyStyling\dao\Requettes;
+use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\metier\Etat;
 
 class Reservation {
     private     int             $id_rndv;
-    private     \DateTime       $h_rndv;
-    private     \DateTime       $d_rndv;
+    private     \DateTime        $h_rndv;
+    private     \DateTime        $d_rndv;
     private     String          $nom_rndv;
     private     String          $detail_rndv;
     private ?   Etat            $id_etat;
@@ -16,14 +19,14 @@ class Reservation {
     private ?   Salon           $id_salon;
 
     public function __construct(int $id_rndv, \DateTime $h_rndv, \DateTime $d_rndv, String $nom_rndv, String $detail_rndv, ? Etat $id_etat, ? Client $id_client, ? Salon $id_salon) {
-        $this->id_rndv      = $id_rndv;
-        $this->h_rndv       = $h_rndv;
-        $this->d_rndv       = $d_rndv;     
-        $this->nom_rndv     = $nom_rndv;
-        $this->detail_rndv  = $detail_rndv;
-        $this->id_etat      = $id_etat;
+        $this->id_rndv           = $id_rndv;
+        $this->h_rndv      = $h_rndv;
+        $this->d_rndv         = $d_rndv;     
+        $this->nom_rndv  = $nom_rndv;
+        $this->detail_rndv    = $detail_rndv;
+        $this->id_etat    = $id_etat;
         $this->id_client    = $id_client;
-        $this->id_salon     = $id_salon;
+        $this->id_salon    = $id_salon;
     }
 
     public function getId_rndv(): int {
@@ -61,12 +64,12 @@ class Reservation {
         $this->detail_rndv = $detail_rndv;
     }
 
-    // public function getId_etat(): Categorie {
-    //     return $this->id_etat;
-    // }
-    // public function setId_etat(Categorie $id_etat) {
-    //     $this->id_etat = $id_etat;
-    // }
+    public function getId_etat(): Categorie {
+        return $this->id_etat;
+    }
+    public function setId_etat(Categorie $id_etat) {
+        $this->id_etat = $id_etat;
+    }
 
     public function getId_client(): Client {
         return $this->id_client;

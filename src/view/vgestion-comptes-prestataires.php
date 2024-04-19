@@ -81,7 +81,7 @@ use beautyStyling\metier\Salon;
                 <caption>Liste de comptes prestataires</caption>
                 <thead>
                   <tr>
-                    <th scope="col"><input class="form-check-input" type="checkbox" value="selectAll" disabled></th>
+                    <!-- <th scope="col"><input class="form-check-input" type="checkbox" value="selectAll" disabled></th> -->
                     <th scope="col">Nom de salon </th>
                     <th scope="col">Nom de responsable</th>
                     <th scope="col">Téléphone</th>
@@ -93,25 +93,21 @@ use beautyStyling\metier\Salon;
                   <?php
                   foreach ($salons as $salon ){ ?>
                   <tr>
-                    <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th>
+                    <!-- <th scope="row"><input class="form-check-input" type="checkbox" value="select"></th> -->
                     <td id="nameSalon"><?=$salon->getNom_salon()?></td>
                     <td id="nameRep"><?=$salon->getNom_res()?><?=" ".$salon->getPrenom_res()?></td>
                     <td id="telSalon"><?="0".$salon->getTel_salon()?></td>
                     <td id="emailSalon"><?=$salon->getEmail_salon()?></td>
-                    <td><a href="salon_profile.php?id_salon=<?=$salon->getId_salon()?> "><i class="bi bi-pencil" style="color:blue;"></i></a> / <i class="bi bi-x" style="color:red;"></i></td>
-                  </tr>
+                    <td><button type="button" class="btn"><a href="salon_profile.php?id_salon=<?=$salon->getId_salon()?> "><i class="bi bi-pencil" style="color:blue;"></i></a></button> / 
+                    <button type="button" class="btn"><a href="salon_delete.php?id_salon=<?= $salon->getId_salon() ?>"><i class="bi bi-trash3" style="color: red"></i></a></button></td>
+ 
                   <?php
                   } ?>
                   
                   
                 </tbody>
               </table>
-            </div>
-
-            <div class="col-12 my-3 d-flex justify-content-end">
-              <button  type="submit" class="btn text-white mx-5" style="background-color: #FF5B76;">Enregistrer</button>
-            </div> 
-           
+            </div>           
           </form>    
         </div>
       </div>

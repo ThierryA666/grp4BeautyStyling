@@ -1,9 +1,9 @@
 {
     "name": "thier/grp4beauty-styling",
-    "description": "Project Beauty Styling",
+    "description": "Project BeautyStyling",
     "autoload": {
         "psr-4": {
-            "beautyStyling\\": "src/"
+            "Thier\\Grp4beautyStyling\\": "src/"
         }
     },
     "authors": [

@@ -5,15 +5,13 @@ namespace beautyStyling\metier;
 
 class Client {
     private int     $idClient;
-    private String  $nomClient;
-
-    public function __construct($idClient, $nomClient) {
+   
+    public function __construct($idClient) {
         $this->idClient       = $idClient;
-        $this->nomClient       = $nomClient;
     }
     
     public function __toString() {
-        return '[Client : ID=>' . $this->idClient .', Nom=>' . $this->nomClient . ']';
+        return '[Client : ID=>' . $this->idClient . ']';
     }
     
     /**
@@ -23,27 +21,6 @@ class Client {
      */
     public function getIdClient(): int {
         return $this->idClient;
-    }
-
-    /**
-     * Get the value of nomClient
-     *
-     * @return String
-     */
-    public function getNomClient(): String {
-        return $this->nomClient;
-    }
-
-    /**
-     * Set the value of nomClient
-     *
-     * @param String $nomClient
-     *
-     * @return self
-     */
-    public function setNomClient(String $nomClient): self {
-        $this->nomClient = $nomClient;
-        return $this;
     }
 }
 ?>

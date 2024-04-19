@@ -2,60 +2,33 @@
 
 namespace beautyStyling\webapp;
 use PDO;
-
+use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\dao\DaoException;
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
-use beautyStyling\metier\LigneDetails;
-use beautyStyling\metier\Prestation;
+use beautyStyling\metier\Client;
+// use beautyStyling\metier\LigneDetails;
+use beautyStyling\view\vrendezvouscoteclient;
 
-include '../view/vrendezvouscoteclient.php';
-
-$servername = "localhost"; 
-$username = "beauty"; 
-$password = "codappwd"; 
-$database = "BEAUTYSTYLING";
-
-// Créer une connection à l'aide de PDO
-// try {
-//     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-//     // Définir le mode d'erreur PDO sur exceptions
-//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-//     // Préparer la requête pour insérer les données du formulaire dans la base de données
-//     $stmt = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
-    
-//     // Bind de paramètres
-//     $stmt->bindParam(':d_rndv', $_POST['date']);
-//     $stmt->bindParam(':h_rndv', $_POST['heure']);
-//     // $stmt->bindParam(':servicio', $_POST['prestations']);
-//     $stmt->bindParam(':nom_rndv', $_POST['nom']);
-//     $stmt->bindParam(':detail_rndv', $_POST['details']);
-//     $stmt->bindParam(':id_salon', $_POST['salon']);
-//     $stmt->bindParam(':id_etat', $_POST['salon']);
-//     $stmt->bindParam(':id_client', $_POST['salon']);
-    
-//     // Exécuter la requête
-//     $stmt->execute();
-    
-//     echo "Rendez-vous ajouté correctement";
-// } catch(PDOException $e) {
-//     echo "Erreur lors de l'ajout du rendez-vous: " . $e->getMessage();
-// }
-
-// // Fermer la connection
-// $conn = null;
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vrendezvouscoteclient.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\LigneDetails.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Client.php';
 
 function setDate($date) {
-    // Dividir la fecha en año, mes y día
+    // Diviser la date en année, mois et jour
     $dateComponents = explode('-', $date);
     $year = $dateComponents[0];
     $month = $dateComponents[1];
     $day = $dateComponents[2];
 
-    // Generar el código HTML para mostrar la fecha en el calendario
+    // Générer le code HTML pour afficher la date dans le calendrier
     echo '<input type="hidden" name="date" value="' . $date . '">';
     echo '<div class="selected-date">';
     echo '<span class="year">' . $year . '</span>';
@@ -64,63 +37,103 @@ function setDate($date) {
     echo '</div>';
 }
 
-// Verificar si se ha seleccionado una fecha
-// Verificar si se ha seleccionado una fecha
+// Vérifier si une date a été sélectionnée
 if(isset($_GET['date'])) {
     $date = $_GET['date'];
 } else {
-    $date = ''; // Establecer un valor por defecto si la fecha no está definida
+    $date = ''; // Définir une valeur par défaut si la date n'est pas définie
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Aquí va el código para manejar el envío del formulario
-    try {
-        // Conectar a la base de datos y procesar los datos del formulario
-        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Vérifier si le bouton cliqué est le bouton de soumission
+    if(isset($_POST['submit']) && $_POST['submit'] === 'Submit') {
+        // Vérifier si les champs obligatoires sont définis et non vides
+        if(empty($_POST['nom'])) {
+            echo '<span style="color: red;">Le nom du rendez-vous est obligatoire</span>';
+        } else if (empty($_POST['date'])) {
+            echo '<span style="color: red;">La date est obligatoire, cliquez sur le bouton X pour revenir au calendrier</span>';
+        } else if (!preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/", $_POST['nom'])) { // \s représente les espaces vides
+            echo '<span style="color: red;">Le nom du rendez-vous doit contenir uniquement des lettres</span>';
+        } else if (!preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/", $_POST['details'])) {
+            echo '<span style="color: red;">Les détails doivent contenir uniquement des lettres</span>';
+        } else {
+            // Récupérer l'ID de la prestation sélectionnée à partir du formulaire
+            $id_prestation = isset($_POST['prestation']) ? $_POST['prestation'] : null;
 
-        // Preparar la inserción de datos en la tabla RESERVATION
-        $stmt = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
+            // Vérifier si l'ID de la prestation est vide ou null
+            if (empty($id_prestation)) {
+                echo '<span style="color: red;">Veuillez sélectionner une prestation</span>';
+            } else {
+            
+            // Vérifiez si le champ 'salon' est défini dans $_POST
+            if (isset($_POST['salon'])) {
+                try {
+                    // Connexion à la base de données
+                    $conn = Database::getConnection();
+                    
+                    // Requête SQL pour obtenir l'id_salon correspondant au nom_salon
+                    $stmt_salon = $conn->prepare(Requettes::SELECT_SALON_BY_ID);
+                    $stmt_salon->bindParam(':id_salon', $_POST['salon']);
+                    $stmt_salon->execute();
+                    $result_salon = $stmt_salon->fetch(PDO::FETCH_ASSOC);
+                    
+                    // Vérifiez si la requête a renvoyé un résultat
+                    if ($result_salon) {
+                        // Récupérez l'id_salon correspondant
+                        $id_salon = $result_salon['id_salon'];
+                        
+                        // pour ajouter la réservation à la base de données
+                        $daoCalendrier = new DaoCalendrier($conn);
+                        $id_reservation = $daoCalendrier->addReservation(
+                            $_POST['date'],
+                            $_POST['heure'],
+                            $_POST['nom'],
+                            $_POST['details'],
+                            $id_salon
+                        );
+                        
+                        // Obtenez l'ID de la réservation insérée
+                        $id_reservation = $conn->lastInsertId();
+                        
+                        // Récupérer le dernier numéro de ligne
+                        $last_num_ligne = $daoCalendrier->getLastLineNumber($id_reservation);
 
-        // Enlazar parámetros
-        $stmt->bindParam(':d_rndv', $_POST['date']);
-        $stmt->bindParam(':h_rndv', $_POST['heure']);
-        $stmt->bindParam(':nom_rndv', $_POST['nom']);
-        $stmt->bindParam(':detail_rndv', $_POST['details']);
+                        // Incrémenter le dernier numéro de ligne (ou initialiser à 0 si aucun rendez-vous n'existe encore)
+                        $num_ligne = ($last_num_ligne !== null) ? $last_num_ligne + 1 : 1;
 
-        // Establecer valores predeterminados para id_etat y id_client
-        $id_etat = 1;
-        $id_client = 1;
-        $stmt->bindParam(':id_etat', $id_etat);
-        $stmt->bindParam(':id_client', $id_client);
+                        // Récupérer l'ID de la prestation sélectionnée à partir du formulaire
+                        $id_prestation = isset($_POST['prestation']) ? $_POST['prestation'] : null;
 
-        // Preparar la consulta para obtener el id_salon
-        $stmt_select = $conn->prepare("SELECT id_salon FROM salon WHERE nom_salon = :nom_salon");
-        $stmt_select->bindParam(':nom_salon', $_POST['salon']);
-        $stmt_select->execute();
-        $row = $stmt_select->fetch(PDO::FETCH_ASSOC);
-        $id_salon = $row['id_salon'];
+                        // Vérifier si l'ID de la prestation est vide ou null
+                        if (empty($id_prestation)) {
+                            echo '<span style="color: red;">Veuillez sélectionner une prestation</span>';
+                        } else {
+                            // Insérer la nouvelle ligne de détail avec le numéro de ligne incrémenté et l'ID de la prestation
+                            $daoCalendrier->insertLigneDetail($id_reservation, $num_ligne, $id_prestation);
 
-        // Preparar la inserción de datos en la tabla RESERVATION
-        $stmt_insert = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
-        $stmt_insert->bindParam(':d_rndv', $_POST['date']);
-        $stmt_insert->bindParam(':h_rndv', $_POST['heure']);
-        $stmt_insert->bindParam(':nom_rndv', $_POST['nom']);
-        $stmt_insert->bindParam(':detail_rndv', $_POST['details']);
-        $stmt_insert->bindParam(':id_etat', $id_etat);
-        $stmt_insert->bindParam(':id_client', $id_client);
-        $stmt_insert->bindParam(':id_salon', $id_salon);
-
-        // Ejecutar la inserción
-        $stmt_insert->execute();
-        echo "Rendez-vous ajouté correctement";
-    } catch(\PDOException $e) {
-        echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+                            echo "Rendez-vous ajouté correctement";
+                        }
+                    } else {
+                        // Le nom du salon sélectionné n'a pas été trouvé dans la base de données
+                        echo "Le salon sélectionné n'a pas été trouvé dans la base de données.";
+                    }
+                } catch(PDOException $e) {
+                    // Gérez les erreurs de connexion à la base de données
+                    echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+                }
+            } else {
+                // Le champ 'salon' n'est pas défini dans $_POST
+                echo "Le champ 'salon' n'est pas défini dans le formulaire.";
+            }
+        }
+        }
+    } else {
+        // Message si le bouton soumis n'est pas valide
+        echo "Vous avez cliqué sur le mauvais bouton";
     }
-    // Cerrar la conexión a la base de datos
-    $conn = null;
-} else {
-    // Si no se ha enviado el formulario, no se ejecuta ningún código adicional
-    // Puedes dejar esta sección vacía o mostrar el formulario aquí si lo deseas
+
+    } else {
+    // Si le formulaire n'a pas été soumis, aucun code supplémentaire n'est exécuté.
+    // on peut laisser cette section vide ou afficher le formulaire ici si on le souhaite
 }
 
 ?>

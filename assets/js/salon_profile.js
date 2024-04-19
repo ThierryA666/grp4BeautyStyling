@@ -56,10 +56,34 @@ chk.addEventListener("change", function () {
         modifPW.value = item.motDePasse;
     })
 // });
+<<<<<<< HEAD
+document.getElementById('btnModif').addEventListener('click', function(event) {
+    
+    event.preventDefault();
+    // enregitrer le nom button
+    recordButtonClick('modif');
+    // debloquer input
+    enableInputFields();
+});
+
+// "Enregistrer" ボタンがクリックされたときの処理
+document.getElementById('btnEnregist').addEventListener('click', function(event) {
+    //
+    event.preventDefault();
+    //  enregitrer le nom button
+    recordButtonClick('update');
+    // envoyer le formulaire
+    document.getElementById('myForm').submit();
+});
+
+// debloquer le champ input
+function enableInputFields() {
+=======
 
 //button "Modifier"
 btnModif.addEventListener("click",(event)=>{
     event.preventDefault();
+>>>>>>> e20c71f85c7dde591e2707ad515e9f8256716d3a
     modifName.disabled = false;
     modifFirstName.disabled = false;
     modifAddress1.disabled = false;
@@ -72,7 +96,19 @@ btnModif.addEventListener("click",(event)=>{
     modifPhoto.disabled = false;
     modifPW.disabled = false;
     btnEnregist.disabled = false;
+<<<<<<< HEAD
+}
+
+// quand le button est clique
+function recordButtonClick(buttonName) {
+    // enregistre le nom de button
+    document.getElementById('clickedButton').value = buttonName;
+}
+
+
+=======
 })
+>>>>>>> e20c71f85c7dde591e2707ad515e9f8256716d3a
 
 //button "Enregistrer"
 btnEnregist.addEventListener("click",(event)=>{

@@ -1,3 +1,49 @@
+<?php
+namespace beautyStyling\webapp;
+require_once '../../vendor/autoload.php';
+use beautyStyling\dao\DaoBeauty;
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (session_status() != PHP_SESSION_ACTIVE) session_start();
+$email_salon= '';
+$pw ='';
+$salon='';
+
+if (isset($_POST['emailSalon'])) $email_salon = trim(htmlspecialchars($_POST['emailSalon']));
+if (isset($_POST['pwSalon']))  $pw  = trim(htmlspecialchars($_POST['pwSalon']));
+// var_dump($_POST);
+$_SESSION['emailSalon'] = $email_salon;
+$_SESSION['pwSalon']  = $pw;
+// var_dump($_SESSION);
+
+
+$dao = new DaoBeauty();
+$salon = $dao->getSalonByEmail($email_salon);
+// var_dump($salon) ;
+// exit;
+if($salon === null || empty((array)$salon)){
+    $message = "L'identifiant de l'utilisateur(email) n'a pas été trouvé.";
+} elseif($salon && $pw==$salon->getPw_salon()){
+    $host = $_SERVER['SERVER_NAME'];
+    $port = $_SERVER['SERVER_PORT'];
+    $uri  = $_SERVER['REQUEST_URI'];
+    $taburi = explode('/',$uri);
+    // print_r($taburi);
+    $path ='';
+    for ($i=1; $i < count($taburi)-1; $i++) {
+        $path .= '/' . $taburi[$i];
+    }
+    // echo("<br>$path");
+    $id_salon = $salon->getId_salon();
+    $chaine = "Location: http://$host:$port$path/salon_gestionnaire.php?id_salon=$id_salon";
+    // echo("<br>$chaine");
+    // header('Location: http://localhost:3000/4-php/ATD/exo/metisBases/question3-loginsuite.php');
+    header($chaine);
+    exit();  
+} else $message = 'ID utilisateur et PW non valides.';
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -44,39 +90,9 @@
     </header>
 
     <main>
-      <div class="d-block">
-        <div class="my-3">
-         <h1 class="fs-3 text-center" style="font-family: 'DM Serif Display', serif">- Page log-in pour prestataires -</h1>
-        </div>
-
-        <div class="container row-md d-md-flex justify-content-center">
-         <form method='POST' action='salon_loginctrl.php' class="px-4 py-3 col-md-6 my-3" id="loginPrestataire" style="background-color: #A0ECBA;">
-            <div>
-              <label for="exampleDropdownFormEmail1" class="form-label  col-md-4">E-mail</label>
-              <input type="email" class="form-control col-md-4" name="emailSalon" id="exampleDropdownFormEmail1" placeholder="email@example.com">
-            </div>
-            <div class="mb-3">
-              <label for="exampleDropdownFormPassword1" class="form-label col-md-4">Mot de passe</label>
-              <input type="password" name="pwSalon" class="form-control col-md-4" placeholder="Mot de passe">
-            </div>
-            <!-- <div class="mb-3">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                <label class="form-check-label" for="dropdownCheck">  Se souvenir du nom d'utilisateur </label>
-              </div>
-            </div> -->
-            <div class="d-md-flex justify-content-end">
-              <button type="submit" class="btn text-white" style="background-color: #FF5B76;" name="login">log-in</button>
-            </div>
-
-          </form>
-        </div>
-        <div>
-            <p class="fs-6 text-center">Vous n'avez pas de compte ? <span><a class="text-decoration-none text-reset" href="salon_top.php">Inscrivez-vous</a></span> dès aujourd'hui.</p>
-        </div>
-        <!-- <div>
-          <p class="fs-6 text-center"><a class="text-decoration-none text-reset" href="#">Vous avez oublié le mot de passe ? </a></p>
-      </div> -->
+      <div>
+        <p class="fs-5 text-dangert text-center"><?=$message?></p>
+        <p class="fs-5 text-center"><a href="salon_login.php">retour à la page log-in</a></p>
       </div>
     </main>
 
