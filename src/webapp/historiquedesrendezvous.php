@@ -102,7 +102,7 @@ try {
     }
     echo "</table>";
     } else {
-    echo "0 résultats";
+    echo "Vous n'avez aucun rendez-vous à venir. Vous pouvez prendre un rendez-vous";
     }
 
 } catch (PDOException $e) {
@@ -112,7 +112,7 @@ try {
 
 <script>
     function editarDetalle(idRendezVous) {
-        var nuevoDetalle = prompt("Saisie la nouveau message : ");
+        var nuevoDetalle = prompt("Saisie le nouveau message : ");
         if (nuevoDetalle !== null && nuevoDetalle !== "") {
             // Valider que nuevoDetalle contienne uniquement des lettres, des espaces et des caractères spéciaux
             var caracteresPermis = /^[A-Za-z\s,]+$/;
