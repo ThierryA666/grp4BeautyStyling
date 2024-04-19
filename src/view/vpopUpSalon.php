@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../assets/css/ta-style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="../../assets/img/logo-beautystyling.jpg" rel="icon">
@@ -13,7 +14,7 @@
         <p><h1 class="h4 animate-bounce text-primary">Welcome to Beauty Styling salon: <?=$salon->getNom_salon()?>!!</h1></p>
     </div>
     <div>
-        <button type=button" class="btn btn-secondary" id="closePopup">Close</button>
+        <button type=button" class="btn bsbtn1 btn-outline-primary" id="closePopup">Close</button>
     </div>
     <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>
 </body>
