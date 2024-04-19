@@ -3,12 +3,6 @@
 declare(strict_types=1);
 namespace beautyStyling\metier;
 
-use beautyStyling\dao\Database;
-use beautyStyling\dao\Requettes;
-use beautyStyling\dao\DaoCalendrier;
-use beautyStyling\metier\Reservation;
-
-
 class Etat {
     private int     $id_etat;
     private String  $libel_etat;
@@ -34,5 +28,4 @@ class Etat {
         return '[Etat : '.$this->id_etat . ',' . $this->libel_etat .']';
     }
 }
-
 ?>
