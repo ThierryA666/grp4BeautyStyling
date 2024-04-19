@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace beautyStyling\tests;
 
-require 'C:\workspace\ECF\Takako_ECF_Git\vendor\autoload.php';
+require_once '../../vendor/autoload.php';
 
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\metier\Salon;
@@ -41,10 +41,10 @@ echo '<hr>';
 //get salon by id test
 
 
-// $id_salon = 2;
-// $dao = new DaoBeauty();
-// $salon = $dao->getSalonByID($id_salon);
-// echo $salon;
+$id_salon = 2;
+$dao = new DaoBeauty();
+$salon = $dao->getSalonByID($id_salon);
+echo $salon;
 
 
 //update test

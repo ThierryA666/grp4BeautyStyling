@@ -31,7 +31,7 @@
                     <a class="nav-link" aria-current="page" href="index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link " href="salon_gestionnaire.php?id_salon=<?=$salon->getId()?>" style="font-family: 'DM Serif Display', serif;">Gestionnaire salon</a>
+                    <a class="nav-link " href="salon_gestionnaire.php?id_salon=<?=$salon->getId_salon()?>" style="font-family: 'DM Serif Display', serif;">Gestionnaire salon</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="salon_login.php" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>

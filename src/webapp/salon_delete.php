@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace beautyStyling\webapp;
 require_once '../../vendor/autoload.php';
-use beautyStyling\metier\Salon;
+
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 
