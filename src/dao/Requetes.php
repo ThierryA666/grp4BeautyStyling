@@ -30,5 +30,6 @@ class Requetes {
     public const SELECT_LIGNE_DETAILS = "select num_ligne, id_presta, id_rndv, qte, id_employe from ligne_detail order by id_rndv";
     public const UPDATE_QTY_LIGNE_DETAILS = "update ligne_detail set qte = :qte where id_rndv = :idrndv and id_presta = :idpresta and num_ligne = :numLigne";
     public const DELETE_LIGNE_DETAILS = "delete from ligne_detail where id_rndv = :idRndv";
+    public const SELECT_EMPLOYE = "select id_employe, nom_employe, id_salon from employe where id_employe = :idEmploye";
 }
 ?>

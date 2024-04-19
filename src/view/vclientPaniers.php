@@ -8,7 +8,7 @@
     <link href="../../assets/css/ta-style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.css" integrity="sha512-9rQHiowu3AtR6xVE8Jz+lyV1r2/xXQVW0kI8+O9+PrfWSvoOHDF2SOUIUFAj0mwIAPf1ezTxRlpdngvsZeC4Rw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="../../assets/img/logo-beautystyling.jpg" rel="icon">
     <title>clientPaniers</title>
 </head>
@@ -88,10 +88,10 @@
                 <?php foreach ($rndvs as $key => $rndv) { ?>
                 <div id="detail<?=$key?>" class="grid-container bg-light border border-primary justify-content-between align-items-center border p-3 col-sm rounded-2">
                   <div class="grid-item"><span class="p-1 fw-bold" ><?=$rndv->getNom_rndv()?></span></div>
-                  <div class="grid-item"><span class="p-1"><a href="#"><?=$rndv->getId_salon()->getNom_salon()?></a></span></div>
+                  <div class="grid-item"><span class="p-1"><a href="#" id="popUpSalon" name="popUpSalon<?=$rndv->getId_salon()->getId_salon()?>" value="<?=$rndv->getId_salon()->getId_salon()?>"><?=$rndv->getId_salon()->getNom_salon()?></a></span></div>
                   <div class="grid-item"><span class="p-1"><?=$rndv->getD_rndv()->format('d-m-Y')?></span></div>
                   <div class="grid-item"><span class="p-1"><?=$rndv->getH_rndv()->format('H:i:s')?></span></div>
-                  <div class="grid-item"><button id="btGoToDetail<?=$key?>" class="bsIconButtonPencil " type="submit" formmethod="post" formaction="../webapp/clientDetailPanier.php" name="detail" value="detail<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
+                  <div class="grid-item transition ease-in-out"><button id="btGoToDetail<?=$key?>" class="bsIconButtonPencil " type="submit" formmethod="post" formaction="../webapp/clientDetailPanier.php" name="detail" value="detail<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
                   <div class="grid-item"><i class="bi-trash p-1"></i></div>
                 </div>
                 <?php } ?>
@@ -126,11 +126,9 @@
     </div>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-  <script type="module" src="../../assets/js/ta-adminPrestationsPHP.js"></script>
   <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>
 </body>
 </html>

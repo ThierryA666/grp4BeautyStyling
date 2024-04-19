@@ -55,7 +55,7 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link ms-5" aria-current="page" href="calendrier.html">Prendre rendez-vous</a>
+                            <a class="nav-link ms-5" aria-current="page" href="../webapp/calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active link ms-5" aria-current="page" href="#">Rendez-vous à venir</a>

@@ -476,6 +476,48 @@ class DaoBeauty {
 /*******************************************************************************************************************************************************/
 // Reservation queries
 /*******************************************************************************************************************************************************/    
+    public function getEmploye(Employe $employe) : ? Employe {
+        if (!isset($employe)) {
+            throw new DaoException('Cet employe est inexistant',8002);
+            $employe = null;
+        } else {
+            $query = Requetes::SELECT_EMPLOYE;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->bindValue('idEmploye', $employe->getIdEmploye());
+                // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+                $statement->execute();
+                $row = $statement->fetch(\PDO::FETCH_OBJ);
+                if ($row) {
+                    $employe = new Employe($row->id_employe, $row->nom_employe, $this->getSalonByID($row->id_salon));
+                    return $employe;
+                } else {
+                    throw new \PDOException('Cet employe est inexistant', 8002)  ;
+                }  
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                switch ($pdoe->getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_employe"))throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_salon"))throw new \Exception();
+                    case 8002:
+                        throw new \Exception('Cet employe est inexistant', 8002);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }    
+
     public function deleteLigneDetails(LigneDetails $ligneDetails) : ? bool {
         if (!isset($ligneDetails)) {
             throw new DaoException('Objet LigneDetails est inexistant',8003);
@@ -548,6 +590,7 @@ class DaoBeauty {
     }
        
     public function getLigneDetailsByRndv(int $id_rndv) : array {
+        if (!isset($id_rndv)) throw new DaoException('Cette reservation est inexistante',8003);
         $reservationDetails = array();
         $query = Requetes::SELECT_RESERVATION_DETAILS_BY_RNDV_ID;
         try {
@@ -557,7 +600,7 @@ class DaoBeauty {
             while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
                 $prestation = $this->getPrestationByID($row->id_presta);
                 $reservation = $this->getReservationById($row->id_rndv);
-                $ligneDetails = new LigneDetails($reservation,$prestation,$row->num_ligne, new Employe(1,'Albator'), $row->qte);
+                $ligneDetails = new LigneDetails($reservation,$prestation,$row->num_ligne, $this->getEmploye(new  Employe($row->id_employe,'')), $row->qte);
                 array_push($reservationDetails, $ligneDetails);
             }
             $cursor->closeCursor();
@@ -655,7 +698,7 @@ class DaoBeauty {
             $cursor->bindValue(':idsalon', $salon->getId_salon(), \PDO::PARAM_INT);
             $cursor->execute();
             while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
-                $reservation = new Reservation($row->id_rndv,\DateTime::createFromFormat('H:i:s',$row->h_rndv),\DateTime::createFromFormat('Y-m-d',$row->d_rndv), $row->nom_rndv, $row->detail_rndv, new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Thierry'), $salon);
+                $reservation = new Reservation($row->id_rndv,\DateTime::createFromFormat('H:i:s',$row->h_rndv),\DateTime::createFromFormat('Y-m-d',$row->d_rndv), isset($row->nom_rndv) ? $row->nom_rndv : '', isset($row->detail_rndv) ? $row->detail_rndv : '', new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Thierry'), $salon);
                 array_push($reservations, $reservation);
             }
             $cursor->closeCursor();
@@ -670,11 +713,9 @@ class DaoBeauty {
                 default:
                     throw $pdoe;
             } 
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
-        }
-        catch (\Error $error) {
+        } catch (\Error $error) {
             throw $error;
         } 
         return $reservations;

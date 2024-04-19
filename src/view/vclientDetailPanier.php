@@ -71,7 +71,7 @@
             <form id="formDetailPanier<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="p-3" name="detailPanier" method="post" action="#">
               <div id="det" class="grid-container justify-content-between p-3 col-sm border bg-light border-primary rounded-2 m-1">
                 <div class="grid-item col-form-label col-form-label-sm">
-                  Prestation:<br><span name="prestation" class="p-1"><?=$reservationDetail->getIdPresta()->getNomPresta()?></span>
+                  Prestation:<br><span name="prestation" class="p-1 fw-bold"><?=$reservationDetail->getIdPresta()->getNomPresta()?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
                   Prix:<br><span name="prix" class="p-1"><?=$reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
@@ -84,7 +84,7 @@
                   Date-heure:</label><br><span name="rdv" class="p-1"><?=$reservationDetail->getIdRDV()->getD_rndv()->format('d-m-Y') . ' ' . $reservationDetail->getIdRDV()->getH_rndv()->format('H:i:s')?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                  Option:</label><br><span name="option" class="p-1"><?=' '?></span>
+                  Option:</label><br><span name="option" class="p-1 text-primary"><?=$reservationDetail->getIdEmploye()->getNomEmploye()?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
                   Total:</label><br><span name="total" class="p-1"><?=$reservationDetail->getQte() * $reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>

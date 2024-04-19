@@ -24,7 +24,6 @@ try { //check for DB connection
 }
 $totalPanier = 0;
 $client = new Client(1, 'Thierry');
-$employe = new Employe(5, 'Maria');
 $reservationDetails = array();
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') { 
@@ -92,8 +91,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
       $totalPanier += $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() * $reservationDetail->getQte();
     }
   } catch (\Exception $e) {
-    header('Location:./error.php');
-    exit;   
+    //header('Location:./error.php');
+    //exit;   
   }
 } else {
   header('Location:./clientPaniers.php');
