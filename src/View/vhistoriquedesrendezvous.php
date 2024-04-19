@@ -122,9 +122,9 @@
     <!-- <script type="module" src="..\..\assets\javascript\rendez-vousclient-js\script-rendez-vous.js"></script> -->
     <script>
         function editarDetalle(idRendezVous) {
-            var nuevoDetalle = prompt("Introduce el nuevo detalle:");
+            var nuevoDetalle = prompt("Saisie le nouveau message : ");
             if (nuevoDetalle !== null && nuevoDetalle !== "") {
-                fetch('actualizar_detalle.php', {
+                fetch('historiquedesrendezvous.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
