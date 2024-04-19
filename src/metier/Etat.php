@@ -14,8 +14,8 @@ class Etat {
     private String  $libel_etat;
 
     public function __construct($id_etat, $libel_etat) {
-        $this->id_etat       = $id_etat;
-        $this->libelle  = $libel_etat;
+        $this->id_etat      = $id_etat;
+        $this->libel_etat   = $libel_etat;
     }
 
     public function getId_etat(): int {
