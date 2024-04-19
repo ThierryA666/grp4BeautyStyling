@@ -11,7 +11,7 @@ class Offrir{
   private ?Salon        $id_salon;
   private ?float        $prix_prest_salon;
 
-  public function __construct($idPresta, $id_salon, $prix_prest_salon) {
+  public function __construct(Prestation $idPresta, Salon $id_salon, float $prix_prest_salon) {
     $this->idPresta         = $idPresta;
     $this->id_salon         = $id_salon; 
     $this->prix_prest_salon = (float) $prix_prest_salon;

@@ -59,12 +59,12 @@
               <label for="exampleDropdownFormPassword1" class="form-label col-md-4">Mot de passe</label>
               <input type="password" name="pwSalon" class="form-control col-md-4" placeholder="Mot de passe">
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="dropdownCheck">
                 <label class="form-check-label" for="dropdownCheck">  Se souvenir du nom d'utilisateur </label>
               </div>
-            </div>
+            </div> -->
             <div class="d-md-flex justify-content-end">
               <button type="submit" class="btn text-white" style="background-color: #FF5B76;" name="login">log-in</button>
             </div>
@@ -72,11 +72,11 @@
           </form>
         </div>
         <div>
-            <p class="fs-6 text-center">Vous n'avez pas de compte ? <span><a class="text-decoration-none text-reset" href="salon_top.html">Inscrivez-vous</a></span> dès aujourd'hui.</p>
+            <p class="fs-6 text-center">Vous n'avez pas de compte ? <span><a class="text-decoration-none text-reset" href="salon_top.php">Inscrivez-vous</a></span> dès aujourd'hui.</p>
         </div>
-        <div>
+        <!-- <div>
           <p class="fs-6 text-center"><a class="text-decoration-none text-reset" href="#">Vous avez oublié le mot de passe ? </a></p>
-      </div>
+      </div> -->
       </div>
     </main>
 

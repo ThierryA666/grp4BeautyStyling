@@ -17,9 +17,10 @@ use DateTime;
 // $salon = $dao ->addSalon($salon);
 
 // //Affiche test
-// $salons = $dao->getSalon();
-// affiche($salons);
-// echo '<hr>';
+$dao = new DaoBeauty();
+$salons = $dao->getSalon();
+affiche($salons);
+echo '<hr>';
 
 // //Serch test
 
@@ -27,6 +28,15 @@ use DateTime;
 // $dao = new DaoBeauty();
 // $salons = $dao->searchSalon($keyWord);
 // affiche($salons);
+
+
+
+
+
+
+
+
+
 
 //get salon by id test
 
@@ -83,15 +93,37 @@ use DateTime;
 // $dao = new DaoBeauty();
 // $salon = $dao->getSalonByEmail($email_salon);
 // echo $salon;
-$dao = new DaoBeauty();
-$salon=$dao->getSalonByID(3);
-$offrirs = $dao->getPrestaBySalon($salon);
-affiche($offrirs);
+
+
+// $salon=$dao->getSalonByID(3);
+// $offrirs = $dao->getPrestaBySalon($salon);
+// affiche($offrirs);
+
+// $prestation = $dao->getPrestationByID(1);
+// $salons = $dao->getSalonByPresta($prestation);
+// affiche($salons);
+
+
+// //Serch test
+
+// $keyWord = 'salon';
+// $dao = new DaoBeauty();
+// $salons = $dao->getSalonByName($keyWord);
+// affiche($salons);
+
+//getSalonByPresta
+
+// $prestation=$dao->getPrestationByID(3);
+// echo $prestation;
+// $salons=$dao->getSalonByPresta($prestation);
+// affiche($salons);
+
+
 
 function affiche($salons) : void {
     foreach ($salons as $salon) {
         echo $salon;
         echo '<br>';
     }
-}
+} 
 

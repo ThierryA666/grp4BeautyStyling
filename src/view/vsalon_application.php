@@ -35,7 +35,7 @@
                     <a class="nav-link disabled" href="salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_login.html" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
+                    <a class="nav-link" href="salon_login.php" style="font-family: 'DM Serif Display', serif;">Se coonecter (Compte salon)</a>
                   </li>
                   
                 </ul>

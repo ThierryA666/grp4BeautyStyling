@@ -1,6 +1,6 @@
 <?php
 namespace beautyStyling\webapp;
-require_once '..\..\vendor\autoload.php';
+require_once '../../vendor/autoload.php';
 use beautyStyling\dao\DaoBeauty;
 use beautyStyling\metier\Salon;
 use beautyStyling\dao\DaoException;
