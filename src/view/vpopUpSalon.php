@@ -10,12 +10,16 @@
     <title>Mon Salon</title>
 </head>
 <body class="fade-in" style="background: url('../../assets/img/photos-salon/<?=$salon->getPhoto_salon()?>') no-repeat center fixed;background-size: cover;">
-    <div></div>
+<div class="container">
+    <div>
         <p><h1 class="h4 animate-bounce text-primary">Welcome to Beauty Styling salon: <?=$salon->getNom_salon()?>!!</h1></p>
     </div>
+</div>
+<footer class="fixed-bottom d-flex justify-content-end p-3">
     <div>
-        <button type=button" class="btn bsbtn1 btn-outline-primary" id="closePopup">Close</button>
+        <button type=button" class="btn bsbtn1 btn-outline-primary" id="closePopup">Fermer</button>
     </div>
+</footer>
     <script type="module" src="../../assets/js/ta-clientPaniersPHP.js"></script>
 </body>
 </html>
