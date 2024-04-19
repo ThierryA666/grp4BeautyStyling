@@ -8,21 +8,296 @@ use beautyStyling\metier\Salon;
 use beautyStyling\metier\Villes;
 use beautyStyling\metier\Prestation;
 use beautyStyling\metier\Offrir;
-use DateTime;
+use beautyStyling\metier\Spe;
+use beautyStyling\metier\Etat;
+use beautyStyling\metier\Reservation;
+use beautyStyling\metier\Client;
+use beautyStyling\metier\Employe;
+use beautyStyling\metier\LigneDetails;
+use LDAP\Result;
 
 use beautyStyling\webapp\MyException;
 use beautyStyling\webapp\MyExceptionCase;
 
 class DaoBeauty {
+
     private \PDO $conn;
 
     public function __construct() {
         try {
             $this->conn = Database::getConnection();
-        } catch (\Exception $e) {
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                case 1226:
+                    if (str_contains($pdoe->errorInfo[2],"max_queries_per_hour")) throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
             $conn = null;
+            throw new \Exception('Connection failed!', 500);
+        }
+
+    }
+
+    private function convertCode($code) : int { 
+        $code = 8000;
+        if (isset($code))   $code = (int)$code;
+        return $code; 
+    }
+
+
+/*******************************************************************************************************************************************************/
+// Prestation queries
+/*******************************************************************************************************************************************************/
+    public function getSPE() : array {
+        $spes = array();
+        $query      = Requetes::SELECT_SPE;
+        try {
+            $cursor  = $this->conn->query($query);
+            // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $spe = new Spe($row->id_salon, $row->nom_salon, $row->id_presta, $row->nom_presta, $row->id_employe, $row->nom_employe);
+                array_push($spes,$spe);
+            }
+            $cursor->closeCursor();
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+        return $spes;
+    }
+
+    public function getPrestations() : array {
+        $prestations = array();
+        $query      = Requetes::SELECT_PRESTA;
+        try {
+            $cursor  = $this->conn->query($query);
+            // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $prestation = new Prestation($row->id_presta, $row->nom_presta, intval($row->duree_presta), intval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
+                array_push($prestations,$prestation);
+            }
+            $cursor->closeCursor();
+        }
+        catch (\PDOException $pdoe) {
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+        return $prestations;
+    }
+
+    public function deletePrestationByID(int $id) : ? bool {
+        if (!isset($id)) {
+            throw new DaoException('Cette prestation est inexistante',8002);
+        } else {
+            $query = Requetes::DELETE_PRESTA_BY_ID;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->execute(['idPresta' => $id]);
+                $response = $statement->execute();
+                return $response;
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                print_r ($pdoe->errorInfo);
+                switch ($pdoe->errorInfo[1]) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
         }
     }
+
+    public function deletePrestation(Prestation $prestation) : ? bool {
+        if (!isset($prestation)) {
+            throw new DaoException('Objet prestation est inexistante',8003);
+            $prestation = null; 
+        } else {
+            $query = Requetes::DELETE_PRESTA_BY_ID;
+            try {
+                $statement= $this->conn->prepare($query);
+                $response = $statement->execute(['idPresta' => $prestation->getIdPresta()]);
+                if ($response) {
+                    return $response;
+                } else {
+                    throw new \PDOException('La prestation est inexistante', 8003);
+                }
+            }
+            catch (\PDOException $pdoe) {
+                switch ($pdoe-> getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                    case 8003:
+                        throw new \Exception('La prestation est inexistante', 8003);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }
+
+    public function getPrestationByID(int $id) : ? Prestation {
+        if (!isset($id)) {
+            throw new DaoException('Cette prestation est inexistante',8002);
+            $prestation = null;
+        } else {
+            $query = Requetes::SELECT_PRESTA_BY_ID;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->execute(['idPresta' => $id]);
+                // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+                $row = $statement->fetch(\PDO::FETCH_OBJ);
+                if ($row) {
+                    $prestation = new Prestation($row->id_presta, $row->nom_presta, intval($row->duree_presta), intval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
+                    return $prestation;
+                } else {
+                    throw new \PDOException('Cette prestation est inexistante', 8002)  ;
+                }  
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                switch ($pdoe->getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                    case 8002:
+                        throw new \Exception('Cette prestation est inexistante', 8002);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }
+
+    public function createPrestation(Prestation $prestation) : bool {
+        if (!isset($prestation)) throw new DaoException('Objet prestation est inexistante',8003);
+        $query = Requetes::INSERT_PRESTA;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':nomPresta', $prestation->getNomPresta(), \PDO::PARAM_STR);
+            $statement->bindValue(':descPresta', $prestation->getDescPresta(), \PDO::PARAM_STR);
+            $statement->bindValue(':dureePresta', $prestation->getDureePresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':modifDate', null, \PDO::PARAM_STR);
+            $statement->bindValue(':creationDate', $prestation->getCreationDate()->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
+            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            return $response;
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+
+    public function updatePrestation(Prestation $prestation) : bool {
+        if (!isset($prestation)) throw new DaoException('Cette prestation est inexistante',8003);
+        $query = Requetes::UPDATE_PRESTA;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':nomPresta', $prestation->getNomPresta(), \PDO::PARAM_STR);
+            $statement->bindValue(':descPresta', $prestation->getDescPresta(), \PDO::PARAM_STR);
+            $statement->bindValue(':dureePresta', $prestation->getDureePresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':modifDate', $prestation->getModifDate()->format('Y-m-d'), \PDO::PARAM_STR);
+            $statement->bindValue(':prixIndPresta', $prestation->getPrixIndPresta(),  \PDO::PARAM_INT);
+            $statement->bindValue(':idPresta', $prestation->getIdPresta(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            return $response;
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+
+/*******************************************************************************************************************************************************/
+// Salon queries
+/*******************************************************************************************************************************************************/
     // lister tous les salons
     public function getSalon(): ? array {
         $salons = [];
@@ -45,12 +320,6 @@ class DaoBeauty {
     }    
     return $salons;
     }
-
-    private function convertCode($code) : int { 
-        $code = 8000;
-        if (isset($code))   $code = (int)$code;
-        return $code;
-    }    
    
     // ajouter des  nouveau salons 
 
@@ -462,6 +731,102 @@ class DaoBeauty {
     
     
     
+    public function getReservationsBySalon(Salon $salon) : array {
+        if (!isset($salon)) throw new DaoException('Objet salon est inexistant',8003);
+        $reservations = array();
+        $query = Requetes::SELECT_RESERVATION_BY_SALON;
+        try {
+            $cursor = $this->conn->prepare($query);
+            $cursor->bindValue(':idsalon', $salon->getId_salon(), \PDO::PARAM_INT);
+            $cursor->execute();
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $reservation = new Reservation($row->id_rndv,\DateTime::createFromFormat('H:i:s',$row->h_rndv),\DateTime::createFromFormat('Y-m-d',$row->d_rndv), isset($row->nom_rndv) ? $row->nom_rndv : '', isset($row->detail_rndv) ? $row->detail_rndv : '', new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Thierry'), $salon);
+                array_push($reservations, $reservation);
+            }
+            $cursor->closeCursor();
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } catch (\Exception $e) {
+            throw $e;
+        } catch (\Error $error) {
+            throw $error;
+        } 
+        return $reservations;
+    }
+    /**
+     * Retourne la liste des rendez-vous de la BDD
+     *
+     * @return array : Tableau d'objets de type rendez-vous
+     */
+    public function getRendezVous() : ? array {
+        $rendezVous = array();
+        $query      = Requetes::SELECT_RESERVATION;
+        try {
+            $cursor  = $this->conn->query($query);
+            // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $salon = $this->getSalonByID($row->id_salon);
+                $rndv = new Reservation($row->id_rndv,  \DateTime::createFromFormat('H:i:s',$row->h_rndv), \DateTime::createFromFormat('Y-m-d', $row->d_rndv), $row->nom_rndv, $row->detail_rndv ? $row->detail_rndv : '', new Etat($row->id_etat, 'En cours'), new Client($row->id_client, 'Takako'),$salon);
+                array_push($rendezVous,$rndv);
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $rendezVous;
+    }
+
+    public function getRendezVousWithId() : ? array {
+        $rendezVous = array();
+        $query      = Requetes::SELECT_RESERVATION_BY_ID;
+        try {
+            $cursor  = $this->conn->query($query);
+            // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $etat = new Etat($row->id_etat, $row->libel_etat);
+                $rndv = new Reservation($row->id_rndv, $row->h_rndv, $row->d_rndv, $row->nom_rndv, $row->detail_rndv, $row->id_etat, $row->id_client, $row->id_salon, $etat);
+                array_push($rendezVous,$rndv);
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $rendezVous;
+    }
+
+    public function getEtats() : ? array {
+        $etats = array();
+        $query      = Requetes::SELECT_ETAT;
+        try {
+            $cursor  = $this->conn->query($query);
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $etat = new Etat($row->id_etat, $row->libel_etat);
+                array_push($etats,$etat);
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $etats;
+    }
 
     
 }

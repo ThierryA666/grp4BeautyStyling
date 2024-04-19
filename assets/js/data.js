@@ -1,5 +1,4 @@
-//class Salon
-
+/******************Classe Salon******************************************/
 export class SalonData{
     #id = this.#newSalonID();
     #creationDate 
@@ -29,8 +28,8 @@ export class SalonData{
           increment: () => staticCount++,
         };
       })();
+
     constructor(creationDate, nom, prenom, ad1, ad2, email, tel, codePostale, ville, nomSalon, url, photo, motDePasse){
-        this,creationDate = creationDate;
         this.nom = nom;
         this.prenom = prenom;
         this.ad1 = ad1;
@@ -42,8 +41,9 @@ export class SalonData{
         this. nomSalon = nomSalon;
         this.url = url;
         this.photo = photo;
-        this. motDePasse = motDePasse;
-        this.prestations = new Array()
+        this.motDePasse = motDePasse;
+        this.#creationDate = creationDate
+        this.prestations = new Array();
     } 
     get id()            {return this.#id;} 
     get creationdate()  {return this.#creationDate;}
@@ -60,8 +60,9 @@ export class SalonData{
     get photo()         {return this.#photo;}
     get motDePasse()    {return this.#motDePasse;}
     get prestations() {return this.#prestations;}
+    
 
-    set creationDate(creationDate)  {this.#creationDate = creationDate}
+    //set creationDate(creationDate)  {this.#creationDate = creationDate}
     set nom(nom)                    {this.#nom = nom}
     set prenom(prenom)              {this.#prenom = prenom}
     set ad1(ad1)                    {this.#ad1 = ad1}
@@ -74,82 +75,143 @@ export class SalonData{
     set url(url)                    {this.#url = url}
     set photo(photo)                {this.#photo = photo}
     set motDePasse(motDePasse)      {this.#motDePasse = motDePasse}
+    set creationDate(creationDate)  {this.#creationDate = creationDate}
     set prestations(prestations)    {this.#prestations=prestations}
 
-    toString(){return `Salon ID: ${this.#id}, Date de création: ${this.#creationDate}, Nom: ${this.#nom}, Prénom:${this.#prenom}, Aderesse1:${this.#ad1}, Aderesse2: ${this.#ad2}, Email: ${this.#email}, Tel: ${this.#tel}, Code Postale: ${this.#codePostale}, Ville: ${this.#ville}, Nom de Salon: ${this.#nomSalon}, URL: ${this.#url} `};
-    addPrestationToSalon(prestation) {
-    this.#prestations.push(prestation)
-  }
+    toString(){return `Salon ID: ${this.#id}, Date de création: ${this.#creationDate}, Nom: ${this.#nom}, Prénom:${this.#prenom}, Aderesse1:${this.#ad1}, Aderesse2: ${this.#ad2}, Email: ${this.#email}, Tel: ${this.#tel}, Code Postale: ${this.#codePostale}, Ville: ${this.#ville}, Nom de Salon: ${this.#nomSalon}, URL: ${this.#url}`};
+    addPrestationToSalon(prestation) {this.#prestations.push(prestation)}
 }
 
-export let salon001 = new SalonData (new Date('08/02/2024'),"CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
-export let salon002 = new SalonData (new Date('08/02/2024'),"Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
-export let salon003 = new SalonData (new Date('08/02/2024'),"Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
-export let salon004 = new SalonData (new Date('08/02/2024'),"Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
-export let salon005 = new SalonData (new Date('08/02/2024'),"Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
+/******************Classe Reservation******************************************/
+export class Reservation {
+    #id = this.#newReservationID();
+    #nom;
+    #salon;
+    #client;
+    #dateCreation = new Date('05/03/2021');
+    #dateModif;
+    #date;
+    #heure;
+    #services = new Array();;
+    #details;
+    
+    #newReservationID() {
+        Reservation.nextReservationID.increment();
+        return Reservation.nextReservationID.getValue();
+    };
+    
+    static nextReservationID = (() => {
+        let staticCount = 0;
+        return {
+          getValue: () => staticCount,
+          increment: () => staticCount++,
+        };
+      })();
+   
 
+    constructor(nom, date, heure, client, details, salon) {
+        this.#nom = nom;
+        this.#salon = salon;
+        this.#services = new Array();
+        this.#date = date;
+        this.#heure = heure;
+        this.#dateCreation;
+        this.#details = details;
+        this.#client = client
+        this.#dateModif = this.#dateCreation;
+    }
 
-export var salons = [salon001,salon002,salon003,salon004,salon005]
+    //getter
+    get id() {return this.#id;}
+    get nom() {return this.#nom;}
+    get salon() {return this.#salon;}
+    get dateCreation() {return this.#dateCreation;}
+    get dateModif() {return this.#dateModif;}
+    get services() {return this.#services;}
+    get date() {return this.#date;}
+    get heure() {return this.#heure;}
+    get client() {return this.#client;}
+    get details() {return this.#details;}
+
+    //setter
+    set nom(nom) {this.nom = nom;}
+    set salon(salon) {this.#salon = salon;}
+    set dateCreation(dateCreation) {this.#dateCreation = dateCreation;}
+    set dateModif(dateModif) {this.#dateModif = dateModif;}
+    set services(services) {this.#services = services;}
+    set client(client) {this.#client = client;}
+    set date(date) {this.#date = date;}
+    set heure(heure) {this.#heure = heure;}
+    set details(details) {this.#details = details;}
+
+    
+    toString() { return `{"id":"${this.#id}","nom":"${this.#nom}","salon":"${this.#salon}","client":"${this.#client}"},"dateCreation":"${this.#dateCreation}","dateModif":"${this.#dateModif}"},"date":"${this.#date}"}`};
+    addPrestationToReservation(prestation, quantite = 1) {
+        let total = Number(prestation.price) * quantite;
+        let rdv = [prestation, quantite, total];
+        this.#services.push(rdv);
+    }
+}
 
 /******************Classe SalonPrestation******************************************/
 export class SalonPrestation {
-  #id = this.#newPrestaID();
-  #nom;
-  #duration;
-  #description;
-  #price;
-  #option;
-  #creationDate;
-  #modifDate;
+    #id = this.#newPrestaID();
+    #nom;
+    #duration;
+    #description;
+    #price;
+    #option;
+    #creationDate;
+    #modifDate;
 
-  #newPrestaID() {
-      SalonPrestation.nextPrestaID.increment();
-      return SalonPrestation.nextPrestaID.getValue();
-  };
-  
-  static nextPrestaID = (() => {
-      let staticCount = 0;
-      return {
-        getValue: () => staticCount,
-        increment: () => staticCount++,
-      };
-    })();
- 
+    #newPrestaID() {
+        SalonPrestation.nextPrestaID.increment();
+        return SalonPrestation.nextPrestaID.getValue();
+    };
+    
+    static nextPrestaID = (() => {
+        let staticCount = 0;
+        return {
+          getValue: () => staticCount,
+          increment: () => staticCount++,
+        };
+      })();
+   
 
-  constructor(nom, duration, description, price, option) {
-      this.#nom = nom;
-      this.#duration = duration;
-      this.#description = description;
-      this.#price = price;
-      this.#option = option;
-      this.#creationDate = new Date();
-      this.#modifDate = this.creationDate;
-  }
+    constructor(nom, duration, description, price, option) {
+        this.#nom = nom;
+        this.#duration = duration;
+        this.#description = description;
+        this.#price = price;
+        this.#option = option;
+        this.#creationDate = new Date();
+        this.#modifDate = this.creationDate;
+    }
 
-  //getter
-  get id() {return this.#id;}
-  get nom() {return this.#nom;}
-  get duration() {return this.#duration;}
-  get description() {return this.#description;}
-  get price() {return this.#price;}
-  get option() {return this.#option;}
-  get creationDate() {return this.#creationDate;}
-  get modifDate() {return this.#modifDate;}
-  
-  //setter
-  set nom(nom) {if (nom.length > 1) {
-          this.nom = nom;
-      } else {
-          this.nom = '';
-      }
-  }
-  set duration(duration) {this.#duration = duration;}
-  set description(desc) {this.#description = desc;}
-  set price(price) {this.#price = price;}
-  set option(option) {this.#option = option;}
-  set modifDate(modifDate) {this.#modifDate = modifDate;}
+    //getter
+    get id() {return this.#id;}
+    get nom() {return this.#nom;}
+    get duration() {return this.#duration;}
+    get description() {return this.#description;}
+    get price() {return this.#price;}
+    get option() {return this.#option;}
+    get creationDate() {return this.#creationDate;}
+    get modifDate() {return this.#modifDate;}
+    
+    //setter
+    set nom(nom) {if (nom.length > 1) {
+            this.nom = nom;
+        } else {
+            this.nom = '';
+        }
+    }
+    set duration(duration) {this.#duration = duration;}
+    set description(desc) {this.#description = desc;}
+    set price(price) {this.#price = price;}
+    set option(option) {this.#option = option;}
+    set modifDate(modifDate) {this.#modifDate = modifDate;}
 
-  toString() { return `{"nom":"${this.#nom}","id":"${this.#id}","duration":"${this.#duration}","description":"${this.#description}","price":"${this.#price}"}`};
+    toString() { return `{"nom":"${this.#nom}","id":"${this.#id}","duration":"${this.#duration}","description":"${this.#description}","price":"${this.#price}"}`};
 }
 
 /******************Initialisation des données******************************************/
@@ -162,4 +224,61 @@ let presta5 = new SalonPrestation('Couleur', 2, 'Couleur integrale',30, 'Maria')
 let presta6 = new SalonPrestation('Coupe enfant', 1, 'Coupe ciseaux et tondeuse',15, 'Takako');
 let presta7 = new SalonPrestation('Barbe homme', 2, 'Soins pour la barbe',20, 'Hermine');
 
-salon001.addPrestationToSalon(presta1);
+prestations.push(presta1);
+prestations.push(presta2);
+prestations.push(presta3);
+prestations.push(presta4);
+prestations.push(presta5);
+prestations.push(presta6);
+prestations.push(presta7);
+
+console.log(prestations);
+
+export let salon001 = new SalonData (new Date('03/04/2017'), "CLAIR","Agathe","140 Rue de Créqui","","abc@gmail.com","0611223344","69006","Lyon","Julie Borne Coiffure Création ","","salon1.jpg","dnPf5z9OQz07CBv");
+export let salon002 = new SalonData (new Date('12/01/2020'), "Théberge","Channing ","27, Avenue De Marlioz","","ChanningTheberge@rhyta.com","0125547928","92160","ANTONY","Salon Antony","www.ComedyDiary.fr","salon2.jpg","Jee1ceeXin");
+export let salon003 = new SalonData (new Date('01/01/2000'), "Aupry","Guy","81, rue Marie de Médicis","","GuyAupry@dayrep.com","0458098057","34500","BÉZIERS","Salon Guy","www.guy-salon.fr","salon3.jpg","EeW7iechu");
+export let salon004 = new SalonData (new Date('09/12/2019'), "Tessier","Laurent","3 Rue Neuve","","LaurentTessier@rhyta.com","0461124244","69001","Lyon","Red Studio","","salon4.jpg","eichia4ahS");
+export let salon005 = new SalonData (new Date('03/04/2012'), "Magnolia","Sciverit","77, quai Saint-Nicolas","","MagnoliaSciverit@rhyta.com","0365847757","59200","TOURCOING","Frédéric Moréno","","salon5.jpg","IeNgangu4u");
+
+export var salons = [salon001,salon002,salon003,salon004,salon005]
+console.log(salons);
+
+//constructor(nom = 'clientRDV', date, heure, client, services, details, salon)
+let res1 = new Reservation('MonRDV', new Date('01/02/2022 14:00:00'), new Date('01/02/2022 14:00:00'), 'client1', 'details réservation', salon001);
+let res2 = new Reservation('rdv11', new Date('01/02/2021 13:00:00'), new Date('01/02/2021 13:00:00'), 'client1', 'details réservation', salon002);
+let res3 = new Reservation('rdv13', new Date('12/04/2023 11:00:00'), new Date('12/04/2023 11:00:00'), 'client1', 'details réservation', salon003);
+let res4 = new Reservation('Un autre rdv', new Date('05/31/2023 12:00:00'), new Date('05/31/2023 12:00:00'), 'client1', 'details réservation', salon003);
+let res5 = new Reservation('rdv5', new Date('04/15/2022 17:00:00'), new Date('04/15/2022 17:00:00'), 'client1', 'details réservation', salon005);
+let res6 = new Reservation('rdvTiti', new Date('04/15/2023 17:00:00'), new Date('04/15/2023 17:00:00'), 'client1', 'details réservation', salon005);
+
+res1.addPrestationToReservation(presta1, 1);
+res1.addPrestationToReservation(presta3, 1);
+res1.addPrestationToReservation(presta4, 1);
+
+res2.addPrestationToReservation(presta7, 1);
+res2.addPrestationToReservation(presta6, 2);
+
+res3.addPrestationToReservation(presta7, 3);
+res3.addPrestationToReservation(presta1, 1);
+
+res4.addPrestationToReservation(presta6, 2);
+
+res5.addPrestationToReservation(presta7, 1);
+
+res5.addPrestationToReservation(presta3, 3);
+res5.addPrestationToReservation(presta2, 1);
+
+res6.addPrestationToReservation(presta3, 1);
+
+export let reservations = new Array();
+reservations.push(res1);
+reservations.push(res2);
+reservations.push(res3);
+reservations.push(res4);
+reservations.push(res5);
+reservations.push(res6);
+
+console.log(reservations);
+
+export let paniersDeleted = new Array();
+console.log(paniersDeleted);

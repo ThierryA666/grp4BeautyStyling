@@ -1,14 +1,14 @@
 {
-    "name": "takak/takako_ecf_git",
+    "name": "maria/ecf",
     "autoload": {
         "psr-4": {
-            "beautyStyling\\": "src/"
+            "beautyStyling\\": "C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\src"
         }
     },
     "authors": [
         {
-            "name": "Takako Onodera",
-            "email": "takako.onodera@gmail.com"
+            "name": "Mari Torres",
+            "email": "mari11carmen_1989@hotmail.com"
         }
     ],
     "require": {}
