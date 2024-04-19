@@ -10,7 +10,12 @@
         {
             "name": "Mari Torres",
             "email": "mari11carmen_1989@hotmail.com"
+        },
+        {
+            "name": "Thierry Anglade",
+            "email": "thierryanglade66@gmail.com"
         }
+
     ],
     "require": {}
 }
