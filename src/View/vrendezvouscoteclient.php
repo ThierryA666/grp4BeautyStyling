@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <title>Rendez-vous côte client</title>
     <style>
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      body {
+        margin-bottom: 80px;
+      }
         a:hover{
           color:#FF5B76 !important;
         }
@@ -75,9 +84,9 @@
                 <label for="date" class="form-label">Date du rendez-vous</label>
                 <!-- Champ caché pour envoyer la date sélectionnée -->
                 <input type="hidden" name="date" value="<?php echo isset($_GET['date']) ? htmlspecialchars($_GET['date']) : ''; ?>">
-                <!-- Mostrar la fecha seleccionada -->
+                <!-- Afficher la date sélectionnée -->
                 <div><?php echo isset($_GET['date']) ? htmlspecialchars($_GET['date']) : ''; ?></div>
-               <!-- Le champ date n'est plus nécessaire -->
+               
             </div>
             <div class="mb-3">
                 <label for="heure" class="form-label">Heure du rendez-vous</label>
@@ -94,6 +103,8 @@
             </div>
             <div class="mb-3">
                 <label for="salons" class="form-label">Salon</label>
+                <input type="hidden" name="id_salon" id="id_salon" value="">
+
                 <select id="salons" name="salon" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <?php
                     // Établir la connexion à la base de données
@@ -106,19 +117,48 @@
                         $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
                         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         
-                        // Consulter les noms des salons à partir de la base de données
-                        $stmt = $conn->prepare("SELECT nom_salon FROM salon");
+                        // Consulter les noms et les IDs des salons à partir de la base de données
+                        $stmt = $conn->prepare("SELECT id_salon, nom_salon FROM salon");
                         $stmt->execute();
-                        $salons = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                        $salons = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         
                         // Générer des options du SELECT
                         foreach ($salons as $salon) {
-                            echo "<option value=\"$salon\">$salon</option>";
+                            echo "<option value=\"" . $salon['id_salon'] . "\">" . $salon['nom_salon'] . "</option>";
                         }
                     } catch(PDOException $e) {
                         echo "Error: " . $e->getMessage();
                     }
                     ?>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="prestations" class="form-label">Prestations</label>
+                <select id="prestations" name="prestation" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <?php
+                    // Établir la connexion à la base de données
+                    $servername = "localhost"; 
+                    $username = "beauty"; 
+                    $password = "codappwd"; 
+                    $database = "BEAUTYSTYLING";
+
+                    try {
+                        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                      
+                      // Consulter les noms des prestations à partir de la base de données
+                      $stmt = $conn->prepare("SELECT id_presta, nom_presta FROM prestation");
+                      $stmt->execute();
+                      $prestations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                      
+                      // Générer des options du SELECT
+                      foreach ($prestations as $prestation) {
+                          echo "<option value=\"" . $prestation['id_presta'] . "\">" . $prestation['nom_presta'] . "</option>";
+                      }
+                  } catch(PDOException $e) {
+                      echo "Error: " . $e->getMessage();
+                  }
+                  ?>
                 </select>
             </div>
             <div class="mb-3">
@@ -138,22 +178,27 @@
         </form>
     </main>
       <div class="container-fluid  fixed-bottom">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="background-color: #A0ECBA;">
-          <div class="col-md-4 d-flex align-items-center">
-            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-              <img src="..\..\assets\img\logo_beautystyling.jpg" width="80">
-              <!-- <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
-            </a>
-            <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Company, Inc</span>
+        <footer class="footer">
+          <div class="container-fluid py-3" style="background-color: #A0ECBA;">
+              <div class="row justify-content-between align-items-center">
+                  <div class="col-md-4">
+                      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                          <img src="..\..\assets\img\logo_beautystyling.jpg" width="80">
+                      </a>
+                      <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Company, Inc</span>
+                  </div>
+                  <div class="col-md-4">
+                      <a href="#" id="footerlink" class="text-reset" style="font-family: 'DM Serif Display', serif;">Nous contacter</a>
+                  </div>
+                  <div class="col-md-4">
+                      <ul class="nav justify-content-end list-unstyled d-flex">
+                          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\logo-white.png" class="bi" width="24" height="24"></a></li>
+                          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\01GradientGlyph\Instagram_Glyph_Gradient.png"  class="bi" width="24" height="24"></a></li>
+                          <li class="mx-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\icons8-facebook.png"  class="bi" width="30" height="30"></a></li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-          <div class="col-md-4 d-flex align-items-center">
-            <a href="#" id="footerlink" class="text-reset" style="font-family: 'DM Serif Display', serif;">Nous contacter</a>  
-          </div>
-          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\logo-white.png" class="bi" width="24" height="24"></a></li>
-            <li class="ms-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\01GradientGlyph\Instagram_Glyph_Gradient.png"  class="bi" width="24" height="24"></a></li>
-            <li class="mx-3"><a class="text-body-secondary" href="#"><img src="..\..\assets\img\icons8-facebook.png"  class="bi" width="30" height="30"></a></li>
-          </ul>
         </footer> <!-- On utilise le code de Takako pour le footer-->
       </div>
       <!-- <script type="module" src="..\..\assets\javascript\form-rendez-vous-js\form-rendezvous.js"></script> -->

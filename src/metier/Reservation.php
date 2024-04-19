@@ -4,21 +4,21 @@ declare(strict_types=1);
 namespace beautyStyling\metier;
 
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\metier\Etat;
 
 class Reservation {
     private     int             $id_rndv;
-    private     datetime        $h_rndv;
-    private     datetime        $d_rndv;
+    private     \DateTime        $h_rndv;
+    private     \DateTime        $d_rndv;
     private     String          $nom_rndv;
     private     String          $detail_rndv;
     private ?   Etat            $id_etat;
     private ?   Client          $id_client;
     private ?   Salon           $id_salon;
 
-    public function __construct(int $id_rndv, datetime $h_rndv, datetime $d_rndv, String $nom_rndv, String $detail_rndv, ? Etat $id_etat, ? Client $id_client, ? Salon $id_salon) {
+    public function __construct(int $id_rndv, \DateTime $h_rndv, \DateTime $d_rndv, String $nom_rndv, String $detail_rndv, ? Etat $id_etat, ? Client $id_client, ? Salon $id_salon) {
         $this->id_rndv           = $id_rndv;
         $this->h_rndv      = $h_rndv;
         $this->d_rndv         = $d_rndv;     
@@ -36,17 +36,17 @@ class Reservation {
         $this->id_rndv = $id_rndv;
     }
 
-    public function getH_rndv(): datetime {
+    public function getH_rndv(): \DateTime {
         return $this->h_rndv;
     }
-    public function setH_rndv(datetime $h_rndv) {
+    public function setH_rndv(\DateTime $h_rndv) {
         $this->h_rndv = $h_rndv;
     }
 
-    public function getD_rndv(): datetime {
+    public function getD_rndv(): \DateTime {
         return $this->d_rndv;
     }
-    public function setD_rndv(datetime $d_rndv) {
+    public function setD_rndv(\DateTime $d_rndv) {
         $this->d_rndv = $d_rndv;
     }
 

@@ -5,17 +5,21 @@ use PDO;
 use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\dao\DaoException;
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
+use beautyStyling\metier\Client;
+// use beautyStyling\metier\LigneDetails;
 use beautyStyling\view\vrendezvouscoteclient;
 
 include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vrendezvouscoteclient.php';
-
-$servername = "localhost"; 
-$username = "beauty"; 
-$password = "codappwd"; 
-$database = "BEAUTYSTYLING";
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\LigneDetails.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
+include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Client.php';
 
 function setDate($date) {
     // Diviser la date en année, mois et jour
@@ -52,58 +56,82 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else if (!preg_match("/^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/", $_POST['details'])) {
             echo '<span style="color: red;">Les détails doivent contenir uniquement des lettres</span>';
         } else {
-            // Connexion à la base de données et traitement des données du formulaire
-            try {
-                // Conectar a la base de datos y procesar los datos del formulario
-                $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // Récupérer l'ID de la prestation sélectionnée à partir du formulaire
+            $id_prestation = isset($_POST['prestation']) ? $_POST['prestation'] : null;
 
-                // Préparer l'insertion des données dans la table RESERVATION
-                $stmt = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
+            // Vérifier si l'ID de la prestation est vide ou null
+            if (empty($id_prestation)) {
+                echo '<span style="color: red;">Veuillez sélectionner une prestation</span>';
+            } else {
+            
+            // Vérifiez si le champ 'salon' est défini dans $_POST
+            if (isset($_POST['salon'])) {
+                try {
+                    // Connexion à la base de données
+                    $conn = Database::getConnection();
+                    
+                    // Requête SQL pour obtenir l'id_salon correspondant au nom_salon
+                    $stmt_salon = $conn->prepare(Requettes::SELECT_SALON_BY_ID);
+                    $stmt_salon->bindParam(':id_salon', $_POST['salon']);
+                    $stmt_salon->execute();
+                    $result_salon = $stmt_salon->fetch(PDO::FETCH_ASSOC);
+                    
+                    // Vérifiez si la requête a renvoyé un résultat
+                    if ($result_salon) {
+                        // Récupérez l'id_salon correspondant
+                        $id_salon = $result_salon['id_salon'];
+                        
+                        // pour ajouter la réservation à la base de données
+                        $daoCalendrier = new DaoCalendrier($conn);
+                        $id_reservation = $daoCalendrier->addReservation(
+                            $_POST['date'],
+                            $_POST['heure'],
+                            $_POST['nom'],
+                            $_POST['details'],
+                            $id_salon
+                        );
+                        
+                        // Obtenez l'ID de la réservation insérée
+                        $id_reservation = $conn->lastInsertId();
+                        
+                        // Récupérer le dernier numéro de ligne
+                        $last_num_ligne = $daoCalendrier->getLastLineNumber($id_reservation);
 
-                // Enlazar parámetros
-                $stmt->bindParam(':d_rndv', $_POST['date']);
-                $stmt->bindParam(':h_rndv', $_POST['heure']);
-                $stmt->bindParam(':nom_rndv', $_POST['nom']);
-                $stmt->bindParam(':detail_rndv', $_POST['details']);
+                        // Incrémenter le dernier numéro de ligne (ou initialiser à 0 si aucun rendez-vous n'existe encore)
+                        $num_ligne = ($last_num_ligne !== null) ? $last_num_ligne + 1 : 1;
 
-                // Définir les valeurs par défaut pour id_etat et id_client
-                $id_etat = 1;
-                $id_client = 1;
-                $stmt->bindParam(':id_etat', $id_etat);
-                $stmt->bindParam(':id_client', $id_client);
+                        // Récupérer l'ID de la prestation sélectionnée à partir du formulaire
+                        $id_prestation = isset($_POST['prestation']) ? $_POST['prestation'] : null;
 
-                // Préparer la requête pour obtenir l'id_salon
-                $stmt_select = $conn->prepare("SELECT id_salon FROM salon WHERE nom_salon = :nom_salon");
-                $stmt_select->bindParam(':nom_salon', $_POST['salon']);
-                $stmt_select->execute();
-                $row = $stmt_select->fetch(PDO::FETCH_ASSOC);
-                $id_salon = $row['id_salon'];
+                        // Vérifier si l'ID de la prestation est vide ou null
+                        if (empty($id_prestation)) {
+                            echo '<span style="color: red;">Veuillez sélectionner une prestation</span>';
+                        } else {
+                            // Insérer la nouvelle ligne de détail avec le numéro de ligne incrémenté et l'ID de la prestation
+                            $daoCalendrier->insertLigneDetail($id_reservation, $num_ligne, $id_prestation);
 
-                // Préparer l'insertion des données dans la table RESERVATION
-                $stmt_insert = $conn->prepare("INSERT INTO RESERVATION (h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon) VALUES (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :id_etat, :id_client, :id_salon)");
-                $stmt_insert->bindParam(':d_rndv', $_POST['date']);
-                $stmt_insert->bindParam(':h_rndv', $_POST['heure']);
-                $stmt_insert->bindParam(':nom_rndv', $_POST['nom']);
-                $stmt_insert->bindParam(':detail_rndv', $_POST['details']);
-                $stmt_insert->bindParam(':id_etat', $id_etat);
-                $stmt_insert->bindParam(':id_client', $id_client);
-                $stmt_insert->bindParam(':id_salon', $id_salon);
-
-                // Exécuter l'insertion
-                $stmt_insert->execute();
-
-                echo "Rendez-vous ajouté correctement";
-            } catch(PDOException $e) {
-                echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+                            echo "Rendez-vous ajouté correctement";
+                        }
+                    } else {
+                        // Le nom du salon sélectionné n'a pas été trouvé dans la base de données
+                        echo "Le salon sélectionné n'a pas été trouvé dans la base de données.";
+                    }
+                } catch(PDOException $e) {
+                    // Gérez les erreurs de connexion à la base de données
+                    echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
+                }
+            } else {
+                // Le champ 'salon' n'est pas défini dans $_POST
+                echo "Le champ 'salon' n'est pas défini dans le formulaire.";
             }
-            // Fermer la connexion à la base de données
-            $conn = null;
+        }
         }
     } else {
+        // Message si le bouton soumis n'est pas valide
         echo "Vous avez cliqué sur le mauvais bouton";
     }
-} else {
+
+    } else {
     // Si le formulaire n'a pas été soumis, aucun code supplémentaire n'est exécuté.
     // on peut laisser cette section vide ou afficher le formulaire ici si on le souhaite
 }

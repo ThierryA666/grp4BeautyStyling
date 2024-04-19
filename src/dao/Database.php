@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace beautyStyling\dao;
 
 use beautyStyling\dao\DaoCalendrier;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
 
@@ -23,7 +23,7 @@ class Database {
             else throw new DaoException("Parametre BDD indisponibles",8001);
             // On cree le data source name 'mysql:host=127.0.0.1:3306;dbname=beautyStiling;charset=utf8'
             $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
-            self::$db = new \PDO($dsn, $user, $password);
+            self::$db = new \PDO($dsn, $user, $passwd);
             self::$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         }
         return self::$db;

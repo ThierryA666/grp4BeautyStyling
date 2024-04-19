@@ -54,45 +54,53 @@
 
   <main>
     <?php
-        function generateCalendar($month, $year) {
-            $monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-            $currentDate = new DateTime("$year-$month-01");
-            $currentDay = (int)$currentDate->format('j');
-            $startDay = (int)$currentDate->format('N') - 1; // Day of the week (1 = Monday, ..., 7 = Sunday)
-            $totalDays = (int)$currentDate->format('t');
+      function generateCalendar($month, $year) {
+          $monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+          $currentDate = new DateTime("$year-$month-01");
+          $currentDay = (int)$currentDate->format('j');
+          $startDay = (int)$currentDate->format('N') - 1; // Jour de la semaine (1 = lundi, ..., 7 = dimanche)
+          $totalDays = (int)$currentDate->format('t');
 
-            echo '<div class="calendar">';
-            echo '<div class="calendar__info">';
-            echo '<a href="?month=' . (($month == 1) ? 12 : $month - 1) . '&year=' . (($month == 1) ? $year - 1 : $year) . '" class="calendar__prev">&#9664;</a>';
-            echo '<div class="calendar__month">' . $monthNames[$month - 1] . '</div>';
-            echo '<div class="calendar__year">' . $year . '</div>';
-            echo '<a href="?month=' . (($month == 12) ? 1 : $month + 1) . '&year=' . (($month == 12) ? $year + 1 : $year) . '" class="calendar__next">&#9654;</a>';
-            echo '</div>';
-            echo '<div class="calendar__week">';
-            echo '<div class="calendar__day calendar__item">Lu</div>';
-            echo '<div class="calendar__day calendar__item">Ma</div>';
-            echo '<div class="calendar__day calendar__item">Me</div>';
-            echo '<div class="calendar__day calendar__item">Je</div>';
-            echo '<div class="calendar__day calendar__item">Ve</div>';
-            echo '<div class="calendar__day calendar__item">Sa</div>';
-            echo '<div class="calendar__day calendar__item">Di</div>';
-            echo '</div>';
-            echo '<div class="calendar__dates">';
-            for ($i = 0; $i < $startDay; $i++) {
-                echo '<div class="calendar__date calendar__item calendar__last-days"></div>';
-            }
-            for ($i = 1; $i <= $totalDays; $i++) {
-                echo '<a href="..\webapp\rendezvouscoteclient.php?date=' . $year . '-' . $month . '-' . $i . '" class="calendar__date calendar__item">' . $i . '</a>';
-            }
-            echo '</div>';
-            echo '</div>';
-        }
+          echo '<div class="calendar">';
+          echo '<div class="calendar__info">';
+          echo '<a href="?month=' . (($month == 1) ? 12 : $month - 1) . '&year=' . (($month == 1) ? $year - 1 : $year) . '" class="calendar__prev">&#9664;</a>';
+          echo '<div class="calendar__month">' . $monthNames[$month - 1] . '</div>';
+          echo '<div class="calendar__year">' . $year . '</div>';
+          echo '<a href="?month=' . (($month == 12) ? 1 : $month + 1) . '&year=' . (($month == 12) ? $year + 1 : $year) . '" class="calendar__next">&#9654;</a>';
+          echo '</div>';
+          echo '<div class="calendar__week">';
+          echo '<div class="calendar__day calendar__item">Lu</div>';
+          echo '<div class="calendar__day calendar__item">Ma</div>';
+          echo '<div class="calendar__day calendar__item">Me</div>';
+          echo '<div class="calendar__day calendar__item">Je</div>';
+          echo '<div class="calendar__day calendar__item">Ve</div>';
+          echo '<div class="calendar__day calendar__item">Sa</div>';
+          echo '<div class="calendar__day calendar__item">Di</div>';
+          echo '</div>';
+          echo '<div class="calendar__dates">';
+          for ($i = 0; $i < $startDay; $i++) {
+              echo '<div class="calendar__date calendar__item calendar__last-days"></div>';
+          }
+          for ($i = 1; $i <= $totalDays; $i++) {
+              $date = new DateTime("$year-$month-$i");
+              $currentDateTime = new DateTime();
+              if ($date >= $currentDateTime && $date->format('N') != 6 && $date->format('N') != 7) {
+                  // Autoriser uniquement les jours futurs sauf le samedi et le dimanche
+                  echo '<a href="..\webapp\rendezvouscoteclient.php?date=' . $year . '-' . $month . '-' . $i . '" class="calendar__date calendar__item">' . $i . '</a>';
+              } else {
+                  // N'autorisez pas les rendez-vous pour les jours passés ou les samedis et dimanches
+                  echo '<div class="calendar__date calendar__item calendar__disabled">' . $i . '</div>';
+              }
+          }
+          echo '</div>';
+          echo '</div>';
+      }
 
-        $currentMonth = isset($_GET['month']) ? (int)$_GET['month'] : (int)date('n');
-        $currentYear = isset($_GET['year']) ? (int)$_GET['year'] : (int)date('Y');
+      $currentMonth = isset($_GET['month']) ? (int)$_GET['month'] : (int)date('n');
+      $currentYear = isset($_GET['year']) ? (int)$_GET['year'] : (int)date('Y');
 
-        generateCalendar($currentMonth, $currentYear);
-    ?>
+      generateCalendar($currentMonth, $currentYear);
+  ?>
 
   </main>
 

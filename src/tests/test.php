@@ -5,7 +5,7 @@ use PDO;
 
 require 'C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\vendor\\autoload.php';
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requetes;
+use beautyStyling\dao\Requettes;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
 
@@ -20,7 +20,7 @@ try {
     // Establecer el modo de error PDO en excepción
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Consulta SQL para obtener todos los usuarios
+    // Consulta SQL para obtener todos los datos
     $sql = "SELECT id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon FROM reservation";
     $stmt = $conn->query($sql);
 
