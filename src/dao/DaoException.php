@@ -5,5 +5,4 @@ namespace beautyStyling\dao;
 class DaoException extends \Exception {
     
 }
-
 ?>

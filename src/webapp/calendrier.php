@@ -34,7 +34,11 @@
                             <a class="nav-link ms-5" aria-current="page" href="calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a class="nav-link active link ms-5" aria-current="page" href="historiquedesrendezvous.php">Rendez-vous à venir</a>
+=======
+                            <a class="nav-link active link ms-5" aria-current="page" href="../webapp/historiquedesrendezvous.php">Rendez-vous à venir</a>
+>>>>>>> e300d1ce81ad76875c002c3c55669c20a32d1b8c
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link ms-5" aria-current="page" href="#">Accueil</a>
