@@ -7,6 +7,8 @@ require_once '../../vendor/autoload.php';
 
 use beautyStyling\dao\DaoBeauty;
 
+session_start();
+
 try { //check for DB connection
     $daoBeauty = new DaoBeauty();
   } catch (\Exception $e) {
