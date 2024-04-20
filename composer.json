@@ -1,0 +1,21 @@
+{
+    "name": "thier/grp4beauty-styling",
+    "description": "Project BeautyStyling",
+    "autoload": {
+        "psr-4": {
+            "Thier\\Grp4beautyStyling\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mari Torres",
+            "email": "mari11carmen_1989@hotmail.com"
+        },
+        {
+            "name": "Thierry Anglade",
+            "email": "thierryanglade66@gmail.com"
+        }
+
+    ],
+    "require": {}
+}
