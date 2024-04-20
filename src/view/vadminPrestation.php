@@ -26,13 +26,13 @@
           <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif">Administration</a>
+                <a class="nav-link" aria-current="page" href="../webapp/gestion-comptes-prestataires.php" style="font-family: 'DM Serif Display', serif">Administration</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Clients</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Salons</a>
+                <a class="nav-link" href="../webapp/gestion-comptes-prestataires.php" style="font-family: 'DM Serif Display', serif;">Salons</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="nav1" href="./adminListePrestations.php" style="font-family: 'DM Serif Display', serif;">Prestations</a>

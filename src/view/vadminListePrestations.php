@@ -22,7 +22,7 @@
                         <ul class="navbar-nav"> 
                             <li class="nav-item"> <a class="nav-link" aria-current="page" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif">Administration</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Clients</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Salons</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="../webapp/gestion-comptes-prestataires.php" style="font-family: 'DM Serif Display', serif;">Salons</a></li>
                             <li class="nav-item"> <a class="nav-link" id="nav1" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif;">Prestations</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Calendrier</a></li>
                             <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se déconnecter</a></li>
