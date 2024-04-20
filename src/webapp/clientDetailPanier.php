@@ -54,7 +54,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     $qte = intval(htmlspecialchars(trim($_POST['qte'])));
     $numLigne = intval(htmlspecialchars(trim($_POST['numLigne'])));
     try {
-      $ligneDetails = new LigneDetails($daoBeauty->getReservationById($key), $daoBeauty->getPrestationByID($presta), $numLigne, $employe, $qte);
+      $reservationDetails = $daoBeauty->getReservationById($key);
+      $ligneDetails = new LigneDetails($reservationDetails, $daoBeauty->getPrestationByID($presta), $numLigne, new Employe(1,''), $qte);
       $response = $daoBeauty->updateLigneDetails($ligneDetails);
       if (!$response) {
         header('Location:./error.php');

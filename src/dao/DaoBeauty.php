@@ -755,6 +755,143 @@ class DaoBeauty {
             throw new \Exception('Error !!! : ' .  $error->getMessage());
         }
         return $etats;
-    }   
+    }
+
+    public function getEmploye(Employe $employe) : ? Employe {
+        if (!isset($employe)) {
+            throw new DaoException('Cet employe est inexistant',8002);
+            $employe = null;
+        } else {
+            $query = Requetes::SELECT_EMPLOYE;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->bindValue('idEmploye', $employe->getIdEmploye());
+                // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+                $statement->execute();
+                $row = $statement->fetch(\PDO::FETCH_OBJ);
+                if ($row) {
+                    $employe = new Employe($row->id_employe, $row->nom_employe, $this->getSalonByID($row->id_salon));
+                    return $employe;
+                } else {
+                    throw new \PDOException('Cet employe est inexistant', 8002)  ;
+                }  
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                switch ($pdoe->getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_employe"))throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_salon"))throw new \Exception();
+                    case 8002:
+                        throw new \Exception('Cet employe est inexistant', 8002);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }    
+
+    public function getLigneDetailsByRndv(int $id_rndv) : array {
+        if (!isset($id_rndv)) throw new DaoException('Cette reservation est inexistante',8003);
+        $reservationDetails = array();
+        $query = Requetes::SELECT_RESERVATION_DETAILS_BY_RNDV_ID;
+        try {
+            $cursor = $this->conn->prepare($query);
+            $cursor->bindValue(':idRDV', $id_rndv, \PDO::PARAM_INT);
+            $cursor->execute();
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                $prestation = $this->getPrestationByID($row->id_presta);
+                $reservation = $this->getReservationById($row->id_rndv);
+                $ligneDetails = new LigneDetails($reservation,$prestation,$row->num_ligne, $this->getEmploye(new  Employe($row->id_employe,'')), $row->qte);
+                array_push($reservationDetails, $ligneDetails);
+            }
+            $cursor->closeCursor();
+        } catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+        return $reservationDetails;
+    }
+    public function getReservationById(int $id) : ?Reservation {
+        if (!isset($id)) throw new DaoException('Ce reservation est inexistant',8003);
+        $rndv       = null;
+        $etat  = null;
+        $query      =Requetes::SELECT_RESERVATION_BY_ID;
+        try {
+            $query  = $this->conn->prepare($query);
+            $query->execute(['id'=>$id]);
+            $row = $query->fetch(\PDO::FETCH_OBJ);
+            // si pas de resultat alors $row = false : var_dump($row);
+            if($row) {
+                $salon = $this->getSalonByID($row->id_salon);
+                $etat = new Etat($row->id_etat, 'En cours');
+                $rndv = new Reservation($row->id_rndv, \DateTime::createFromFormat("H:i:s",$row->h_rndv), \DateTime::createFromFormat("Y-m-d", $row->d_rndv), $row->nom_rndv, $row->detail_rndv ? $row->detail_rndv : '', $etat, new Client($row->id_client, ''), $salon);
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $rndv;
+    }
+    
+    public function updateLigneDetails(LigneDetails $ligneDetail) {
+        if (!isset($ligneDetail)) throw new DaoException('Cette ligneDetail est inexistante',8003);
+        $query = Requetes::UPDATE_QTY_LIGNE_DETAILS;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':idrndv', $ligneDetail->getIdRDV()->getId_rndv(), \PDO::PARAM_INT);
+            $statement->bindValue(':idpresta', $ligneDetail->getIdPresta()->getIdPresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':numLigne', $ligneDetail->getNumLigne(), \PDO::PARAM_INT);
+            $statement->bindValue(':qte', $ligneDetail->getQte(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            return $response;
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
+                    case 8002:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
 }
 ?>
