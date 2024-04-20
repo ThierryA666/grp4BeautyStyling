@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 a:hover{
   color:#FF5B76 !important;
 }
@@ -25,3 +26,32 @@ td{
   padding: 20px;
   border: white 2px solid;
 }
+=======
+a:hover{
+  color:#FF5B76 !important;
+}
+
+#footerlink {
+  text-decoration:none !important;
+
+}
+
+#footerlink:visited {
+  color:black;
+}
+
+button:hover{
+  background-color: #A0ECBA !important;
+  color:#FF5B76 !important;
+}
+table{
+  margin-top: 30px;
+  margin-left: 600px;
+  font-size: 1.5em;
+  background-color: #A0ECBA;
+}
+td{
+  padding: 20px;
+  border: white 2px solid;
+}
+>>>>>>> b3737144e9af770f87c5acb1ac273df8b56038c9
