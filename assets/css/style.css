@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 
 a:hover{
@@ -40,47 +39,4 @@ button:hover{
     #illustTopSalon2{
         display:none !important;
     }
-=======
-
-
-a:hover{
-    color:#FF5B76 !important;
-}
-
-#footerlink {
-    text-decoration:none !important;
-   
-}
-
-#footerlink:visited {
-    color:black;
-}
-
-button:hover{
-    background-color: #A0ECBA !important;
-    color:#FF5B76 !important;
-}
-
-/* input:invalid {
-    border: 1px dashed #FF5B76;
-  }
-  
-  /* input:invalid:required {
-    background-image: linear-gradient(to right, pink, lightgreen);
-  } */
-  
-  /* input:valid {
-    border: 2px solid black; */
-
-@media screen and (max-width: 480px) { 
-    #illustTop{
-        display: none;
-    }
-    #illustTopSalon {
-        display:none !important;
-    }
-    #illustTopSalon2{
-        display:none !important;
-    }
->>>>>>> b3737144e9af770f87c5acb1ac273df8b56038c9
 }; 

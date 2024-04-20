@@ -431,10 +431,6 @@ class DaoBeauty {
         return $salons;
     }
 
-
-
-
-
     public function getSalonByID(int $id_salon): ?Salon {
         
         $query = Requetes::SELECT_SALON_BY_ID;
@@ -691,6 +687,11 @@ class DaoBeauty {
         } 
         return $reservations;
     }
+/*******************************************************************************************************************************************************/
+// Reservation queries
+/*******************************************************************************************************************************************************/
+
+
     /**
      * Retourne la liste des rendez-vous de la BDD
      *
