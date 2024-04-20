@@ -17,17 +17,17 @@ use DateTime;
 // $salon = $dao ->addSalon($salon);
 
 // //Affiche test
-$dao = new DaoBeauty();
-$salons = $dao->getSalon();
-affiche($salons);
-echo '<hr>';
-
-// //Serch test
-
-// $keyWord = '0125547928';
 // $dao = new DaoBeauty();
-// $salons = $dao->searchSalon($keyWord);
+// $salons = $dao->getSalon();
 // affiche($salons);
+// echo '<hr>';
+
+// //Search test
+
+$keyWord = '0125547928';
+$dao = new DaoBeauty();
+$salons = $dao->searchSalon($keyWord);
+affiche($salons);
 
 
 

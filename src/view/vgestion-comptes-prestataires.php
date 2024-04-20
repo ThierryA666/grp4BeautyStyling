@@ -113,7 +113,7 @@ use beautyStyling\metier\Salon;
       </div>
     </main>
 
-  <script type ="module" src="/assets/js/gestion_comptes_prestataires.js"></script>
+  <!-- <script type ="module" src="/assets/js/gestion_comptes_prestataires.js"></script> -->
   <script src="https://kit.fontawesome.com/76614da91c.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

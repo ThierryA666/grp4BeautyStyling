@@ -1,21 +1,15 @@
 {
-    "name": "thier/grp4beauty-styling",
-    "description": "Project BeautyStyling",
+    "name": "maria/ecf",
     "autoload": {
         "psr-4": {
-            "Thier\\Grp4beautyStyling\\": "src/"
+            "beautyStyling\\": "C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\src"
         }
     },
     "authors": [
         {
             "name": "Mari Torres",
             "email": "mari11carmen_1989@hotmail.com"
-        },
-        {
-            "name": "Thierry Anglade",
-            "email": "thierryanglade66@gmail.com"
         }
-
     ],
     "require": {}
 }
