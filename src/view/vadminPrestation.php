@@ -16,7 +16,7 @@
 <header class="container-fluid"><!--Admin Nav Bar-->
     <nav class="navbar navbar-expand-lg bgnav">
         <div class="container-fluid">
-            <a class="navbar-brand bsfont" href="../webapp/index.php">
+            <a class="navbar-brand bsfont" href="#">
                 <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100"  class="d-inline-block align-text-center">
                 Beauty styling
             </a>  

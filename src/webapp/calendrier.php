@@ -20,7 +20,7 @@
   <header>
         <nav class="navbar navbar-expand-lg" style="background-color:#A0ECBA;"> <!-- On utilise le code de Takako pour le navbar-->
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="#" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="..\..\assets\img\logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -34,11 +34,7 @@
                             <a class="nav-link ms-5" aria-current="page" href="calendrier.php">Prendre rendez-vous</a>
                         </li>
                         <li class="nav-item">
-<<<<<<< HEAD
                             <a class="nav-link active link ms-5" aria-current="page" href="historiquedesrendezvous.php">Rendez-vous à venir</a>
-=======
-                            <a class="nav-link active link ms-5" aria-current="page" href="../webapp/historiquedesrendezvous.php">Rendez-vous à venir</a>
->>>>>>> e300d1ce81ad76875c002c3c55669c20a32d1b8c
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link ms-5" aria-current="page" href="#">Accueil</a>

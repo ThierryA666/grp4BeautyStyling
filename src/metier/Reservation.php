@@ -64,10 +64,10 @@ class Reservation {
         $this->detail_rndv = $detail_rndv;
     }
 
-    public function getId_etat(): Categorie {
+    public function getId_etat(): Etat {
         return $this->id_etat;
     }
-    public function setId_etat(Categorie $id_etat) {
+    public function setId_etat(Etat $id_etat) {
         $this->id_etat = $id_etat;
     }
 

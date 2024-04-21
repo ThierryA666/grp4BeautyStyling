@@ -16,7 +16,7 @@
     <header class="container-fluid"><!--Admin Nav Bar-->
         <nav class="navbar navbar-expand-lg bgnav" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand bsfont" href="../webapp/index.php">
+                <a class="navbar-brand bsfont" href="#">
                     <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>
@@ -29,7 +29,7 @@
                     <a class="nav-link" aria-current="page" href="#" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Historique</a>
+                    <a class="nav-link" href="../webapp/historiquedesrendezvous.php" style="font-family: 'DM Serif Display', serif;">Historique</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="../webapp/clientPaniers.php" style="font-family: 'DM Serif Display', serif;">Mes paniers</a>

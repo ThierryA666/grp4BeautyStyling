@@ -9,7 +9,10 @@ use beautyStyling\dao\DaoBeauty;
 use beautyStyling\metier\Client;
 use beautyStyling\metier\LigneDetails;
 use beautyStyling\metier\Employe;
-use beautyStyling\metier\Offrir;
+use beautyStyling\metier\Reservation;
+use beautyStyling\metier\Etat;
+use beautyStyling\metier\Salon;
+
 // use beautyStyling\metier\Etat;
 // use beautyStyling\metier\Prestation;
 // use beautyStyling\metier\Reservation;
@@ -54,7 +57,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
       $ligneDetails = $reservationDetails[0];
       $response = $daoBeauty->deleteLigneDetails($ligneDetails);
       if ($response) {
-        $daoBeauty->deleteReservation($ligneDetails->getIdRDV()->getId_rndv());
+        $daoBeauty->deleteReservation(new Reservation($ligneDetails->getIdRDV()->getId_rndv(), new \DateTime(), new \DateTime(), '', '', new Etat (1, 'Encours'), new Client(1,('Maria')), new Salon(0, '','', '', '', '', '', '', '', '', '', '', new \DateTime(), '')));
         $key = 0;
         unset($reservationDetails);
         header('Location:./clientPaniers.php');

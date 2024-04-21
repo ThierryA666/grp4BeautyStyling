@@ -23,7 +23,7 @@ use beautyStyling\metier\Salon;
     <header>
         <nav class="navbar navbar-expand-lg" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="vindex.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="#" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -43,7 +43,7 @@ use beautyStyling\metier\Salon;
                     <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Prestataires</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Prestations</a>
+                    <a class="nav-link" href="../webapp/adminListePrestations.php" style="font-family: 'DM Serif Display', serif;">Prestations</a>
                   </li>
                   
                 </ul>

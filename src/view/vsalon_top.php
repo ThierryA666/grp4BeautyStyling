@@ -17,7 +17,7 @@
     <header class="container-fluid">
         <nav class="navbar navbar-expand-md" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="../webapp/index.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  

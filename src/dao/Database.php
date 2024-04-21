@@ -2,11 +2,6 @@
 declare(strict_types=1);
 namespace beautyStyling\dao;
 
-use beautyStyling\dao\DaoCalendrier;
-use beautyStyling\dao\Requettes;
-use beautyStyling\metier\Reservation;
-use beautyStyling\metier\Etat;
-
 // require_once 'DaoException.php';
 use beautyStyling\dao\DaoException;
 

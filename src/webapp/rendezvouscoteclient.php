@@ -1,6 +1,9 @@
 <?php
 
 namespace beautyStyling\webapp;
+
+require_once '../../vendor/autoload.php';
+
 use PDO;
 use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\dao\DaoException;
@@ -9,16 +12,16 @@ use beautyStyling\dao\Requettes;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
 use beautyStyling\metier\Client;
-// use beautyStyling\metier\LigneDetails;
-use beautyStyling\view\vrendezvouscoteclient;
+use beautyStyling\metier\LigneDetails;
+//use beautyStyling\view\vrendezvouscoteclient;
 
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vrendezvouscoteclient.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vrendezvouscoteclient.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
 // include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\LigneDetails.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
+//include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
 // include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Client.php';
 
 function setDate($date) {
@@ -116,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         // Le nom du salon sélectionné n'a pas été trouvé dans la base de données
                         echo "Le salon sélectionné n'a pas été trouvé dans la base de données.";
                     }
-                } catch(PDOException $e) {
+                } catch(\PDOException $e) {
                     // Gérez les erreurs de connexion à la base de données
                     echo "Erreur lors de la connexion à la base de données: " . $e->getMessage();
                 }
@@ -136,4 +139,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // on peut laisser cette section vide ou afficher le formulaire ici si on le souhaite
 }
 
+include '../view/vrendezvouscoteclient.php';
 ?>

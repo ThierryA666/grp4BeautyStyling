@@ -1,24 +1,28 @@
 <?php
 
 namespace beautyStyling\webapp;
+
+require_once '../../vendor/autoload.php';
+
 use PDO;
 use beautyStyling\dao\DaoCalendrier;
 use beautyStyling\dao\Database;
-use beautyStyling\dao\Requettes;
+use beautyStyling\metier\Client;
 use beautyStyling\metier\Reservation;
 use beautyStyling\metier\Etat;
-use beautyStyling\view\vhistoriquedesrendezvous;
+use beautyStyling\metier\Salon;
+// use DateTime;
 
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vhistoriquedesrendezvous.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
-include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\View\vhistoriquedesrendezvous.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\DaoCalendrier.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Database.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Etat.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\metier\Reservation.php';
+// include 'C:\Users\Maria\Desktop\Formation Afpa\ECF\src\dao\Requettes.php';
 
 try {
     // Connexion à la base de données
-    $conn = Database::getConnection();
+    $conn = new DaoCalendrier();
 
     // Vérifier si une demande POST a été envoyée pour supprimer un rendez-vous
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_rndv'])) {
@@ -36,9 +40,10 @@ try {
             $response = $daoBeauty->deleteLigneDetails($ligneDetails);
             if ($response) {
                 // Si la suppression dans la table ligne_detail réussit, procéder à la suppression du rendez-vous dans la table reservation
-                $stmt = $conn->prepare("DELETE FROM reservation WHERE id_rndv = :id_rndv");
-                $stmt->bindParam(':id_rndv', $idRendezVous);
-                $stmt->execute();
+                // $stmt = $conn->prepare("DELETE FROM reservation WHERE id_rndv = :id_rndv");
+                // $stmt->bindParam(':id_rndv', $idRendezVous);
+                // $stmt->execute();
+                $conn->deleteReservation(new Reservation($idRendezVous, new \DateTime(), new \DateTime(), '', '', new Etat (1, 'Encours'), new Client(1,('Maria')), new Salon(0, '','', '', '', '', '', '', '', '', '', '', new \DateTime(), ''  )));
             } else {
                 // Si une erreur se produit lors de la suppression dans la table ligne_detail, afficher un message d'erreur
                 echo "Erreur lors de la suppression des informations dans la table ligne_detail";
@@ -55,49 +60,59 @@ try {
         $idRendezVous = $_POST['eliminar_rndv'];
 
         // Supprimer le rendez-vous de la base de données
-        $stmt = $conn->prepare("DELETE FROM reservation WHERE id_rndv = :id_rndv");
-        $stmt->bindParam(':id_rndv', $idRendezVous);
-        $stmt->execute();
-
+        // $stmt = $conn->prepare("DELETE FROM reservation WHERE id_rndv = :id_rndv");
+        // $stmt->bindParam(':id_rndv', $idRendezVous);
+        // $stmt->execute();
+        $conn->deleteReservation(new Reservation($idRendezVous, new \DateTime(), new \DateTime(), '', '', new Etat (1, 'Encours'), new Client(1,('Maria')), new Salon(0, '','', '', '', '', '', '', '', '', '', '', new \DateTime(), ''  )));
         echo "Le rendez-vous a été supprimé correctement";
     }
 
     // Vérifier si une requête POST a été envoyée pour mettre à jour les détails d'un rendez-vous
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_rndv']) && isset($_POST['nuevo_detalle'])) {
-        $idRendezVous = $_POST['id_rndv'];
-        $nuevoDetalle = $_POST['nuevo_detalle'];
+        $idRendezVous = intval(htmlspecialchars(trim($_POST['id_rndv'])));
+        $nuevoDetalle = htmlspecialchars(trim($_POST['nuevo_detalle']));
 
         // Mise à jour des détails dans la base de données
-        $stmt = $conn->prepare("UPDATE reservation SET detail_rndv = :nuevo_detalle WHERE id_rndv = :id_rndv");
-        $stmt->bindParam(':nuevo_detalle', $nuevoDetalle);
-        $stmt->bindParam(':id_rndv', $idRendezVous);
-        $stmt->execute();
+        // $stmt = $conn->prepare("UPDATE reservation SET detail_rndv = :nuevo_detalle WHERE id_rndv = :id_rndv");
+        // $stmt->bindParam(':nuevo_detalle', $nuevoDetalle);
+        // $stmt->bindParam(':id_rndv', $idRendezVous);
+        // $stmt->execute();
+        $conn->updateReservation(new Reservation($idRendezVous, new \DateTime(), new \DateTime(), '', $nuevoDetalle, new Etat (1, 'Encours'), new Client(1,('Maria')), new Salon(0, '','', '', '', '', '', '', '', '', '', '', new \DateTime(), ''  ) ));
 
         echo "Les détails ont été actualisé correctement";
     }
 
     // Requête SQL pour obtenir tous les rendez-vous avec les informations de l'état correspondant
-    $sql = "SELECT r.id_rndv, r.h_rndv, r.d_rndv, r.nom_rndv, r.detail_rndv, e.id_etat, e.libel_etat, r.id_client, r.id_salon 
-        FROM reservation r 
-        JOIN etat e ON r.id_etat = e.id_etat";
-    $stmt = $conn->query($sql);
-
+    // $sql = "SELECT r.id_rndv, r.h_rndv, r.d_rndv, r.nom_rndv, r.detail_rndv, e.id_etat, e.libel_etat, r.id_client, r.id_salon 
+    //     FROM reservation r 
+    //     JOIN etat e ON r.id_etat = e.id_etat";
+    // $stmt = $conn->query($sql);
+    $rndvs = $conn->getRendezVous();
     // Vérifier les résultats
-    if ($stmt->rowCount() > 0) {
+    // if ($stmt->rowCount() > 0) {
+    if (count($rndvs) > 0) {
     // Afficher les données de chaque rendez-vous et les boutons pour supprimer et modifier les détails
     echo "<table style='width:100%; border-collapse: collapse;'>";
     echo "<tr><th style='padding: 8px; border: 1px solid #dddddd;'>Id</th><th style='padding: 8px; border: 1px solid #dddddd;'>Heure</th><th style='padding: 8px; border: 1px solid #dddddd;'>Date</th><th style='padding: 8px; border: 1px solid #dddddd;'>Nom</th><th style='padding: 8px; border: 1px solid #dddddd;'>Détails</th><th style='padding: 8px; border: 1px solid #dddddd;'>État</th><th style='padding: 8px; border: 1px solid #dddddd;'>Salon</th><th style='padding: 8px; border: 1px solid #dddddd;'>Modifier</th><th style='padding: 8px; border: 1px solid #dddddd;'>Supprimer</th></tr>";
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    // while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach ($rndvs as $key => $rndv) {    
     echo "<tr>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["id_rndv"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["h_rndv"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["d_rndv"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["nom_rndv"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["detail_rndv"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["libel_etat"] . "</td>"; // Mostrar el estado del evento
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["id_salon"] . "</td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'><button style='background: green; border: none; cursor: pointer;' onclick='editarDetalle(" . $row["id_rndv"] . ")'><i class='bi bi-pencil' style='color:white;'></i></button></td>";
-    echo "<td style='padding: 8px; border: 1px solid #dddddd;'><form method='post'><input type='hidden' name='eliminar_rndv' value='" . $row["id_rndv"] . "'><button type='submit' style='background: red; border: none; cursor: pointer;'><i class='bi bi-x' style='color:white;'></i></button></form></td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["id_rndv"] . "</td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["h_rndv"] . "</td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["d_rndv"] . "</td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["nom_rndv"] . "</td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["detail_rndv"] . "</td>";
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["libel_etat"] . "</td>"; // Mostrar el estado del evento
+    // echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $row["id_salon"] . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getId_rndv() . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getH_rndv()->format('H:i:s') . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getD_rndv()->format('d-m-Y') . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getNom_rndv() . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getDetail_rndv() . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getId_etat()->getLibel_etat() . "</td>"; // Mostrar el estado del evento
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'>" . $rndv->getId_salon()->getNom_salon() . "</td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'><button style='background: green; border: none; cursor: pointer;' onclick='editarDetalle(" . $rndv->getId_rndv() . ")'><i class='bi bi-pencil' style='color:white;'></i></button></td>";
+    echo "<td style='padding: 8px; border: 1px solid #dddddd;'><form method='post'><input type='hidden' name='eliminar_rndv' value='" . $rndv->getId_rndv() . "'><button type='submit' style='background: red; border: none; cursor: pointer;'><i class='bi bi-x' style='color:white;'></i></button></form></td>";
     echo "</tr>";
     }
     echo "</table>";
@@ -105,9 +120,11 @@ try {
     echo "Vous n'avez aucun rendez-vous à venir. Vous pouvez prendre un rendez-vous";
     }
 
-} catch (PDOException $e) {
+} catch (\PDOException $e) {
     echo "Erreur de Connexion: " . $e->getMessage();
 }
+
+include '../view/vhistoriquedesrendezvous.php';
 ?>
 
 <script>

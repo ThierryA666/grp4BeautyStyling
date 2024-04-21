@@ -59,7 +59,7 @@ function getOption (datas){
   if(listCity.length==0) throw new Error ('Il y a une erreur de saisie sur code postale.');
   inputCity.innerHTML=""
   listCity.forEach(com =>{
-  inputCity.innerHTML += `<option value ="${com.code}">${com.nom}</option>`;  
+  inputCity.innerHTML += `<option value ="${com.nom}">${com.nom}</option>`;  
   })
 } 
 // inputPW1.addEventListener("change", (event)=>{
