@@ -126,8 +126,7 @@ class DaoBeauty {
             $query = Requetes::DELETE_PRESTA_BY_ID;
             try {
                 $statement= $this->conn->prepare($query);
-                $statement->execute(['idPresta' => $id]);
-                $response = $statement->execute();
+                $response = $statement->execute(['idPresta' => $id]);
                 return $response;
             }
             catch (\PDOException $pdoe) {
@@ -758,6 +757,38 @@ class DaoBeauty {
         return $etats;
     }
 
+    public function deleteReservation(Reservation $reservation) : ? bool {
+        if (!isset($reservation)) {throw new DaoException('Cet reservation est inexistante',8002);}
+        $query      = Requetes::DELETE_RESERVATION_BY_ID;
+        try {
+            $statement  = $this->conn->prepare($query);
+            $statement->bindValue(':id_rndv', $reservation->getId_rndv(), \PDO::PARAM_INT);
+            $response = $statement->execute();
+            if ($response) {
+                return $response;
+            } else {
+                throw new \PDOException('La reservation est inexistante', 8003);
+            }
+        }
+        catch (\PDOException $pdoe) {
+            // echo 'Erreur PDO : ' . $pdoe->getCode();
+            // echo '<br>';
+            // print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1451:
+                    if (str_contains($pdoe->errorInfo[2],"FOREIGN KEY")) throw new \Exception();
+                default:
+                    throw $pdoe;
+            }
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+
     public function getEmploye(Employe $employe) : ? Employe {
         if (!isset($employe)) {
             throw new DaoException('Cet employe est inexistant',8002);
@@ -880,9 +911,84 @@ class DaoBeauty {
                 case 1062:
                     if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
                     if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
-                    case 8002:
+                case 8002:
                         if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
                         if (str_contains($pdoe->errorInfo[2],"id_rndv, id_presta"))throw new \Exception();
+                default:
+                    throw $pdoe;
+            } 
+        } 
+        catch (\Exception $e) {
+            throw $e;
+        }
+        catch (\Error $error) {
+            throw $error;
+        } 
+    }
+
+    public function deleteLigneDetails(LigneDetails $ligneDetails) : ? bool {
+        if (!isset($ligneDetails)) {
+            throw new DaoException('Objet LigneDetails est inexistant',8003);
+            $ligneDetails = null; 
+        } else {
+            $query = requetes::DELETE_LIGNE_DETAILS;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->bindValue(':idRndv', $ligneDetails->getIdRDV()->getId_rndv());
+                $response = $statement->execute();
+                if ($response) {
+                    return $response;
+                } else {
+                    throw new \PDOException('La ligne detail est inexistante', 8003);
+                }
+            }
+            catch (\PDOException $pdoe) {
+                switch ($pdoe-> getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"ligne_detail"))throw new \Exception();
+                    case 8003:
+                        throw new \Exception('La ligne detail est inexistante', 8003);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }
+
+    public function getOffrir(Salon $salon, Prestation $prestation) : ? OFFRIR {
+        if (!isset($salon) || !isset($prestation)) throw new DaoException('Ce salon ou cette prestation est inexistant(e)',8003);
+        $query = Requetes::SELECT_OFFRIR_BY_PRESTA_SALON;
+        try {
+            $statement= $this->conn->prepare($query);
+            $statement->bindValue(':idPresta', $prestation->getIdPresta(), \PDO::PARAM_INT);
+            $statement->bindValue(':idSalon', $salon->getId_salon(), \PDO::PARAM_INT);
+            $statement->execute();
+            $row = $statement->fetch(\PDO::FETCH_OBJ);
+            if ($row) {
+                $offrir = new Offrir($prestation, $salon, floatval($row->prix_prest_salon));
+                return $offrir;
+            } else {
+                return null;
+            }
+        }
+        catch (\PDOException $pdoe) {
+            echo 'Erreur PDO : ' . $pdoe->getCode();
+            echo '<br>';
+            print_r ($pdoe->errorInfo);
+            switch ($pdoe->errorInfo[1]) {
+                case 1062:
+                    if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                    if (str_contains($pdoe->errorInfo[2],"id_salon, id_presta"))throw new \Exception();
+                case 8002:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_salon, id_presta"))throw new \Exception();
                 default:
                     throw $pdoe;
             } 

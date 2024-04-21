@@ -13,7 +13,12 @@
 <div class="container">
     <div>
         <p><h1 class="h4 animate-bounce text-primary">Welcome to Beauty Styling salon: <?=$salon->getNom_salon()?>!!</h1></p>
+        <p class="fs-5 text-primary"><?=$salon->getAd1()?> <?=$salon->getAd2()?> <?=$salon->getCp_salon()?> <?=$salon->getNom_ville()?></p>
     </div>
+    <div class="d-flex">
+        <p class="mx-2 text-primary"><?=$salon->getUrl_salon()?></p>
+        <p class="mx-2 text-primary">TEL: 0<?=$salon->getTel_salon()?></p>
+    </div> 
 </div>
 <footer class="fixed-bottom d-flex justify-content-end p-3">
     <div>

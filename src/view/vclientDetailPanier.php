@@ -51,10 +51,11 @@
             <form id="actionPanier" name="actionPanier" method="post" class="d-inline" action="../webapp/clientDetailPanier.php">
               <div class="d-inline-flex">
                 <div>
-                  <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de ma réservation <?=$reservationDetail->getIdRDV()->getNom_rndv()?>, chez <a href="#"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
+                  <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de ma réservation <?=$reservationDetail->getIdRDV()->getNom_rndv()?>
+                  , chez <a href="#" id="popUpSalon" name="popUpSalon<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>" value="<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
                 </div>
                 <div>
-                  <button id="suppReservation" name="suppReservation" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
+                  <button id="suppReservation" name="suppReservation" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?> disabled" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
                 </div>
                 <div>
                   <button id="backToListe" type="submit" formmethod="post" formaction="../webapp/clientPaniers.php" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
@@ -74,7 +75,7 @@
                   Prestation:<br><span name="prestation" class="p-1 fw-bold"><?=$reservationDetail->getIdPresta()->getNomPresta()?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                  Prix:<br><span name="prix" class="p-1"><?=$reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
+                  Prix:<br><span name="prix" class="p-1"><?=($offrirs[$key] ? (($offrirs[$key]->getPrix_prest_salon() == 0) ? $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() : $offrirs[$key]->getPrix_prest_salon()) : $reservationDetail->getIdPresta()->getPrixIndPrestaEuro())?>€</span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
                   Quantité:</label>
@@ -87,11 +88,11 @@
                   Option:</label><br><span name="option" class="p-1 text-primary"><?=$reservationDetail->getIdEmploye()->getNomEmploye()?></span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
-                  Total:</label><br><span name="total" class="p-1"><?=$reservationDetail->getQte() * $reservationDetail->getIdPresta()->getPrixIndPrestaEuro()?>€</span>
+                  Total:</label><br><span name="total" class="p-1"><?=$reservationDetail->getQte() * ($offrirs[$key] ? (($offrirs[$key]->getPrix_prest_salon() == 0) ? $reservationDetail->getIdPresta()->getPrixIndPrestaEuro() : $offrirs[$key]->getPrix_prest_salon()) : $reservationDetail->getIdPresta()->getPrixIndPrestaEuro())?>€</span>
                 </div>
                 <div class="grid-item col-form-label col-form-label-sm">
                   Modifier la ligne</label><br>
-                    <button name="modifLigne" class="bsIconButtonPencil " type="submit" value="<?=$reservationDetail->getnumligne()?>"><i id="p17" class="bi bi-pencil p-1 col-sm slide-up"></i></button>
+                    <button name="modifLigne" class="bsIconButtonPencil " type="submit" value="<?=$reservationDetail->getnumligne()?>"><i id="p17" class="bi bi-pencil p-1 col-sm animation-slide-up"></i></button>
                     <input type="hidden" name="idRndv" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>">
                     <input type="hidden" name="idPresta" value="<?=$reservationDetail->getIdPresta()->getIdPresta()?>">
                     <input type="hidden" name="numLigne" value="<?=$reservationDetail->getnumligne()?>">
