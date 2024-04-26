@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Lors du premier chargement de la page 
     $dao = new DaoBeauty();
     $prestations=[];
-    //$salons = $dao->getSalon();
+    $salons = [];
     $prestations = $dao->getPrestations();
     }
 

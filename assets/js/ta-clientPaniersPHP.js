@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let $salonID = event.target.attributes.value.nodeValue;
     
         // Construct the URL with parameters
-        let $url = '../webapp/popUpSalon.php?salonID=' + encodeURIComponent($salonID);
+        let $url = '/src/webapp/popUpSalon.php?salonID=' + encodeURIComponent($salonID);
     
         // Open the new window
         window.open($url, 'PopupWindow', 'width=600,height=400');
     }
 
-    if (document.location.pathname ==='/src/webapp/clientPaniers.php') {
+    if (document.location.pathname ==='/src/paniers') {
         let $popUps = document.querySelectorAll('#popUpSalon');
         $popUps.forEach( popup => {
             popup.addEventListener('click', popUpSalon);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('closePopup').addEventListener('click', function() { window.close();});
     }
 
-    if (document.location.pathname ==='/src/webapp/clientDetailPanier.php') {
+    if (document.location.pathname ==='/src/panierDetail') {
         document.getElementById('popUpSalon').addEventListener('click', popUpSalon);
     };
     

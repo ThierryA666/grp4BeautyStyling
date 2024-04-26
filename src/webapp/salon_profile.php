@@ -7,8 +7,8 @@ use beautyStyling\dao\DaoBeauty;
 use beautyStyling\dao\DaoException;
 
 $message = ' ';
-echo 'coucou';
-var_dump($_GET);
+// echo 'coucou';
+// var_dump($_GET);
 
 
 // Verifier s'il y a des donnes POST

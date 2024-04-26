@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     "use strict";
-    if (document.location.pathname ==='/src/webapp/adminListePrestations.php') {
+    if ((document.location.pathname ==='/src/prestations/suppression') || (document.location.pathname ==='/src/prestations')) {
         function addTextToModal (event) {
             event.preventDefault();
             let modal = document.getElementById('dialogConfirm');
@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let button = event.target;
                 let prestation = button.getAttribute('data-prestation');
                 let id = button.getAttribute('data-id');
-                console.dir(prestation);
-                console.dir(id);
                 let modalBody = modal.querySelector('.modal-body');
                 modalBody.innerHTML = '';
                 let fragment = document.createDocumentFragment();
@@ -34,21 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('click', addTextToModal);
         })
     }        
-
-    if (document.location.pathname ==='/src/webapp/adminPrestation.php') {
-
+    if ((document.location.pathname ==='/src/prestation/modification') || (document.location.pathname ==='/src/prestation/suppression')) {
         function suppPresta (event) {
             event.preventDefault();
-            console.log(event.target.id);
             let modal = document.getElementById('dialogConfirm');
             modal.addEventListener('show.bs.modal', $(document).ready(function () {
                 // Get the button that triggered the modal
                 let button = event.target;
                 let prestation = button.getAttribute('data-prestation');
                 let id = button.getAttribute('data-id');
-                console.dir(button);
-                console.dir(prestation);
-                console.dir(id);
                 let modalBody = modal.querySelector('.modal-body');
                 modalBody.innerHTML = '';
                 let fragment = document.createDocumentFragment();
@@ -58,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalBody.appendChild(fragment);
                 let form = $('#formPresta');
                 $(form).find('input[name="keyPresta"]').val(id);
-                console.dir(form);
                 let clikOK = document.getElementById('actionModal');
                 clikOK.addEventListener('click' , function () {
                     event.preventDefault();

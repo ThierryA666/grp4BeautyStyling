@@ -77,5 +77,5 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
   }
 }
 
-include '../view/vadminListePrestations.php';
+include '../view/admin/vadminListePrestations.php';
 ?>

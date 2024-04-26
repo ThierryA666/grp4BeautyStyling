@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /GRP4BEAUTYSTYLING/src
+#Règle absolument nécessaire
+RewriteRule ^(.+)$ index.php [QSA,L]
