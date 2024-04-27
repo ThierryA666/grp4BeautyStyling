@@ -50,19 +50,19 @@ class CntrlClient {
         try { //check for DB connection
         $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
-        header('Location:./error.php');
+            require './view/verror.php';
+            exit;
         }
         $client = new Client(1, 'Thierry');
         $clientSalons = array();
         $rndvs = array();
-        $msgUtilisateur = [];
         $selected = false;
         try{ //Retrieve  les réservations du client
             $reservations = $daoBeauty->getRendezVous();
             $rndvs = $this->getReservationsByClient($reservations, $client);
             $clientSalons = $this->getUniqueSalonsListe($reservations, $client);
-            } catch (\Exception $e) {
-            header('Location:./error.php');
+        } catch (\Exception $e) {
+            require './view/verror.php';
             exit;
         }
         if (isset($_POST['salons']) && isset($_POST['search']) && $_POST['salons'] !== 'showAll'  && $_POST['dateAfter'] === '' && $_POST['dateBefore'] === '') {   
@@ -74,8 +74,8 @@ class CntrlClient {
             $reservations = $daoBeauty->getReservationsBySalon($salonSelected);
             $rndvs = $this->getReservationsByClient($reservations, $client);
             } catch (\Exception $e) {
-            header('Location:./error.php');
-            exit;
+                require './view/verror.php';
+                exit;
             }
         } elseif (isset($_POST['search']) && $_POST['salons'] === 'showAll' && ($_POST['dateAfter'] !== '' || $_POST['dateBefore'] !== '')) {
             $rndvs = [];
@@ -95,15 +95,14 @@ class CntrlClient {
             $dateAfter = htmlspecialchars(trim($_POST['dateAfter']));
             $rndvs = $this->searchReservationBydate($rndvs, $dateBefore, $dateAfter);
             } catch (\Exception $e) {
-            header('Location:./error.php');
-            exit;
+                require './view/verror.php';
+                exit;
             }
         } elseif (isset($_POST['search']) && $_POST['salons'] === 'showAll' && $_POST['dateAfter'] === '' && $_POST['dateBefore'] === '') {
             $rndvs = [];
             $rndvs = $this->getReservationsByClient($reservations, $client);
         } else {
-        // echo ('I am nowhere!');
-        //No processing to be done
+            $msgUtilisateur = [];
         }
         require './view/client/vclientPaniers.php';
     }
@@ -126,12 +125,11 @@ class CntrlClient {
                     $response = $daoBeauty->deleteReservation($reservation);
                     if ($response) {
                         $msgUtilisateur = ['success' => true, 'message' => 'BeautyStyling Info, la réservation ' . $reservation->getNom_rndv() . ' a été supprimée!', 'style' => 'text-primary', 'msgShow' => true];
-                        $_SESSION['msgUtilisateur'] = $msgUtilisateur;
                     }
                 }
             } catch (\Exception $e) {
-            header('Location:./error.php');
-            exit;
+                require './view/verror.php';
+                exit;
             }
         }
         try{
@@ -141,7 +139,7 @@ class CntrlClient {
             $rndvs = $this->getReservationsByClient($reservations, $client);
             $clientSalons = $this->getUniqueSalonsListe($reservations, $client);
         } catch (\Exception $e) {
-            header('Location:./error.php');
+            require './view/verror.php';
             exit;
         }
         require './view/client/vclientPaniers.php';
@@ -152,7 +150,8 @@ class CntrlClient {
         try { //check for DB connection
         $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
-        header('Location:./error.php');
+            require './view/verror.php';
+            exit;
         }
         $totalPanier = 0;
         $client = new Client(1, 'Thierry');
@@ -170,12 +169,12 @@ class CntrlClient {
             $ligneDetails = new LigneDetails($reservationDetails, $daoBeauty->getPrestationByID($presta), $numLigne, new Employe(1,''), $qte);
             $response = $daoBeauty->updateLigneDetails($ligneDetails);
             if (!$response) {
-                header('Location:./error.php');
+                require './view/verror.php';
                 exit;
             }
             } catch (\Exception $e) {
-            header('Location:./error.php');
-            exit;
+                require './view/verror.php';
+                exit;
             }
         }
         try {
@@ -188,7 +187,7 @@ class CntrlClient {
                 $totalPanier += $reservationDetail->getQte() * ($offrir ? ($offrir->getPrix_prest_salon() != 0 ? $offrir->getPrix_prest_salon() : $reservationDetail->getIdPresta()->getPrixIndPrestaEuro()) : $reservationDetail->getIdPresta()->getPrixIndPrestaEuro());
             }
         } catch (\Exception $e) {
-            header('Location:./error.php');
+            require './view/verror.php';
             exit;   
         }
         include './view/client/vclientDetailPanier.php';

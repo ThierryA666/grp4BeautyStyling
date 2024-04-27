@@ -3,8 +3,15 @@
     $bodyClass="bodybg";
     $style = '';
     ob_start();
+    include './view/include/incHead.php';
+    $head = ob_get_clean();
+    ob_start();
     include './view/include/incMenuBarSalon.php';
     $menuBar = ob_get_clean();
+    $modal = "";
+    ob_start();
+    include './view/include/incScriptSrcSalon.php';
+    $script = ob_get_clean();
     ob_start();
     include './view/include/incFooterSalon.php';
     $footer = ob_get_clean();
@@ -21,4 +28,4 @@
     </div>    
 </main>
 <?php $content = ob_get_clean();?>
-<?php require ('./view/baseSalon.php');?>
+<?php require ('./view/base.php');?>

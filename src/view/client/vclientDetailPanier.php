@@ -1,8 +1,9 @@
 <?php
     $title = 'clientPanierDetail';
+    ob_start();
+    include './view/include/IncHead.php';
+    $head = ob_get_clean();
     $bodyClass="bodybg";
-    $img = $reservationDetail->getIdRDV()->getId_salon()->getPhoto_salon();
-    $style = "background: url('../../assets/img/photos-salon/$img')"; "no-repeat center fixed;background-size: cover";
     ob_start();
     include './view/include/incMenuBarClient.php';
     $menuBar = ob_get_clean();
@@ -12,10 +13,13 @@
     ob_start();
     include './view/include/incFooterClient.php';
     $footer = ob_get_clean();
+    ob_start();
+    include './view/include/incScriptSrcClient.php';
+    $script = ob_get_clean();
 ?>
 <?php ob_start(); ?> 
 <main>
-  <section><!--Dialogue panier sauvegarde/supprimer-->
+  <section><!--Dialogue panier supprimer/retour Liste-->
     <div class="container mx-auto grow">
       <div class="my-3 col-md-11 mx-auto">
         <div class="d-inline-flex">
@@ -30,12 +34,12 @@
             </form>
           </div>
           <div>
-            <!-- <form method="get" name="backToList" action="<?=APP_ROOT.'/paniers'?>" class="d-inline"></form> -->
-              <button type="button" id="backToList" method="get" name="backToList" action="<?=APP_ROOT.'/paniers'?>" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
-            <!-- </form> -->
+            <form method="post" name="toListe" action="<?=APP_ROOT.'/paniers'?>" class="d-inline">
+              <button type="submit" id="backToList" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
+            </form>
           </div>
         </div>
-        <p class="<?=$_SESSION['msgUtilisateur']?($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur']['style'] : 'd-none'):''?>"><?=$_SESSION['msgUtilisateur']?$_SESSION['msgUtilisateur']['message']:''?></p>
+        <p class="fw-bold <?=isset($msgUtilisateur['msgShow'])?$msggUtilisateur['style']:'d-none'?>"><?=isset($msgUtilisateur['message'])?$msgUtilisateur['message']:null?></p>
       </div>
     </div>
   </section>
@@ -93,4 +97,4 @@
   </section>
 </main>
 <?php $content = ob_get_clean();?>
-<?php require ('./view/baseClient.php');?>
+<?php require ('./view/base.php');?>

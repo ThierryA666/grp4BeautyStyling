@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg bgnav" style="background-color:#A0ECBA;">
         <div class="container-fluid">
             <a class="navbar-brand bsfont" href="<?=APP_ROOT. '/'?>">
-            <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100"  class="d-inline-block align-text-center">Beauty styling</a>
+            <img src="<?=PUBLIC_ROOT.'assets/img/logo-beautystyling.jpg'?>" alt="Logo Beauty Styling" width="100"  class="d-inline-block align-text-center">Beauty styling</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

@@ -1,18 +1,23 @@
 <?php
-    $title = 'clientPaniers';
-    $bodyClass="bodybg";
-    $style = '';
-    ob_start();
-    include './view/include/incMenuBarClient.php';
-    $menuBar = ob_get_clean();
-    ob_start();
-    include './view/include/incModal.php';
-    $modal = ob_get_clean();
-    ob_start();
-    include './view/include/incFooterClient.php';
-    $footer = ob_get_clean();
+  $title = 'clientPaniers';
+  ob_start();
+  include './view/include/IncHead.php';
+  $head = ob_get_clean();
+  $bodyClass="bodybg";
+  ob_start();
+  include './view/include/incMenuBarClient.php';
+  $menuBar = ob_get_clean();
+  ob_start();
+  include './view/include/incModal.php';
+  $modal = ob_get_clean();
+  ob_start();
+  ob_start();
+  include './view/include/incFooterClient.php';
+  $footer = ob_get_clean();
+  include './view/include/incScriptSrcClient.php';
+  $script = ob_get_clean();
 ?>
-<?php ob_start(); ?>   
+<?php ob_start(); ?>
 <main>
   <section id="search"><!--Recherche par salons ou par dates-->
     <div class="container bgbs col-md-11 mx-auto">
@@ -20,7 +25,7 @@
         <form id="formSearch" name="search" method="post" action="<?=APP_ROOT.'/paniers'?>">
           <div class="d-inline">
             <h1 class="h4 text-dark text-start mx-auto">Mes réservations</h1>
-            <p class="<?=$_SESSION['msgUtilisateur']?($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur']['style'] : 'd-none'):''?>"><?=$_SESSION['msgUtilisateur']?$_SESSION['msgUtilisateur']['message']:''?></p>
+            <p class="fw-bold <?=(isset($msgUtilisateur['msgShow'])?$msgUtilisateur['style'] :'d-none')?>"><?=isset($msgUtilisateur['message'])?$msgUtilisateur['message']:null?></p>
             <label for="salons" class="mx-1">Sélectionnez un salon et/ou 2 dates:</label>
             <select id="salons" name="salons" class="mx-1">
               <option value="showAll">--**Montrez tous les salons**--</option>
@@ -74,5 +79,5 @@
   </section>
 </main>
 <?php $content = ob_get_clean();?>
-<?php require ('./view/baseClient.php');?>
+<?php require ('./view/base.php');?>
 

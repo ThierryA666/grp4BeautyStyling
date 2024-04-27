@@ -20,6 +20,8 @@ $uri = $_SERVER['REQUEST_URI'];
 $route = explode('?', $uri)[0];
 // var_dump($_POST);
 // var_dump($_GET);
+// var_dump($route);
+// var_dump($_SESSION);
     
 $method = strtolower($_SERVER['REQUEST_METHOD']);
 

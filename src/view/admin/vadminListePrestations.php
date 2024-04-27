@@ -1,5 +1,8 @@
 <?php
     $title = 'adminPrestationList';
+    ob_start();
+    include './view/include/IncHead.php';
+    $head = ob_get_clean();
     $bodyClass="adminbg";
     ob_start();
     include './view/include/incMenuBarAdmin.php';
@@ -7,6 +10,12 @@
     ob_start();
     include './view/include/incModal.php';
     $modal = ob_get_clean();
+    ob_start();
+    include './view/include/incFooterAdmin.php';
+    $footer = ob_get_clean();
+    ob_start();
+    include './view/include/incScriptSrcAdmin.php';
+    $script = ob_get_clean();
 ?>
 <?php ob_start(); ?>
 <main> 
@@ -14,7 +23,7 @@
         <div class="container"> <h1 class="h4 text-dark text-center my-5">Liste des prestations</h1>
             <div class="input container col-md-11 mx-auto rounded-2 p-3">
                 <div>
-                    </p><h2 class="h5 <?=$msgUtilisateur['msgShow'] ? $msgUtilisateur['style'] : 'd-none'?>"><?=$msgUtilisateur['message']?></h2></p>
+                    </p><h2 class="h5 <?=isset($msgUtilisateur)?($msgUtilisateur['msgShow'] ? $msgUtilisateur['style'] : 'd-none'):$msgUtilisateur['style']?>"><?=isset($msgUtilisateur)?$msgUtilisateur['message']:null?></h2></p>
                 </div>
                 <form id="formCreate" name="createPrestation" method="post" action="<?=APP_ROOT.'/prestation/ajout'?>">
                     <button type="submit" id="buttonGoToCreate" class="bsbtn2 btn d-flex mx-auto rounded-2 p-2" value="createPrestation">Créer une prestation</button>
@@ -55,4 +64,4 @@
     </section>
 </main>
 <?php $content = ob_get_clean();?>
-<?php require ('./view/baseAdmin.php');?>
+<?php require ('./view/base.php');?>

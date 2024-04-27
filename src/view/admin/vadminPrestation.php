@@ -1,5 +1,8 @@
 <?php
-    $title = 'adminPrestationList';
+    $title = 'adminPrestation';
+    ob_start();
+    include './view/include/IncHead.php';
+    $head = ob_get_clean();
     $bodyClass="adminbg";
     ob_start();
     include './view/include/incMenuBarAdmin.php';
@@ -7,6 +10,12 @@
     ob_start();
     include './view/include/incModal.php';
     $modal = ob_get_clean();
+    ob_start();
+    include './view/include/incFooterAdmin.php';
+    $footer = ob_get_clean();
+    ob_start();
+    include './view/include/incScriptSrcAdmin.php';
+    $script = ob_get_clean();
 ?>
 <?php ob_start(); ?>
 <main>
@@ -66,4 +75,4 @@
 
 </main>
 <?php $content = ob_get_clean();?>
-<?php require ('./view/baseAdmin.php');?>
+<?php require ('./view/base.php');?>

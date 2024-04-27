@@ -22,7 +22,8 @@ class CntrlAdmin {
         try { //check DB connection
         $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
-        header('Location:./error.php');
+          require './view/verror.php';
+          exit;
         }
 
         //Not very useful, it's just to set the message on first entry
@@ -90,7 +91,7 @@ class CntrlAdmin {
         try { //check for DB connection
           $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
-          header('Location:./error.php');
+          require('./view/verror.php');
         }
         $min = MIN;
         $max = MAX;
