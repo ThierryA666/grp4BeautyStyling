@@ -19,10 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let clikOK = document.getElementById('actionModal');
                 clikOK.addEventListener('click' , function () {
                     event.preventDefault();
-                    //console.log('Hello!');
                     let form = $('#formSupp' + id);
                     $(form).find('input[name="key"]').val(id);
-                    console.dir(form);
                     $(form).submit();
                 })
             }));
@@ -32,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('click', addTextToModal);
         })
     }        
-    if ((document.location.pathname ==='/src/prestation/modification') || (document.location.pathname ==='/src/prestation/suppression')) {
+    if ((document.location.pathname ==='/src/prestation/edition') || (document.location.pathname ==='/src/prestation/suppression')) {
         function suppPresta (event) {
             event.preventDefault();
             let modal = document.getElementById('dialogConfirm');
@@ -53,10 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let clikOK = document.getElementById('actionModal');
                 clikOK.addEventListener('click' , function () {
                     event.preventDefault();
-                    console.log('Hello!');
                     let form = $('#formPresta');
                     $(form).find('input[name="keyPresta"]').val(id);
-                    console.dir(form);
                     $(form).submit();
                 })
             }));

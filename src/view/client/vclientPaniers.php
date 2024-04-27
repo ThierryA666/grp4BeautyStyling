@@ -6,6 +6,9 @@
     include './view/include/incMenuBarClient.php';
     $menuBar = ob_get_clean();
     ob_start();
+    include './view/include/incModal.php';
+    $modal = ob_get_clean();
+    ob_start();
     include './view/include/incFooterClient.php';
     $footer = ob_get_clean();
 ?>
@@ -14,9 +17,10 @@
   <section id="search"><!--Recherche par salons ou par dates-->
     <div class="container bgbs col-md-11 mx-auto">
       <div class="row my-1 justify-content-between d-block">
-        <form id="formSearch" name="search" method="post" action="#">
+        <form id="formSearch" name="search" method="post" action="<?=APP_ROOT.'/paniers'?>">
           <div class="d-inline">
             <h1 class="h4 text-dark text-start mx-auto">Mes réservations</h1>
+            <p class="<?=$_SESSION['msgUtilisateur']?($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur']['style'] : 'd-none'):''?>"><?=$_SESSION['msgUtilisateur']?$_SESSION['msgUtilisateur']['message']:''?></p>
             <label for="salons" class="mx-1">Sélectionnez un salon et/ou 2 dates:</label>
             <select id="salons" name="salons" class="mx-1">
               <option value="showAll">--**Montrez tous les salons**--</option>
@@ -27,11 +31,11 @@
           </div>
           <div class="d-inline">
               <label for="dateAfter" class="mx-1">Après le :</label>
-              <input type="date" id="dateAfter" name="dateAfter" class="rounded-2">
-            </div>
+              <input type="date" id="dateAfter" name="dateAfter" class="rounded-2" value="<?=isset($_POST['dateAfter'])?$_POST['dateAfter']:null?>">
+          </div>
           <div class="d-inline">
               <label for="dateBefore" class="mx-1">Avant le :</label>
-              <input type="date" id="dateBefore" name="dateBefore" min="1" max="5" class="mx-1 rounded-2">
+              <input type="date" id="dateBefore" name="dateBefore" min="1" max="5" class="mx-1 rounded-2" value="<?=isset($_POST['dateBefore'])?$_POST['dateBefore']:null?>">
           <div class="d-inline">
               <button id="search" name="search" value="search" class="btn bsbtn1 btn-outline-primary" type="submit"><i class="bi bi-search"></i>&nbsp;&nbsp;Trouvez moi</button>
           </div>

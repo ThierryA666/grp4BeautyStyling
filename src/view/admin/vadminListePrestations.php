@@ -4,6 +4,9 @@
     ob_start();
     include './view/include/incMenuBarAdmin.php';
     $menuBar = ob_get_clean();
+    ob_start();
+    include './view/include/incModal.php';
+    $modal = ob_get_clean();
 ?>
 <?php ob_start(); ?>
 <main> 
@@ -34,14 +37,14 @@
                     <div class="grid-item" ><span class="p-1"><?=$prestation->getCreationDate()->format('d-m-Y')?></span></div>
                     <div class="grid-item" ><span class="p-1"><?=$prestation->getModifDate() ? $prestation->getModifDate()->format('d-m-Y') : ''?></span></div>
                     <div class="grid-item">
-                        <form id="actionPresta<?=$key?>" name="actionPresta" action="<?=APP_ROOT.'/prestation/modification'?>" method="post">
+                        <form id="actionPresta<?=$key?>" name="actionPresta" action="<?=APP_ROOT.'/prestation/edition'?>" method="post">
                             <button type="submit" id="modif<?=$key?>" class="bsIconButtonPencil"><i id="mod<?=$key?>" class="bi-pencil m-2 p-3"></i></button>
                             <input type="hidden" name="key" value="modifPresta<?=$prestation->getIdPresta()?>">
                         </form>
                     </div>
                     <div class="grid-item">
                         <form id="formSupp<?=$key?>" name="formSupp" action="<?=APP_ROOT.'/prestations/suppression'?>" method="post">
-                            <button type="submit" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm"><i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id=<?=$key?>></i></button>
+                            <button type="submit" id="supp<?=$key?>" name="suppPresta" value="<?=$key?>" class="bsIconButtonTrash" data-toggle="modal" data-target="#dialogConfirm"><i id="supp<?=$key?>" class="bi-trash m-2 p-3" data-prestation="<?=$prestation->getNomPresta()?>" data-id="<?=$key?>"></i></button>
                             <input type="hidden" name="key" value="<?=$key?>">
                         </form>
                     </div>
@@ -50,24 +53,6 @@
             </div>
         </div>
     </section>
-    <div class="modal fade" id="dialogConfirm" tabindex="-1" role="dialog" aria-labelledby="dialogConfirm" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100" class="d-inline-block align-text-center">
-                    <h1 class="h5 modal-title">Beauty styling</h1>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button id="actionModal" type="button" class="bsbtn2 btn" data-dismiss="modal" formmethod="post" formaction=""./adminListePrestations.php">Confirmer</button>
-                <button type="button" class="bsbtn1 btn" data-dismiss="modal">Annuler</button>
-            </div>
-        </div>
-    </div>
 </main>
 <?php $content = ob_get_clean();?>
 <?php require ('./view/baseAdmin.php');?>

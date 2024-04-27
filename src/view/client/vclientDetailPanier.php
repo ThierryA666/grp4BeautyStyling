@@ -7,6 +7,9 @@
     include './view/include/incMenuBarClient.php';
     $menuBar = ob_get_clean();
     ob_start();
+    include './view/include/incModal.php';
+    $modal = ob_get_clean();
+    ob_start();
     include './view/include/incFooterClient.php';
     $footer = ob_get_clean();
 ?>
@@ -15,20 +18,24 @@
   <section><!--Dialogue panier sauvegarde/supprimer-->
     <div class="container mx-auto grow">
       <div class="my-3 col-md-11 mx-auto">
-        <form id="actionPanier" name="actionPanier" method="post" class="d-inline" action="<?=APP_ROOT.'/paniers'?>">
-          <div class="d-inline-flex">
-            <div>
-              <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de ma réservation <?=$reservationDetail->getIdRDV()->getNom_rndv()?>
-              , chez <a href="#" id="popUpSalon" name="popUpSalon<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>" value="<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
-            </div>
-            <div>
-              <button id="suppReservation" name="suppReservation" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?> disabled" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
-            </div>
-            <div>
-              <button id="backToListe" type="submit" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
-            </div>
+        <div class="d-inline-flex">
+          <div>
+            <h1 id="titleDetailPanier" class="h4 text-dark text-center d-inline mx-auto">Détail de ma réservation <?=$reservationDetail->getIdRDV()->getNom_rndv()?>
+            , chez <a href="#" id="popUpSalon" name="popUpSalon<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>" value="<?=$reservationDetail->getIdRDV()->getId_salon()->getId_salon()?>"><?=$reservationDetail->getIdRDV()->getId_salon()->getNom_salon()?></a></h1>
           </div>
-        </form>
+          <div>
+            <form id="reservationSupp" name="suppPanier" method="post" action="<?=APP_ROOT.'/panierDetail/suppression'?>" class="d-inline">
+              <input type="hidden" id="reservation" name="reservation" value="<?=$reservationDetail->getIdRDV()->getId_rndv()?>">
+              <button type="submit" id="suppReservation" name="suppReservation" data-toggle="modal" data-target="#dialogConfirm" data-reservation="<?=$reservationDetail->getIdRDV()->getNom_rndv()?>" data-id="<?=$reservationDetail->getIdRDV()->getId_rndv()?>" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-trash-fill"></i>&nbsp;Supprimer la réservation</button>
+            </form>
+          </div>
+          <div>
+            <!-- <form method="get" name="backToList" action="<?=APP_ROOT.'/paniers'?>" class="d-inline"></form> -->
+              <button type="button" id="backToList" method="get" name="backToList" action="<?=APP_ROOT.'/paniers'?>" class="d-inline-flex bsbtn2 btn mx-5 rounded-2"><i class="bi bi-view-list"></i>&nbsp;Retour à la liste</button>
+            <!-- </form> -->
+          </div>
+        </div>
+        <p class="<?=$_SESSION['msgUtilisateur']?($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur']['style'] : 'd-none'):''?>"><?=$_SESSION['msgUtilisateur']?$_SESSION['msgUtilisateur']['message']:''?></p>
       </div>
     </div>
   </section>

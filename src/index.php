@@ -40,10 +40,11 @@ if ($method === 'get') {
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/prestations/suppression' =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/prestation/ajout'        =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/prestation/modification' =>  $cntrlAdmin->getPrestation(),
+        APP_ROOT.'/prestation/edition'      =>  $cntrlAdmin->getPrestation(),
         APP_ROOT.'/prestation/suppression'  =>  $cntrlAdmin->getPrestation(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
         APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
+        APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } else {

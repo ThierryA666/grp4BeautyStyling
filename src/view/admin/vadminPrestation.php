@@ -4,6 +4,9 @@
     ob_start();
     include './view/include/incMenuBarAdmin.php';
     $menuBar = ob_get_clean();
+    ob_start();
+    include './view/include/incModal.php';
+    $modal = ob_get_clean();
 ?>
 <?php ob_start(); ?>
 <main>
@@ -44,7 +47,7 @@
                   <button type="submit" id="<?=$buttonID?>" name="<?=$buttonLabel?>" class="bsbtn2 btn d-flex m-5 mx-auto justify-content-end"  value="<?=$buttonLabel?>"><?=$buttonLabel?></button>
                 </div>
                 <div class="col <?=$afficher?>">
-                  <button type="submit" id="buttonSupp" name="Supprimer" formactiion="<?=APP_ROOT.'/ajout'?>" class="bsbtn2 btn d-flex m-5 mx-auto" data-toggle="modal" data-target="#dialogConfirm" data-prestation="<?=$prestation->getNomPresta()?>" data-id="<?=$prestation->getIdPresta()?>" value="Supprimer">Supprimer</button> 
+                  <button type="submit" id="buttonSupp" name="Supprimer" formaction="<?=APP_ROOT.'/prestation/suppression'?>" class="bsbtn2 btn d-flex m-5 mx-auto" data-toggle="modal" data-target="#dialogConfirm" data-prestation="<?=$prestation->getNomPresta()?>" data-id="<?=$prestation->getIdPresta()?>" value="Supprimer">Supprimer</button> 
                   <input type="hidden" name="keyPresta">
                 </div>
                 <div class="col <?=$afficher2?>">
@@ -60,25 +63,7 @@
     </div>
   </div>
   </section>
-  <div class="modal fade" id="dialogConfirm" tabindex="-1" role="dialog" aria-labelledby="dialogConfirm" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <img src="../../assets/img/logo-beautystyling.jpg" alt="Logo Beauty Styling" width="100" class="d-inline-block align-text-center">
-          <h1 class="h5 modal-title">Beauty styling</h1>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        </div>
-        <div class="modal-footer">
-          <button id="actionModal" type="submit" class="bsbtn2 btn" data-dismiss="modal">Confirmer</button>
-          <button type="button" class="bsbtn1 btn" data-dismiss="modal">Annuler</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </main>
 <?php $content = ob_get_clean();?>
 <?php require ('./view/baseAdmin.php');?>
