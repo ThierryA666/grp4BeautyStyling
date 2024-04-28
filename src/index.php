@@ -33,6 +33,7 @@ if ($method === 'get') {
     match($route) {
         APP_ROOT                            =>  $cntrlSalon->getIndex(),
         APP_ROOT.'/'                        =>  $cntrlSalon->getIndex(),
+        APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
         default                             =>  $cntrlSalon->getIndex(),

@@ -44,6 +44,24 @@ class CntrlClient {
         }
         return array_unique($clientSalons,SORT_STRING); //create liste of unique salon from the search dropdown
     }
+    public function getPopUpSalon() {
+        session_start();
+        try { //check for DB connection
+            $daoBeauty = new DaoBeauty();
+        } catch (\Exception $e) {
+            require './view/verror.php';
+        }
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+            if (isset($_GET['salonID'])) {
+                try {
+                    $salon = $daoBeauty->getSalonByID(intval(htmlspecialchars(trim($_GET['salonID']))));
+                } catch (\Exception $e) {
+                    require './view/verror.php';
+                }
+            }
+        }
+        require './view/client/vpopUpSalon.php';
+    }
     public function getPaniers() {
         error_reporting(E_ALL);
         session_start();

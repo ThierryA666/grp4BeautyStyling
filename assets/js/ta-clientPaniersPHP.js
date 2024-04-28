@@ -63,10 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.dir(event.target.attributes.value.nodeValue);
         // Parameters to pass to the new window
         let $salonID = event.target.attributes.value.nodeValue;
-    
         // Construct the URL with parameters
-        let $url = '/src/webapp/popUpSalon.php?salonID=' + encodeURIComponent($salonID);
-    
+        let $url = 'popupsalon?salonID=' + encodeURIComponent($salonID);
         // Open the new window
         window.open($url, 'PopupWindow', 'width=600,height=400');
     }
@@ -77,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             popup.addEventListener('click', popUpSalon);
         });
     }
-    if (document.location.pathname ==='/src/webapp/popUpSalon.php') {
+    if (document.location.pathname ==='/src/popupsalon') {
         document.getElementById('closePopup').addEventListener('click', function() { window.close();});
     }
 

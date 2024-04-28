@@ -20,7 +20,7 @@
 <main>
     <div class="container row mx-auto">
         <div class="col-md-6 mx-auto" id="illustTop">
-            <img class="img-fluid" src="/assets/img/illustTop.png">
+            <img class="img-fluid" src="<?=PUBLIC_ROOT.'assets/img/illustTop.png'?>">
         </div>
         <div class="col-md-6 mx-auto">
             <h1 class="fs-1" style="font-family: 'DM Serif Display', serif; color:#FF5B76">Choisissez Beauty Styling !</h1>
