@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head><?=$head?></head>
-<body class="<?=$bodyClass?>">
+<body class="<?=$bodyClass?>" style="<?=$style?>">
     <?=$menuBar?>
     <div class="container-fluid" >
         <?=$content?>

@@ -1,5 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     "use strict";
+    if ((document.location.pathname ==='/src/panier/suppression') || (document.location.pathname ==='/src/paniers')) {
+        function suppPanier (event) {
+            event.preventDefault();
+            let modal = document.getElementById('dialogConfirm');
+            modal.addEventListener('show.bs.modal', $(document).ready(function () {
+                // Get the button that triggered the modal
+                let button = event.target;
+                let reservation = button.getAttribute('data-reservation');
+                let id = button.getAttribute('data-id');
+                let modalBody = modal.querySelector('.modal-body');
+                modalBody.innerHTML = '';
+                let fragment = document.createDocumentFragment();
+                let elemp = document.createElement('p');
+                elemp.appendChild(document.createTextNode('Etes vous sur de vouloir supprimer la réservation : ' + reservation + '?'));
+                fragment.appendChild(elemp);
+                modalBody.appendChild(fragment);
+                let clikOK = document.getElementById('actionModal');
+                clikOK.addEventListener('click' , function () {
+                    let form = document.getElementById('suppReservation' + id);
+                    $(form).submit();
+                })
+            }));
+        }
+        let whichReservation = document.querySelectorAll('.bsIconButtonTrash');
+        whichReservation.forEach(el => {
+            el.addEventListener('click', suppPanier);
+        })
+    }        
     if (document.location.pathname ==='/src/panierDetail') {
         function suppReservation (event) {
             event.preventDefault();

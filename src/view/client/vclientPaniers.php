@@ -4,6 +4,7 @@
   include './view/include/IncHead.php';
   $head = ob_get_clean();
   $bodyClass="bodybg";
+  $style="";
   ob_start();
   include './view/include/incMenuBarClient.php';
   $menuBar = ob_get_clean();
@@ -50,7 +51,6 @@
     <section id="clientPaniers"><!--On montre les paniers du clients-->
       <div class="input container col-md-11 mx-auto rounded-2 p-3" id="input">
         <div class="col-md-10 mx-auto rounded-2 bgbs">
-          <form id="formPaniers" class=" mx-auto p-3" name="Panier" method="post" action="#">
             <div id="title" class="grid-container bandeau boldfonts align-items-center p-3 col-sm">
               <div class="grid-item" ><span class="p-1">Nom:</span></div>
               <div class="grid-item"><span class="p-1">Salon:</span></div>
@@ -65,8 +65,16 @@
               <div class="grid-item"><span class="p-1"><a href="#" id="popUpSalon" name="popUpSalon<?=$rndv->getId_salon()->getId_salon()?>" value="<?=$rndv->getId_salon()->getId_salon()?>"><?=$rndv->getId_salon()->getNom_salon()?></a></span></div>
               <div class="grid-item"><span class="p-1"><?=$rndv->getD_rndv()->format('d-m-Y')?></span></div>
               <div class="grid-item"><span class="p-1"><?=$rndv->getH_rndv()->format('H:i:s')?></span></div>
-              <div class="grid-item transition ease-in-out"><button id="btGoToDetail<?=$key?>" class="bsIconButtonPencil " type="submit" formmethod="post" formaction="<?=APP_ROOT.'/panierDetail'?>" name="detail" value="detail<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
-              <div class="grid-item"><i class="bi-trash p-1"></i></div>
+              <div class="grid-item transition ease-in-out">
+                <form method="post" action="<?=APP_ROOT.'/panierDetail'?>">
+                  <button id="btGoToDetail<?=$key?>" class="bsIconButtonPencil " type="submit" name="detail" value="detail<?=$rndv->getId_rndv()?>"><i class="bi-pencil p-1"></i></button></div>
+                </form>  
+              <div class="grid-item">
+                <form name="suppReservation" id="suppReservation<?=$rndv->getId_rndv()?>" method="post" action="<?=APP_ROOT.'/panier/suppression'?>">
+                  <input type="hidden" name="reservation" value="<?=$rndv->getId_rndv()?>">
+                  <button id="reservationSupp<?=$key?>" class="bsIconButtonTrash" type="submit" name="reservationSupp" value="detail<?=$rndv->getId_rndv()?>" data-toggle="modal" data-target="#dialogConfirm"><i id="i<?=$key?>" class="bi-trash p-1" data-reservation="<?=$rndv->getNom_rndv()?>" data-id="<?=$rndv->getId_rndv()?>"></i></button>
+                </form>
+              </div>
             </div>
             <?php } ?>
             <div class="align-item-center text-center p-3">  

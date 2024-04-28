@@ -18,10 +18,10 @@ define('PUBLIC_ROOT', $public_root_phpserver);
 
 $uri = $_SERVER['REQUEST_URI'];
 $route = explode('?', $uri)[0];
-// var_dump($_POST);
-// var_dump($_GET);
-// var_dump($route);
-// var_dump($_SESSION);
+//var_dump($_POST);
+//var_dump($_GET);
+//var_dump($route);
+//var_dump($_SESSION);
     
 $method = strtolower($_SERVER['REQUEST_METHOD']);
 
@@ -47,6 +47,7 @@ if ($method === 'get') {
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
         APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
         APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
+        APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } else {

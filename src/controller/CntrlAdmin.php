@@ -9,10 +9,10 @@ const MAX_LENGTH = 6;
 const MIN = 1;
 const MAX = 12;
 const MAX_PRICE = 99999;
-const DFLT_DURATION = 3600;
-const DFLT_PRICE = 100;
+const DFLT_DURATION = 1800;
+const DFLT_PRICE = 1000;
 const DFLT_DURATION_HM = '01:00';
-const DFLT_PRICE_EURO = '1,00';
+const DFLT_PRICE_EURO = '10,00';
 
 
 class CntrlAdmin {

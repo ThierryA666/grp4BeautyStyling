@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#" style="font-family: 'DM Serif Display', serif">Accueil</a>
+                    <a class="nav-link" aria-current="page" href="<?=APP_ROOT.'/'?>" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="../webapp/historiquedesrendezvous.php" style="font-family: 'DM Serif Display', serif;">Historique</a>

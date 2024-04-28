@@ -4,6 +4,7 @@
     include './view/include/IncHead.php';
     $head = ob_get_clean();
     $bodyClass="adminbg";
+    $style="";
     ob_start();
     include './view/include/incMenuBarAdmin.php';
     $menuBar = ob_get_clean();

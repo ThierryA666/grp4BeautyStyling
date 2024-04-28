@@ -4,6 +4,8 @@
     include './view/include/IncHead.php';
     $head = ob_get_clean();
     $bodyClass="bodybg";
+    $img = PUBLIC_ROOT .'assets/img/photos-salon/' . $reservation->getId_salon()->getPhoto_salon();
+    $style="background: url($img) no-repeat center fixed; background-size: cover";
     ob_start();
     include './view/include/incMenuBarClient.php';
     $menuBar = ob_get_clean();

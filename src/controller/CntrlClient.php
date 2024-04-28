@@ -131,6 +131,9 @@ class CntrlClient {
                 require './view/verror.php';
                 exit;
             }
+        } else {
+            require './view/verror.php';
+            exit;
         }
         try{
             $daoBeauty = new DaoBeauty();
@@ -176,10 +179,14 @@ class CntrlClient {
                 require './view/verror.php';
                 exit;
             }
+        } else {
+            require './view/verror.php';
+            exit;
         }
         try {
             $offrirs = array();
             $totalPanier = 0;
+            $reservation = $daoBeauty->getReservationById($key);
             $reservationDetails = $daoBeauty->getLigneDetailsByRndv($key);
             foreach($reservationDetails as $key => $reservationDetail) {
                 $offrir = $daoBeauty->getOffrir($reservationDetail->getIdRDV()->getId_salon(), $reservationDetail->getIdPresta());
@@ -189,7 +196,7 @@ class CntrlClient {
         } catch (\Exception $e) {
             require './view/verror.php';
             exit;   
-        }
+        } 
         include './view/client/vclientDetailPanier.php';
     }
 }
