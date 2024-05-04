@@ -33,7 +33,7 @@ try {
     } else {
         echo "0 resultados";
     }
-} catch (PDOException $e) {
+} catch (\PDOException $e) {
     echo "Error de conexión: " . $e->getMessage();
 }
 ?>

@@ -26,7 +26,7 @@
       <div class="input col-md-10 mx-auto rounded-4" id="input">
           <!--TODO formulaire-->
           <div class="col-md-8 mx-auto">
-            <form id="formPresta" class="p-3" name="createPrestation" method="post" action="#">
+            <form id="formPresta" class="p-3" method="post" action="#">
             <div>    
               <div>
                   <label for="inputName" class="col-form-label col-form-label-sm">Nom* :</label>
@@ -53,17 +53,19 @@
                 <input type="Date" class="form-control form-control-sm rounded-2 p-2" id="inputModifDate" name="modifDate" <?=$disabled ? 'disabled' : ''?> value="<?=$prestation->getModifDate() ? $prestation->getModifDate()->format('Y-m-d') : '' ?>"></input>
               </div>
               <div class="row d-flex  justify-content-end">
-                <div class="col">
-                  <button type="submit" id="<?=$buttonID?>" name="<?=$buttonLabel?>" class="bsbtn2 btn d-flex m-5 mx-auto justify-content-end"  value="<?=$buttonLabel?>"><?=$buttonLabel?></button>
-                </div>
                 <div class="col <?=$afficher?>">
-                  <button type="submit" id="buttonSupp" name="Supprimer" formaction="<?=APP_ROOT.'/prestation/suppression'?>" class="bsbtn2 btn d-flex m-5 mx-auto" data-toggle="modal" data-target="#dialogConfirm" data-prestation="<?=$prestation->getNomPresta()?>" data-id="<?=$prestation->getIdPresta()?>" value="Supprimer">Supprimer</button> 
-                  <input type="hidden" name="keyPresta">
+                  <button type="submit" id="<?=$buttonID?>" name="<?=$buttonLabel?>" formmethod="post" formaction="<?=($buttonLabel === 'Créer')? APP_ROOT.'/prestation/ajout': APP_ROOT.'/prestation/edition'?>" class="bsbtn2 btn d-flex m-5 mx-auto justify-content-end"  value="<?=$buttonLabel?>"><?=$buttonLabel?></button>
                 </div>
                 <div class="col <?=$afficher2?>">
                   <button type="submit" id="goBackList" name="goBackList" formethod="post" formaction="<?=APP_ROOT.'/prestations'?>" class="bsbtn2 btn d-flex m-5 mx-auto" value="goBackList">Retour à la liste</button>
                 </div>
-            </div>
+              </div>
+            </form>
+            <form id="suppPresta" method="post" action="<?=APP_ROOT.'/prestation/suppression'?>">
+              <div class="col <?=$afficher3?>">
+                <button type="submit" id="buttonSupp" name="Supprimer" class="bsbtn2 btn d-flex m-5 mx-auto" data-toggle="modal" data-target="#dialogConfirm" data-prestation="<?=$prestation->getNomPresta()?>" data-id="<?=$prestation->getIdPresta()?>" value="Supprimer">Supprimer</button> 
+                <input type="hidden" name="keyPresta">
+              </div>
             </form>
             <div>
               </p><h2 class="h5 <?=$msgUtilisateur['msgShow'] ? $msgUtilisateur['style'] : 'd-none'?>"><?=$msgUtilisateur['message']?></h2></p>

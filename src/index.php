@@ -18,10 +18,13 @@ define('PUBLIC_ROOT', $public_root_phpserver);
 
 $uri = $_SERVER['REQUEST_URI'];
 $route = explode('?', $uri)[0];
-//var_dump($_POST);
-//var_dump($_GET);
-//var_dump($route);
-//var_dump($_SESSION);
+
+session_start();
+
+// var_dump($_POST);
+// var_dump($_GET);
+// var_dump($route);
+// var_dump($_SESSION);
     
 $method = strtolower($_SERVER['REQUEST_METHOD']);
 
@@ -36,19 +39,22 @@ if ($method === 'get') {
         APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
+        APP_ROOT.'/salonreservecalendrier'  =>  $cntrlSalon->getSalonResCal(),
+
         default                             =>  $cntrlSalon->getIndex(),
     };
 } elseif ($method === 'post') {
     match($route) {
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/prestations/suppression' =>  $cntrlAdmin->getPrestationsList(),
-        APP_ROOT.'/prestation/ajout'        =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/prestation/edition'      =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/prestation/suppression'  =>  $cntrlAdmin->getPrestation(),
+        APP_ROOT.'/prestation/ajout'        =>  $cntrlAdmin->createPrestation(),
+        APP_ROOT.'/prestation/edition'      =>  $cntrlAdmin->editPrestation(),
+        APP_ROOT.'/prestation/suppression'  =>  $cntrlAdmin->deletePrestation(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
         APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
         APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
         APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
+        APP_ROOT.'/salonreservecalendrier'  =>  $cntrlSalon->getSalonResCal(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } else {

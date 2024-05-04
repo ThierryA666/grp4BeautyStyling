@@ -12,5 +12,7 @@
             "email": "thierryanglade66@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    }
 }

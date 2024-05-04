@@ -8,7 +8,122 @@
     background: url('../img/onlinebooking.jpg') no-repeat center fixed;
     background-size: cover;
 }
+/* Customisation of datepicker style */
+.ui-widget {
+    width:100% !important;
+    height:100% !important;
+    border:2px solid blue!important;
+    border-radius:10px!important;
+}
 
+.ui-datepicker {
+    background-color: rgb(160,236,186)!important;
+}
+
+.ui-datepicker-calendar td {
+    font-size: 1.5rem;
+}
+
+.ui-state-default {
+    background-color:lemonchiffon!important;
+}
+
+.ui-state-highlight {
+    background-color:lightpink!important;
+}
+
+.ui-state-active {
+    background-color:aqua!important;
+}
+
+.ui-datepicker-current {
+    background-color:aquamarine!important;
+}
+
+.ui-priority-secondary {
+    background-color:lightpink!important;
+}
+
+.ui-datepicker-title {
+    font-size: 1.5rem;
+    background-color: aqua!important;
+}
+
+.ui-datepicker-prev {
+    background-color:lemonchiffon!important;
+}
+
+.ui-datepicker-next {
+    background-color:lemonchiffon!important;
+    float: right;
+    cursor: pointer!important;
+}
+/* End customisation */
+
+/* Customisation timepicker */
+.clockpicker-popover {
+    position: absolute!important;
+    background-color: lemonchiffon!important;
+    background: lemonchiffon!important;
+    border:2px solid blue!important;
+    border-radius:10px!important;
+}
+.clockpicker-content {
+    background-color: lemonchiffon!important;
+    background: lemonchiffon!important;
+    color:lemonchiffon!important;
+}
+
+.navbar h3 {
+	color:aqua!important;
+	margin-top: 14px;
+}
+.hljs-pre {
+	background: teal!important;
+	padding: 3px;
+}
+.footer {
+	border-top: 1px solid #eee;
+	margin-top: 40px;
+	padding: 40px 0;
+}
+.input-group {
+	width: 400px;
+	margin-bottom: 10px;
+}
+.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+@media (max-width: 767px) {
+  .pull-center {
+    float: right;
+  }
+}
+
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: lemonchiffon;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group>.btn, .input-group-btn:last-child>.dropdown-toggle, .input-group-btn:first-child>.btn:not(:first-child), .input-group-btn:first-child>.btn-group:not(:first-child)>.btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+/* End customisation timepicker */
 .nav_bar{
     background-color: rgb(160,236,186);
 }

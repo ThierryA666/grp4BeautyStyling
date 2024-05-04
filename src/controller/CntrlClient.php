@@ -50,16 +50,16 @@ class CntrlClient {
             $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
             require './view/verror.php';
+            exit;
         }
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (isset($_GET['salonID'])) {
-                try {
-                    $salon = $daoBeauty->getSalonByID(intval(htmlspecialchars(trim($_GET['salonID']))));
-                } catch (\Exception $e) {
-                    require './view/verror.php';
-                }
+        if (isset($_GET['salonID'])) {
+            try {
+                $salon = $daoBeauty->getSalonByID(intval(htmlspecialchars(trim($_GET['salonID']))));
+            } catch (\Exception $e) {
+                require './view/verror.php';
+                exit;
             }
-        }
+        } else { require './view/error.php';}
         require './view/client/vpopUpSalon.php';
     }
     public function getPaniers() {

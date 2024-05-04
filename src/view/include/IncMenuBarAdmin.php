@@ -7,6 +7,7 @@
                 <ul class="navbar-nav"> 
                     <li class="nav-item"> <a class="nav-link" aria-current="page" href="#" style="font-family: 'DM Serif Display', serif">Administration</a></li>
                     <li class="nav-item"> <a class="nav-link" href="../webapp/gestion-comptes-prestataires.php" style="font-family: 'DM Serif Display', serif;">Prestataires</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="<?=APP_ROOT.'/salonreservecalendrier'?>" style="font-family: 'DM Serif Display', serif;">Salon Calendrier</a></li>
                     <li class="nav-item"> <a class="nav-link" id="nav1" href="<?=APP_ROOT?>/prestations" style="font-family: 'DM Serif Display', serif;">Prestations</a></li>
                     <li class="nav-item"> <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se déconnecter</a></li>
                 </ul> 
