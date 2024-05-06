@@ -39,7 +39,7 @@ if ($method === 'get') {
         APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
-        APP_ROOT.'/salonreservecalendrier'  =>  $cntrlSalon->getSalonResCal(),
+        APP_ROOT.'/salonreserveappt'  =>  $cntrlSalon->getSalonResCal(),
 
         default                             =>  $cntrlSalon->getIndex(),
     };
@@ -54,7 +54,7 @@ if ($method === 'get') {
         APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
         APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
         APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
-        APP_ROOT.'/salonreservecalendrier'  =>  $cntrlSalon->getSalonResCal(),
+        APP_ROOT.'/salonreserveappt'  =>  $cntrlSalon->getSalonResCal(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } else {

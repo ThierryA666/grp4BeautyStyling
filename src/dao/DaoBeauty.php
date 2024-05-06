@@ -224,7 +224,45 @@ class DaoBeauty {
             } 
         }
     }
-
+    public function getPrestationByName(String $nomPresta) : ? Prestation {
+        if (!isset($nomPresta)) {
+            throw new DaoException('Cette prestation est inexistante',8002);
+            $prestation = null;
+        } else {
+            $query = Requetes::SELECT_PRESTA_BY_NAME;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->execute(['nomPresta' => $nomPresta]);
+                // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+                $row = $statement->fetch(\PDO::FETCH_OBJ);
+                if ($row) {
+                    $prestation = new Prestation($row->id_presta, $row->nom_presta, intval($row->duree_presta), intval($row->prix_ind_presta), \DateTime::createFromFormat("Y-m-d H:i:s", $row->creation_date), $row->modif_date ? \DateTime::createFromFormat("Y-m-d", $row->modif_date) : null, $row->desc_presta ? $row->desc_presta : null);
+                    return $prestation;
+                } else {
+                    throw new \PDOException('Cette prestation est inexistante', 8002)  ;
+                }  
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                switch ($pdoe->getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"nom_presta"))throw new \Exception();
+                    case 8002:
+                        throw new \Exception('Cette prestation est inexistante', 8002);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+    }
     public function createPrestation(Prestation $prestation) : bool {
         if (!isset($prestation)) throw new DaoException('Objet prestation est inexistante',8003);
         $query = Requetes::INSERT_PRESTA;

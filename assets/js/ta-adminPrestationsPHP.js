@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let whichPresta = document.getElementById('buttonSupp');
         whichPresta.addEventListener('click', suppPresta);
     }
-    if (document.location.pathname ==='/src/salonreservecalendrier') {
+    if (document.location.pathname ==='/src/salonreserveappt') {
         $(function () {
             // ACTIVATION DU DATEPICKER 
             $('.datepicker').datepicker({

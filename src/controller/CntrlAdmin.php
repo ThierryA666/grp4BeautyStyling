@@ -10,7 +10,7 @@ const MIN = 1;
 const MAX = 12;
 const MAX_PRICE = 99999;
 const DFLT_DURATION = 1800;
-const DFLT_PRICE = 1000;
+const DFLT_PRICE = 10;
 const DFLT_DURATION_HM = '01:00';
 const DFLT_PRICE_EURO = '10,00';
 
@@ -179,13 +179,10 @@ class CntrlAdmin {
       $display = $prestation->getModifDate() ? '' : 'd-none';
       $msgUtilisateur =  isset($_SESSION['msgUtilisateur']) ? ($_SESSION['msgUtilisateur']['msgShow'] ? $_SESSION['msgUtilisateur'] : null ) : ['success' => true, 'message' => 'Bienvenue à BeautyStyling!', 'style' => 'text-primary',  'msgShow' => false];
       if (isset($_POST['Créer']) && $_POST['Créer'] === 'Créer') { //Handle prestation Creation
-        var_dump('i am here');
         if (isset($_POST['name']) && isset($_POST['duration']) && isset($_POST['description']) && isset($_POST['price'])) {
-          echo ('i am there');
           //The form is complete checking values to set
           if (!empty(htmlspecialchars(trim($_POST['name'])))) {
             $prestation->setNomPresta(htmlspecialchars(trim($_POST['name'])));
-            var_dump($prestation);
             $okName = true;
           } else {
             $okName = false;
@@ -199,6 +196,7 @@ class CntrlAdmin {
           } else {
             $okDuration = false;
             $prestation->setDureePresta(DFLT_DURATION);
+            $prestation->setNomPresta(htmlspecialchars(trim($_POST['name'])));
             $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, la durée de la prestation doit être au format hh:mm', 'style' => 'text-danger', 'msgShow' => true];
           }
           $prestation->setDescPresta(htmlspecialchars(trim($_POST['description'])));
@@ -209,10 +207,11 @@ class CntrlAdmin {
             if ($_POST['price'] ) $prestation->setPrixIndPrestaEuro(htmlspecialchars(trim($_POST['price'])));
           } else {
             $okPrice = false;
+            $prestation->setPrixIndPrestaEuro(DFLT_PRICE);
+            $prestation->setNomPresta(htmlspecialchars(trim($_POST['name'])));
             $msgUtilisateur = ['success' => false, 'message' => 'BeautyStyling Info, la prix de la prestation doit être au format 999,99', 'style' => 'text-danger', 'msgShow' => true];
           }
           if ($okDuration && $okPrice && $okName) {
-            var_dump($prestation);
             try { //All ok calling DB
               $response = $daoBeauty->createPrestation($prestation);
               if ($response) {
@@ -231,7 +230,7 @@ class CntrlAdmin {
             $display = $prestation->getModifDate() ? '' : 'd-none';
           } else {
             //capture the prestation name if filled in
-            $prestation->setNomPresta(!empty($name) ? htmlspecialchars(trim($_POST['name'])) : '');
+            //$prestation->setNomPresta(!empty($name) ? htmlspecialchars(trim($_POST['name'])) : '');
             $buttonID = 'buttonCreate';
             $buttonLabel = 'Créer';
             $afficher = '';

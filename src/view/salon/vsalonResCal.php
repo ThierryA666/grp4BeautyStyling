@@ -4,7 +4,8 @@
   include './view/include/IncHead.php';
   $head = ob_get_clean();
   $bodyClass="bodybg";
-  $style="";
+  $img = PUBLIC_ROOT .'assets/img/photos-salon/' . (isset($salonSelected)?$salonSelected->getPhoto_salon():'');
+  $style=isset($salonSelected)?"background: url($img) no-repeat center fixed; background-size: cover":"";
   ob_start();
   include './view/include/incMenuBarAdmin.php';
   $menuBar = ob_get_clean();
@@ -22,7 +23,7 @@
 <main>
   <section id="calendrier">
     <div class="container bgbs col-md-12 mx-auto d-block" style="height:600px">
-      <form id="formSalon" name="search" method="post" action="<?=APP_ROOT.'/salonreservecalendrier'?>">
+      <form id="formSalon" name="search" method="post" action="<?=APP_ROOT.'/salonreserveappt'?>">
         <div class="my-1 justify-content-between d-flex">
           <div class="d-inline">
             <h1 class="h4 text-dark text-start mx-auto">Salon Booking:</h1>
@@ -49,7 +50,7 @@
               </select>
         </div>
       </form>
-      <form id=formRdv" name="rdv" method="post" action="<?=APP_ROOT.'/salonreservecalendrier'?>">
+      <form id=formRdv" name="rdv" method="post" action="<?=APP_ROOT.'/salonreserveappt'?>">
         <input type="hidden" name="salonRdv" value="<?=$salonSelected?$salonSelected->getId_salon():''?>">
         <input type="hidden" name="prestationRdv" value="<?=$prestaSelected?$prestaSelected->getIdPresta():''?>">
         <div class="col-md-11 my-1 justify-content-start d-block">

@@ -11,8 +11,8 @@ class Database {
 
     public static function getConnection() : \PDO {
         if (!isset(self::$db)) { // s'il y a erreur, cela sera catch par DaoCalendrier.php
-            if (file_exists("../param.ini")) {
-                $param = parse_ini_file("../param.ini", true);
+            if (file_exists("./param.ini")) {
+                $param = parse_ini_file("./param.ini", true);
                 extract($param['BDD']);     // extract du tag [BDD] et génère les variables $host, $port ... du nom donne dans param.ini          
             } 
             else throw new DaoException("Parametre BDD indisponibles",8001);

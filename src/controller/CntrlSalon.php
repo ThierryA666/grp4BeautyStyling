@@ -22,7 +22,7 @@ class CntrlSalon {
         $salons = $daoBeauty->getSalon();
         if (isset($_POST['salons']) && $_POST['salons'] !== 'salon0') {
             $idSalon = intval(substr(htmlspecialchars(trim($_POST['salons'])),5));
-            $salon = new Salon($idSalon,'','','','','','','','','','','', new \DateTime(),'');
+            $salon = $daoBeauty->getSalonByID($idSalon);
             $salonSelected = $salon;
             $prestations = $daoBeauty->getPrestaBySalon($salon);
             if (isset($_POST['prestations']) && $_POST['prestations'] !== 'presta0') {
