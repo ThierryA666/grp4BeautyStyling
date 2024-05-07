@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /ECF_merge/src
+#Règle absolument nécessaire
+RewriteRule ^(.+)$ index.php [QSA,L]

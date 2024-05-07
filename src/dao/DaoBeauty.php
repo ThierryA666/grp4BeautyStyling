@@ -38,8 +38,7 @@ class DaoBeauty {
                 default:
                     throw $pdoe;
             } 
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $conn = null;
             throw new \Exception('Connection failed!', 500);
         }

@@ -1,0 +1,23 @@
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    testdox="false" 
+    displayDetailsOnIncompleteTests="true"
+    displayDetailsOnSkippedTests="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    colors="true" 
+    bootstrap="C:\workspace\ECF\ECF_merge\vendor\autoload.php" 
+>
+    <testsuites>
+        <testsuite name="ECF">
+            <directory>C:\workspace\ECF\ECF_merge\tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
+
+<!-- //TODO : j'ai mis testdox a true, il etait preconise false ...  : etudier l impact
+    avantage de true : affiche les attributs TestDox
+                       masque les messages des exceptions
+    => je repasse a false
+-->

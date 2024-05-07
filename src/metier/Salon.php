@@ -3,9 +3,6 @@ declare(strict_types=1);
 namespace beautyStyling\metier;
 
 use DateTime;
-use beautyStyling\metier\Villes;
-use beautyStyling\metier\Prestation;
-use beautyStyling\metier\Offrir;
 
 class Salon {
     private   int $id_salon;

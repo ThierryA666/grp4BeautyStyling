@@ -1,15 +1,17 @@
 {
-    "name": "maria/ecf",
+    "name": "takak/ecf_merge",
     "autoload": {
         "psr-4": {
-            "beautyStyling\\": "C:\\Users\\Maria\\Desktop\\Formation Afpa\\ECF\\src"
+            "beautyStyling\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Mari Torres",
-            "email": "mari11carmen_1989@hotmail.com"
+            "name": "Takako Onodera",
+            "email": "takako.onodera@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    }
 }
