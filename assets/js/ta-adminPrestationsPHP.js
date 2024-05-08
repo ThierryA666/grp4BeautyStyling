@@ -158,4 +158,15 @@ document.addEventListener('DOMContentLoaded', () => {
         $(form).find('input[name="prestations"]').val(this.value);
         $(form).submit();
     }
+    let dateSelect = document.getElementById('datepicker');
+    dateSelect.addEventListener('click', selectDate);
+    function selectDate(event) {
+        event.preventDefault;
+        console.dir(event);
+        console.dir(event.target);
+        console.dir(this.value);
+        let form = $('#formListRdv');
+        $(form).find('input[name="apptDate"]').val(this.value);
+        $(form).submit();
+    }
 })

@@ -19,6 +19,9 @@ define('PUBLIC_ROOT', $public_root_phpserver);
 $uri = $_SERVER['REQUEST_URI'];
 $route = explode('?', $uri)[0];
 
+
+setlocale(LC_TIME, 'fr_FR.UTF-8');
+date_default_timezone_set('Europe/Paris');
 session_start();
 
 // var_dump($_POST);
@@ -39,7 +42,7 @@ if ($method === 'get') {
         APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
         APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
         APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
-        APP_ROOT.'/salonreserveappt'  =>  $cntrlSalon->getSalonResCal(),
+        APP_ROOT.'/salonreserveappt'        =>  $cntrlSalon->getSalonResCal(),
 
         default                             =>  $cntrlSalon->getIndex(),
     };
@@ -54,7 +57,7 @@ if ($method === 'get') {
         APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
         APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
         APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
-        APP_ROOT.'/salonreserveappt'  =>  $cntrlSalon->getSalonResCal(),
+        APP_ROOT.'/salonreserveappt'        =>  $cntrlSalon->getSalonResCal(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } else {

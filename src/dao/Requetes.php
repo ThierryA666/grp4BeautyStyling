@@ -32,6 +32,7 @@ class Requetes {
     public const SELECT_RESERVATION                 = "select id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon from reservation";
     public const SELECT_RESERVATION_BY_ID           = "select id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon from reservation where id_rndv = :id";
     public const DELETE_RESERVATION_BY_ID           = "delete from reservation where id_rndv = :id_rndv";
+    public const SELECT_RESERVATION_BY_DATE_AND_SALON = "select id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon from reservation where id_salon = :idSalon and d_rndv = :drndv";
     public const UPDATE_RESERVATION                 = "update reservation set nom_rndv = :nom_rndv, h_rndv = :h_rndv, d_rndv = :d_rndv, detail_rndv = :detail_rndv, modif_date = :modifDate where id_rndv = :id_rndv";
     public const INSERT_RESERVATION                 = "insert into reservation (h_rndv, d_rndv, nom_rndv, detail_rndv, creation_date, modif_date) values (:h_rndv, :d_rndv, :nom_rndv, :detail_rndv, :creationDate, :modifDate)";
     public const SELECT_RESERVATION_BY_SALON = "select id_rndv, h_rndv, d_rndv, nom_rndv, detail_rndv, id_etat, id_client, id_salon from reservation where id_salon = :idsalon order by id_rndv asc";
@@ -42,6 +43,7 @@ class Requetes {
     public const UPDATE_QTY_LIGNE_DETAILS = "update ligne_detail set qte = :qte where id_rndv = :idrndv and id_presta = :idpresta and num_ligne = :numLigne";
     public const DELETE_LIGNE_DETAILS = "delete from ligne_detail where id_rndv = :idRndv";
     public const SELECT_EMPLOYE = "select id_employe, nom_employe, id_salon from employe where id_employe = :idEmploye";
+    public const SELECT_CLIENT = "select id_client, nom_client from client where id_client = :idClient";
     public const SELECT_OFFRIR_BY_PRESTA_SALON = "select id_presta, id_salon, prix_prest_salon from offrir where id_presta = :idPresta and id_salon = :idSalon";
 }
 ?>

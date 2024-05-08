@@ -754,7 +754,6 @@ class DaoBeauty {
         }
         return $rendezVous;
     }
-
     public function getRendezVousWithId() : ? array {
         $rendezVous = array();
         $query      = Requetes::SELECT_RESERVATION_BY_ID;
@@ -775,7 +774,6 @@ class DaoBeauty {
         }
         return $rendezVous;
     }
-
     public function getEtats() : ? array {
         $etats = array();
         $query      = Requetes::SELECT_ETAT;
@@ -794,7 +792,6 @@ class DaoBeauty {
         }
         return $etats;
     }
-
     public function deleteReservation(Reservation $reservation) : ? bool {
         if (!isset($reservation)) {throw new DaoException('Cet reservation est inexistante',8002);}
         $query      = Requetes::DELETE_RESERVATION_BY_ID;
@@ -826,7 +823,6 @@ class DaoBeauty {
             throw $error;
         } 
     }
-
     public function getEmploye(Employe $employe) : ? Employe {
         if (!isset($employe)) {
             throw new DaoException('Cet employe est inexistant',8002);
@@ -835,13 +831,12 @@ class DaoBeauty {
             $query = Requetes::SELECT_EMPLOYE;
             try {
                 $statement= $this->conn->prepare($query);
-                $statement->bindValue('idEmploye', $employe->getIdEmploye());
+                $statement->bindValue(':idEmploye', $employe->getIdEmploye());
                 // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
                 $statement->execute();
                 $row = $statement->fetch(\PDO::FETCH_OBJ);
                 if ($row) {
                     $employe = new Employe($row->id_employe, $row->nom_employe, $this->getSalonByID($row->id_salon));
-                    return $employe;
                 } else {
                     throw new \PDOException('Cet employe est inexistant', 8002)  ;
                 }  
@@ -867,8 +862,48 @@ class DaoBeauty {
                 throw $error;
             } 
         }
+        return $employe;
+    }
+    public function getClient(Client $client) : ? Client {
+        if (!isset($client)) {
+            throw new DaoException('Ce client est inexistant',8002);
+            $client = null;
+        } else {
+            $query = Requetes::SELECT_CLIENT;
+            try {
+                $statement= $this->conn->prepare($query);
+                $statement->bindValue(':idClient', $client->getIdClient());
+                // FETCH_OBJ pour obtenir la ligne sous forme d'un objet construit avec les cles correspondantes aux colonnes du select
+                $statement->execute();
+                $row = $statement->fetch(\PDO::FETCH_OBJ);
+                if ($row) {
+                    $client = new Client($row->id_client, $row->nom_client);
+                } else {
+                    throw new \PDOException('Ce client est inexistant', 8002)  ;
+                }  
+            }
+            catch (\PDOException $pdoe) {
+                echo 'Erreur PDO : ' . $pdoe->getCode();
+                echo '<br>';
+                switch ($pdoe->getCode()) {
+                    case 1062:
+                        if (str_contains($pdoe->errorInfo[2],"PRIMARY")) throw new \Exception();
+                        if (str_contains($pdoe->errorInfo[2],"id_client"))throw new \Exception();
+                    case 8002:
+                        throw new \Exception('Ce client est inexistant', 8002);
+                    default:
+                        throw $pdoe;
+                } 
+            } 
+            catch (\Exception $e) {
+                throw $e;
+            }
+            catch (\Error $error) {
+                throw $error;
+            } 
+        }
+        return $client;
     }    
-
     public function getLigneDetailsByRndv(int $id_rndv) : array {
         if (!isset($id_rndv)) throw new DaoException('Cette reservation est inexistante',8003);
         $reservationDetails = array();
@@ -927,8 +962,7 @@ class DaoBeauty {
             throw new \Exception('Error !!! : ' .  $error->getMessage());
         }
         return $rndv;
-    }
-    
+    }   
     public function updateLigneDetails(LigneDetails $ligneDetail) {
         if (!isset($ligneDetail)) throw new DaoException('Cette ligneDetail est inexistante',8003);
         $query = Requetes::UPDATE_QTY_LIGNE_DETAILS;
@@ -963,7 +997,6 @@ class DaoBeauty {
             throw $error;
         } 
     }
-
     public function deleteLigneDetails(LigneDetails $ligneDetails) : ? bool {
         if (!isset($ligneDetails)) {
             throw new DaoException('Objet LigneDetails est inexistant',8003);
@@ -999,7 +1032,6 @@ class DaoBeauty {
             } 
         }
     }
-
     public function getOffrir(Salon $salon, Prestation $prestation) : ? OFFRIR {
         if (!isset($salon) || !isset($prestation)) throw new DaoException('Ce salon ou cette prestation est inexistant(e)',8003);
         $query = Requetes::SELECT_OFFRIR_BY_PRESTA_SALON;
@@ -1037,6 +1069,32 @@ class DaoBeauty {
         catch (\Error $error) {
             throw $error;
         } 
+    }
+    public function getReservationByDateAndSalon(\DateTime $date, Salon $salon) : array {
+        if (!isset($salon)) throw new DaoException('Ce salon est inexistant',8003);
+        if (!isset($date)) throw new DaoException('Date non spécifiée',8003);
+        $rndvs       = [];
+        $date = $date->format('Y-m-d');
+        $query = Requetes::SELECT_RESERVATION_BY_DATE_AND_SALON;
+        try {
+            $cursor= $this->conn->prepare($query);
+            $cursor->bindValue(':drndv', $date, \PDO::PARAM_STR);
+            $cursor->bindValue(':idSalon', $salon->getId_salon(), \PDO::PARAM_INT);
+            $cursor->execute();
+            while ($row = $cursor->fetch(\PDO::FETCH_OBJ)) {
+                if ($row) {
+                    $rndv = new Reservation($row->id_rndv, \DateTime::createFromFormat('H:i:s',$row->h_rndv), \DateTime::createFromFormat('Y-m-d',$row->d_rndv), $row->nom_rndv, $row->detail_rndv, new Etat($row->id_etat, 'En cours'), $this->getClient(new Client($row->id_client, '')), $salon);
+                    array_push($rndvs, $rndv);
+                }
+            }
+        }
+        catch (\Exception $e) {
+            throw new \Exception('Exception !!! : ' .  $e->getMessage() , $this->convertCode($e->getCode()));
+        }
+        catch (\Error $error) {
+            throw new \Exception('Error !!! : ' .  $error->getMessage());
+        }
+        return $rndvs;
     }
 }
 ?>

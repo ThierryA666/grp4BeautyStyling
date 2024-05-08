@@ -11,7 +11,7 @@
 /* Customisation of datepicker style */
 .ui-widget {
     width:100% !important;
-    height:100% !important;
+    height:auto !important;
     border:2px solid blue!important;
     border-radius:10px!important;
 }
@@ -253,6 +253,12 @@ a:hover{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 20px;
+}
+
+.small-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
 }
 
 /* Style for grid items (placeholders; customize according to your content) */

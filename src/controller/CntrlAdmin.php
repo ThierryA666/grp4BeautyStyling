@@ -318,6 +318,7 @@ class CntrlAdmin {
         $daoBeauty = new DaoBeauty();
       } catch (\Exception $e) {
         require('./view/verror.php');
+        exit;
       }
       $min = MIN;
       $max = MAX;
