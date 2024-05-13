@@ -79,7 +79,7 @@ btnSubmit.addEventListener("click",(event)=>{
   let isValid = true;
   if(!inputName.value){
     const errNom=document.getElementById("errNom");
-    errNom.innerHTML = "Champ obligatoire"
+    errNom.innerHTML = "Champ obligatoire";
     errNom.className = "text-danger border-danger";
     isValid =  false;
     
@@ -89,7 +89,7 @@ btnSubmit.addEventListener("click",(event)=>{
    
   if(!inputFirstName.value){
    const errPrenom=document.getElementById("errPrenom");
-   errPrenom.innerHTML = "Champ obligatoire"
+   errPrenom.innerHTML = "Champ obligatoire";
    errPrenom.className = "text-danger border-danger";
    isValid =  false;
    } else {
@@ -98,7 +98,7 @@ btnSubmit.addEventListener("click",(event)=>{
 
   if(!inputAddress.value){
     const errAd=document.getElementById("errAd");
-    errAd.innerHTML = "Champ obligatoire"
+    errAd.innerHTML = "Champ obligatoire";
     errAd.className = "text-danger border-danger";
     isValid = false;
     } else {
@@ -107,11 +107,11 @@ btnSubmit.addEventListener("click",(event)=>{
 
   if(!inputEmail.value){
     const errEmail=document.getElementById("errEmail");
-    errEmail.innerHTML = "Champ obligatoire"
+    errEmail.innerHTML = "Champ obligatoire";
     errEmail.className = "text-danger border-danger";
     isValid =  false;
      } else if(!inputEmail.value.match(/.+@.+\..+/)){
-      errEmail.innerHTML = "Veuillez saisir votre adresse mail dans le bon format."
+      errEmail.innerHTML = "Veuillez saisir votre adresse mail dans le bon format.";
       errEmail.className = "text-danger border-danger";
       isValid =  false;
       }else {
@@ -120,10 +120,10 @@ btnSubmit.addEventListener("click",(event)=>{
 
   if(!inputTel.value){
     const errTel=document.getElementById("errTel");
-    errTel.innerHTML = "Champ obligatoire"
+    errTel.innerHTML = "Champ obligatoire";
     errTel.className = "text-danger border-danger";
     isValid =  false;
-  } else if (phone.lenght<10 || phone.length>11) {
+  } else if (phone.length<10 || phone.length>11) {
       errTel.innerHTML = "Saisissez votre numéro de téléphone à 10 chiffres"
       errTel.className = "text-danger border-danger";
       isValid =  false;
@@ -132,7 +132,7 @@ btnSubmit.addEventListener("click",(event)=>{
 
   if(!inputSalon.value){
     const errNomSalon=document.getElementById("errNomSalon");
-    errNomSalon.innerHTML = "Champ obligatoire"
+    errNomSalon.innerHTML = "Champ obligatoire";
     errNomSalon.className = "text-danger border-danger";
     isValid =  false;
     } else {
@@ -141,7 +141,7 @@ btnSubmit.addEventListener("click",(event)=>{
       
   if(!inputZip.value){
     let errZip=document.getElementById("errZip");
-    errZip.innerHTML = "Champ obligatoire"
+    errZip.innerHTML = "Champ obligatoire";
     errZip.className = "text-danger border-danger";
     isValid =  false;
     } else {
@@ -150,7 +150,7 @@ btnSubmit.addEventListener("click",(event)=>{
 
   if(!inputCity.value){
     const errVille=document.getElementById("errVille");
-    errVille.innerHTML = "Champ obligatoire"
+    errVille.innerHTML = "Champ obligatoire";
     errVille.className = "text-danger border-danger";
     isValid =  false;
     } else {
@@ -158,7 +158,7 @@ btnSubmit.addEventListener("click",(event)=>{
       } 
   if(!inputPW1.value){
     const errPW1=document.getElementById("errPW1");
-    errPW1.innerHTML = "Champ obligatoire"
+    errPW1.innerHTML = "Champ obligatoire";
     errPW1.className = "text-danger border-danger";
     isValid = false;
   } else if(!inputPW1.value.match(/^([a-zA-Z0-9]{8,})$/)){
@@ -169,8 +169,8 @@ btnSubmit.addEventListener("click",(event)=>{
   }else if(inputPW1.value!==inputPW2.value) {
           const errPW2 = document.getElementById("errPW2");
           errPW2.innerHTML = "Le mot de passe saisi ne correspond pas au mot de passe de confirmation.";
-          errPW2.className= "text-danger border-danger"  
-          isValid =  false
+          errPW2.className= "text-danger border-danger";  
+          isValid =  false;
           
     } else {
             errPW1.innerHTML ="";

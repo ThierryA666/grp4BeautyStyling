@@ -1,7 +1,7 @@
 <header>
         <nav class="navbar navbar-expand-lg" style="background-color:#A0ECBA;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php" style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
+                <a class="navbar-brand" href="<?APP_ROOT?>"  style="font-family: 'DM Serif Display', serif; color: #FF5B76;">
                     <img src="/assets/img/logo_beautystyling.jpg" alt="Logo_Beauty Styling" width="100"  class="d-inline-block align-text-center">
                     Beauty styling
                 </a>  
@@ -12,10 +12,10 @@
               <div class="collapse navbar-collapse d-md-flex justify-content-md-end" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="index.php" style="font-family: 'DM Serif Display', serif">Accueil</a>
+                    <a class="nav-link" aria-current="page" href="<?APP_ROOT?>" style="font-family: 'DM Serif Display', serif">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="salon_top.php" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
+                    <a class="nav-link" href="<?=APP_ROOT.'/salon/top'?>" style="font-family: 'DM Serif Display', serif;">Inscrire mon salon</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link disabled" href="#" style="font-family: 'DM Serif Display', serif;">Se connecter (Compte salon)</a>

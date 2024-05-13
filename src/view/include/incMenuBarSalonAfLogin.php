@@ -21,7 +21,7 @@
                     <a class="nav-link" href="<?=APP_ROOT.'/salon/gestionnaire?id_salon='.$salon->getId_salon()?>" style="font-family: 'DM Serif Display', serif;">Gestionnaire de salon</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" style="font-family: 'DM Serif Display', serif;">Se deconnecter (Compte salon)</a>
+                    <a class="nav-link" href="<?=APP_ROOT.'/salon/logout'?>" style="font-family: 'DM Serif Display', serif;">Se deconnecter (Compte salon)</a>
                   </li>
                   
                 </ul>

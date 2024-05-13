@@ -320,7 +320,7 @@ class CntrlAdmin {
 
     public function getAdminSalons(){
       $keyWord="";
-
+    try{
     if (isset($_POST['keyWord']) && !empty($_POST['keyWord'])) {
         $keyWord = htmlspecialchars(trim($_POST['keyWord']));
         $dao = new DaoBeauty();
@@ -329,11 +329,25 @@ class CntrlAdmin {
         // si c'est vide on affiche pas
         $salons = [];
     }
-
+    } catch (DaoException $e) {
+      $message = $e->getCode() . ' - ' . $e->getMessage();
+    } catch (\Exception $e) {
+        $message = $e->getCode() . ' - ' . $e->getMessage();
+    } catch (\Error $e) {
+    $message = $e->getMessage();
+    }  
     if(isset($_GET['id_salon'])) {
+      try{
         $id_salon = $_GET['id_salon'];
         $dao = new DaoBeauty();
         $salon = $dao->delSalonByID($id_salon);
+      }catch (DaoException $e) {
+        $message = $e->getCode() . ' - ' . $e->getMessage();
+      } catch (\Exception $e) {
+          $message = $e->getCode() . ' - ' . $e->getMessage();
+      } catch (\Error $e) {
+      $message = $e->getMessage();
+      }  
     }  
           require './view/admin/vgestion-comptes-prestataires.php';
   }
@@ -357,11 +371,11 @@ class CntrlAdmin {
                   }
               
               } catch (DaoException $e) {
-                  $message = $e->getCode() . ' - ' . $e->getMessage();
+                $message = $e->getCode() . ' - ' . $e->getMessage();
               } catch (\Exception $e) {
                   $message = $e->getCode() . ' - ' . $e->getMessage();
               } catch (\Error $e) {
-              $message = $e->getMessage();
+                $message = $e->getMessage();
               }       
           } 
       } else {

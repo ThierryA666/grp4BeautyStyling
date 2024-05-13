@@ -45,6 +45,7 @@ if ($method === 'get') {
         APP_ROOT.'/salons'                  =>  $cntrlAdmin->getAdminSalons(),
         APP_ROOT.'/salons/delete'           =>  $cntrlAdmin->delSalons(),
         APP_ROOT.'/salon/logincntrl'        =>  $cntrlSalon->getSalonLoginCntrl(),
+        APP_ROOT.'/salon/logout'            =>  $cntrlSalon->removeSession(),
         default                             =>  $cntrlSalon->getIndex(),
     };
 } elseif ($method === 'post') {

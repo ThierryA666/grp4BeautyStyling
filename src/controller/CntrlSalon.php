@@ -405,7 +405,6 @@ class CntrlSalon {
                 $id_salon = $salon->getId_salon();
                 $chaine = "Location: http://$host:$port$path/gestionnaire?id_salon=$id_salon";
                 // echo("<br>$chaine");
-                // header('Location: http://localhost:3000/4-php/ATD/exo/metisBases/question3-loginsuite.php');
                 header($chaine);
                 exit();  
             } else $message = 'ID utilisateur et PW non valides.';
@@ -418,6 +417,25 @@ class CntrlSalon {
         require './view/salon/vsalon_logincntrl.php';
     }
    
+    public function removeSession(){
+        echo "removesession";
+        unset($_SESSION['emailSalon']);
+        unset($_SESSION['pwSalon']);
+        $host = $_SERVER['SERVER_NAME'];
+                $port = $_SERVER['SERVER_PORT'];
+                $uri  = $_SERVER['REQUEST_URI'];
+                $taburi = explode('/',$uri);
+                // print_r($taburi);
+                $path ='';
+                for ($i=1; $i < count($taburi)-1; $i++) {
+                    $path .= '/' . $taburi[$i];
+                }
+                // echo("<br>$path");
+                $chaine = "Location: http://$host:$port$path/login";
+                // echo("<br>$chaine");
+                header($chaine);
+                exit();  
+    }
 
 
 

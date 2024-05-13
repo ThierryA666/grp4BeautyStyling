@@ -46,7 +46,7 @@
           </form>
         </div>
         <div>
-            <p class="fs-6 text-center">Vous n'avez pas de compte ? <span><a class="text-decoration-none text-reset" href="salon_top.php">Inscrivez-vous</a></span> dès aujourd'hui.</p>
+            <p class="fs-6 text-center">Vous n'avez pas de compte ? <span><a class="text-decoration-none text-reset" href="<?=APP_ROOT.'/salon/application'?>">Inscrivez-vous</a></span> dès aujourd'hui.</p>
         </div>
         <!-- <div>
           <p class="fs-6 text-center"><a class="text-decoration-none text-reset" href="#">Vous avez oublié le mot de passe ? </a></p>
