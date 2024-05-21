@@ -20,7 +20,7 @@ class CntrlAdmin {
     //   private DaoBeauty $daoFavoris = new DaoBeauty()
     // ){
     // }
-    
+    //Partie Thierry
     public function getPrestationsList() {
         error_reporting(E_ALL);
         session_start();
@@ -317,7 +317,8 @@ class CntrlAdmin {
         }
         require './view/admin/vadminPrestation.php';
     }
-
+    
+// A partir d'ici Takako
     public function getAdminSalons(){
       $keyWord="";
     try{

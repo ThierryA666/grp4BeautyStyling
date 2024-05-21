@@ -27,16 +27,15 @@ $route = explode('?', $uri)[0];
 $method = strtolower($_SERVER['REQUEST_METHOD']);
 
 $cntrlAdmin = new CntrlAdmin();
-$cntrlClient= new CntrlClient();
 $cntrlSalon= new CntrlSalon();
 
 if ($method === 'get') {
     match($route) {
         APP_ROOT                            =>  $cntrlSalon->getIndex(),
         APP_ROOT.'/'                        =>  $cntrlSalon->getIndex(),
-        APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
-        APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
-        APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
+        // APP_ROOT.'/popupsalon'              =>  $cntrlClient->getPopUpSalon(),
+        // APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
+        // APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
         APP_ROOT.'/salon/top'               =>  $cntrlSalon->getSalonTop(),
         APP_ROOT.'/salon/application'       =>  $cntrlSalon->getSalonApp(),
         APP_ROOT.'/salon/login'             =>  $cntrlSalon->getSalonLogin(),
@@ -50,15 +49,15 @@ if ($method === 'get') {
     };
 } elseif ($method === 'post') {
     match($route) {
-        APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
-        APP_ROOT.'/prestations/suppression' =>  $cntrlAdmin->getPrestationsList(),
-        APP_ROOT.'/prestation/ajout'        =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/prestation/edition'      =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/prestation/suppression'  =>  $cntrlAdmin->getPrestation(),
-        APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
-        APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
-        APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
-        APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
+        // APP_ROOT.'/prestations'             =>  $cntrlAdmin->getPrestationsList(),
+        // APP_ROOT.'/prestations/suppression' =>  $cntrlAdmin->getPrestationsList(),
+        // APP_ROOT.'/prestation/ajout'        =>  $cntrlAdmin->getPrestation(),
+        // APP_ROOT.'/prestation/edition'      =>  $cntrlAdmin->getPrestation(),
+        // APP_ROOT.'/prestation/suppression'  =>  $cntrlAdmin->getPrestation(),
+        // APP_ROOT.'/paniers'                 =>  $cntrlClient->getPaniers(),
+        // APP_ROOT.'/panierDetail'            =>  $cntrlClient->getPanierDetail(),
+        // APP_ROOT.'/panierDetail/suppression'=>  $cntrlClient->deletePanier(),
+        // APP_ROOT.'/panier/suppression'      =>  $cntrlClient->deletePanier(),
         APP_ROOT.'/salon/application'       =>  $cntrlSalon->getSalonApp(),
         APP_ROOT.'/salon/gestionnaire'      =>  $cntrlSalon->getSalonGestion(),
         APP_ROOT.'/salon/profile'           =>  $cntrlSalon->getSalonProfile(),
