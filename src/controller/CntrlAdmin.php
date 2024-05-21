@@ -130,6 +130,7 @@ class CntrlAdmin {
         $daoBeauty = new DaoBeauty();
       } catch (\Exception $e) {
         require('./view/verror.php');
+        exit;
       }
       if (isset($_POST['keyPresta']) && isset($_SESSION['prestation'])  && intval($_POST['keyPresta']) === $_SESSION['prestation']->getIdPresta()){
         try { //Calling modal and if all ok calling DB
@@ -159,6 +160,7 @@ class CntrlAdmin {
         $daoBeauty = new DaoBeauty();
       } catch (\Exception $e) {
         require('./view/verror.php');
+        exit;
       }
       $min = MIN;
       $max = MAX;

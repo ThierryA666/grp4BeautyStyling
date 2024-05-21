@@ -64,7 +64,6 @@ class CntrlClient {
     }
     public function getPaniers() {
         error_reporting(E_ALL);
-        session_start();
         try { //check for DB connection
         $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
@@ -167,7 +166,6 @@ class CntrlClient {
     }
     public function getPanierDetail () {
         error_reporting(E_ALL);
-        session_start();
         try { //check for DB connection
         $daoBeauty = new DaoBeauty();
         } catch (\Exception $e) {
